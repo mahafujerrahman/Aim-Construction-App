@@ -55,15 +55,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Text sections
-                  Text(
-                    AppString.signUpText.tr,
-                    style: AppStyles.fontSize16(color: AppColors.blackColor),
-                    textAlign: TextAlign.start,
-                  ),
-                  SizedBox(height: 20.h),
-
-
                   /* Center(
                     child: Stack(
                       clipBehavior: Clip.none,
@@ -109,13 +100,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ///============================> Full Name List Tile <=================
                   SizedBox(height: 16.h),
                   CustomTextField(
-                      prefixIcon: SvgPicture.asset(AppIcons.profileIcon),
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(AppIcons.profileIcon),
+                      ),
                       hintText: AppString.fullName.tr,
                       controller: signupController.signUpFullNameCtrl),
                   SizedBox(height: 16.h),
                   ///============================> Email List Tile <=================
                   CustomTextField(
-                      prefixIcon: SvgPicture.asset(AppIcons.massageIcon),
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(AppIcons.massageIcon),
+                      ),
                       hintText: AppString.enterEmailText.tr,
                       controller: signupController.signUpEmailCtrl),
                   SizedBox(height: 16.h),
@@ -144,7 +141,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ///============================> Password List Tile <=================
                  CustomTextField(
                       isPassword: true,
-                      prefixIcon: SvgPicture.asset(AppIcons.lockIcon),
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(AppIcons.lockIcon),
+                      ),
                       hintText: AppString.enterPasswordText.tr,
                       controller: signupController.signUpPassCtrl),
 
@@ -152,7 +152,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(height: 16.h),
                  CustomTextField(
                     isPassword: true,
-                    prefixIcon: SvgPicture.asset(AppIcons.lockIcon),
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SvgPicture.asset(AppIcons.lockIcon),
+                    ),
                     hintText: AppString.enterConfirmPasswordText.tr,
                     controller: signupController.signUpConfrimPassCtrl,
                     validator: (value) {
@@ -191,7 +194,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           },
                           child: CustomText(
                             text: AppString.signInText.tr,
-                            color: AppColors.secondatyColor,
+                            color: AppColors.primaryColor,
                             fontWeight: FontWeight.w600,
                           ))
                     ],
