@@ -19,6 +19,8 @@ class AppPages {
     GetPage(name: _Paths.onboardingScreen, page: () => const OnboardingScreen()),
 
     GetPage(name: _Paths.SIGN_IN, page: () => const SignInScreen(), binding: SignInBinding()),
+    GetPage(name: _Paths.SIGNUP, page: () => const SignInScreen(), binding: SignInBinding()),
+
     GetPage(name: _Paths.HOME, page: () =>  HomeView(),binding: HomeBinding()),
 
   ];
