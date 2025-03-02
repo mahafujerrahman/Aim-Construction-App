@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'package:aim_construction_app/app/modules/signup/controllers/signup_controller.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
-import 'package:aim_construction_app/common/app_color/app_colors.dart';
-import 'package:aim_construction_app/common/app_icons/app_icons.dart';
-import 'package:aim_construction_app/common/app_string/app_string.dart';
-import 'package:aim_construction_app/common/app_text_style/style.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
+import 'package:aim_construction_app/utils/app_colors.dart';
+import 'package:aim_construction_app/utils/app_icons.dart';
+import 'package:aim_construction_app/utils/app_string.dart';
+import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:image_picker/image_picker.dart';
+
 
 
 class SignUpScreen extends StatefulWidget {
@@ -27,160 +27,186 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+
+
   Uint8List? _image;
   File? selectedImage;
   bool isChecked = false;
   final SignupController signupController = Get.put(SignupController());
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
-        title: Text(
-         'Sign Up to Join',
-          style: AppStyles.fontSize18(fontWeight: FontWeight.w600),
-        ),
+        title: Text('Sign Up to Join', style: AppStyles.fontSize18(fontWeight: FontWeight.w600)),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w,),
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Form(
             key: _formKey,
             child: Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  /* Center(
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        // Profile picture
-                        _image != null
-                            ? Container(
-                          width: 115.w,
-                          height: 115.h,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(width: 2.w, color: AppColors.whiteColor),
-                              image: DecorationImage(
-                                  image: MemoryImage(_image!),
-                                  fit: BoxFit.cover)),
-                        )
-                            : CircleAvatar(
-                            radius: 50,
-                            backgroundColor: AppColors.whiteColor,
-                            backgroundImage: AssetImage(AppImages.defaultImage)),
-                        Positioned(
-                          bottom: 0,
-                          right: 5,
-                          child: GestureDetector(
-                            onTap: () {
-                              showImagePickerOption(context);
-                            },
-                            child: Container(
-                              height: 25.h,
-                              width: 25.w,
-                              decoration: BoxDecoration(
-                                color: AppColors.color1E66CA,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(Icons.add,size: 20,color: AppColors.whiteColor,),
-                            ),
-                          ),
+                  //==================== Full Name ====================
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: CustomTextField(
+                        filColor: AppColors.fillUpColor,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset(AppIcons.profileIcon, color: AppColors.primaryColor),
                         ),
-
-                      ],
-                    ),
-                  ),*/
-                  ///============================> Full Name List Tile <=================
-                  SizedBox(height: 16.h),
-                  CustomTextField(
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(AppIcons.profileIcon),
-                      ),
-                      hintText: AppString.fullName.tr,
-                      controller: signupController.signUpFullNameCtrl),
-                  SizedBox(height: 16.h),
-                  ///============================> Email List Tile <=================
-                  CustomTextField(
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(AppIcons.massageIcon),
-                      ),
-                      hintText: AppString.enterEmailText.tr,
-                      controller: signupController.signUpEmailCtrl),
-                  SizedBox(height: 16.h),
-                  /*///============================> Birthday List Tile <=================
-                  BorderlessCustomTextField(
-                    onTab: (){
-                      _pickBirthDate(context);
-                    },
-                    keyboardType: TextInputType.datetime,
-                    readOnly: true,
-                    suffixIcons: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-                      child: const Icon(Icons.calendar_month_sharp),
-                    ),
-                    controller: _authController.signUpBirthday,
-                    hintText: AppStrings.enterBirthday.tr,
-                    prefixIcon: SvgPicture.asset(AppIcons.birthday,color: AppColors.iconGrayColor,height: 20.h,width: 20.w),
+                        hintText: AppString.fullName.tr,
+                        controller: signupController.signUpFullNameCtrl),
                   ),
-                  SizedBox(height: 16.h),
-                  ///============================> Address List Tile <=================
-                  BorderlessCustomTextField(
-                    controller: _authController.signUpAddressCtrl,
-                    hintText: AppStrings.enterAddress.tr,
-                    prefixIcon: SvgPicture.asset(AppIcons.location,color: AppColors.iconGrayColor,height: 20.h,width: 20.w),
-                  ),*/
-                  ///============================> Password List Tile <=================
-                 CustomTextField(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: CustomTextField(
+                        filColor: AppColors.fillUpColor,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset(AppIcons.profileIcon, color: AppColors.primaryColor),
+                        ),
+                        hintText: 'Last Name',
+                        controller: signupController.signUpPassCtrl),
+                  ),
+
+                  //==================== Email ==========================
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: CustomTextField(
+                        filColor: AppColors.white,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset(AppIcons.emailIcon, color: AppColors.primaryColor),
+                        ),
+                        hintText: 'Enter Email Address',
+                        controller: signupController.signUpEmailCtrl),
+                  ),
+
+                  //==================== Company Name ====================
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: CustomTextField(
+                        filColor: AppColors.fillUpColor,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset(AppIcons.companyIcon, color: AppColors.primaryColor),
+                        ),
+                        hintText: 'Enter Company Name',
+                        controller: signupController.signUpCompanyCtrl),
+                  ),
+
+                  //==================== Role Selection ====================
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Container(
+                      height: 60.h,
+                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                      decoration: BoxDecoration(
+                        color: AppColors.fillUpColor,
+                        borderRadius: BorderRadius.circular(8.r),
+                        border: Border.all(color: AppColors.primaryColor, width: 1),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(AppIcons.emailIcon,color: AppColors.primaryColor),
+                            SizedBox(width: 8.w),
+                            Expanded(
+                              child: Obx(() {
+                                return DropdownButton<String>(
+                                  value: signupController.selectedRole.isEmpty ? null : signupController.selectedRole.value,
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  hint: Text(
+                                    signupController.selectedRole.isEmpty ? "Select Role" : signupController.selectedRole.value,
+                                    style: AppStyles.fontSize16(color: AppColors.blackColor),
+                                  ),
+                                  icon: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.keyboard_arrow_down_rounded,color: AppColors.primaryColor),
+                                  ),
+                                  isExpanded: true,
+                                  items: signupController.userRole.map((role) {
+                                    return DropdownMenuItem<String>(
+                                      value: role,
+                                      child: Text(
+                                        role,
+                                        style: AppStyles.fontSize18(color: AppColors.blackColor),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newRole) {
+                                    signupController.selectedRole.value = newRole ?? '';  // Update the observable variable
+                                  },
+                                );
+                              }),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  //==================== Password & Confirm Password ====================
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: CustomTextField(
+                      filColor: AppColors.white,
                       isPassword: true,
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(AppIcons.lockIcon),
+                        child: SvgPicture.asset(AppIcons.lockIcon, color: AppColors.primaryColor),
                       ),
                       hintText: AppString.enterPasswordText.tr,
-                      controller: signupController.signUpPassCtrl),
-
-                  ///============================> Confirm Password List Tile <=================
-                  SizedBox(height: 16.h),
-                 CustomTextField(
-                    isPassword: true,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset(AppIcons.lockIcon),
+                      controller: signupController.signUpPassCtrl,
                     ),
-                    hintText: AppString.enterConfirmPasswordText.tr,
-                    controller: signupController.signUpConfrimPassCtrl,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter Confirm password";
-                      }
-                      else if(value !=signupController.signUpPassCtrl.text){
-                        return 'Passwords do not match';
-                      }
-                      return null;
-                    },),
-
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: CustomTextField(
+                      filColor: AppColors.fillUpColor,
+                      isPassword: true,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(AppIcons.lockIcon, color: AppColors.primaryColor),
+                      ),
+                      hintText: AppString.enterConfirmPasswordText.tr,
+                      controller: signupController.signUpConfrimPassCtrl,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter Confirm password";
+                        } else if (value != signupController.signUpPassCtrl.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
                   SizedBox(height: 16.h),
+
                   _checkboxSection(),
 
-
-                  /// =================>>>>> Sign Up Button
+                  //==================== Sign Up Button ====================
                   SizedBox(height: 16.h),
                   CustomButton(
-                    onTap: () {},
+                    onTap: () {
+                      if (_formKey.currentState!.validate()) {
+
+                      }
+                    },
                     text: AppString.signUpText.tr,
                   ),
                   SizedBox(height: 10.h),
 
-                  ///=================>>>>> Have Account Row
+                  //==================== Already Have Account ====================
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -189,14 +215,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         fontWeight: FontWeight.w400,
                       ),
                       TextButton(
-                          onPressed: () {
-                            Get.toNamed(AppRoutes.SIGN_IN);
-                          },
-                          child: CustomText(
-                            text: AppString.signInText.tr,
-                            color: AppColors.primaryColor,
-                            fontWeight: FontWeight.w600,
-                          ))
+                        onPressed: () {
+                          Get.toNamed(AppRoutes.SIGN_IN);
+                        },
+                        child: CustomText(
+                          text: AppString.signInText.tr,
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )
                     ],
                   ),
                   SizedBox(height: 10.h),
@@ -209,85 +236,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-
-  //==================================> ShowImagePickerOption Function <===============================
-  void showImagePickerOption(BuildContext context) {
-    showModalBottomSheet(
-        backgroundColor: AppColors.white,
-        context: context,
-        builder: (builder) {
-          return Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 4.2,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        _pickImageFromGallery();
-                      },
-                      child: SizedBox(
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.image,
-                              size: 50.w,
-                              color: AppColors.primaryColor,
-                            ),
-                            CustomText(text: AppString.galleryText.tr)
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        _pickImageFromCamera();
-                      },
-                      child: SizedBox(
-                        child: Column(
-                          children: [
-                            Icon(Icons.camera_alt,
-                                size: 50.w, color: AppColors.primaryColor),
-                            CustomText(text:  AppString.cameraText.tr)
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
-  //==================================> Gallery <===============================
-  Future _pickImageFromGallery() async {
-    final returnImage =
-    await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (returnImage == null) return;
-    setState(() {
-      selectedImage = File(returnImage.path);
-      _image = File(returnImage.path).readAsBytesSync();
-    });
-    Get.back();
-  }
-//==================================> Camera <===============================
-  Future _pickImageFromCamera() async {
-    final returnImage =
-    await ImagePicker().pickImage(source: ImageSource.camera);
-    if (returnImage == null) return;
-    setState(() {
-      selectedImage = File(returnImage.path);
-      _image = File(returnImage.path).readAsBytesSync();
-    });
-    Get.back();
-  }
-  //==========================> Checkbox Section Widget <=======================
   _checkboxSection() {
     return Row(
       children: [
@@ -301,38 +249,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
               isChecked = value ?? false;
             });
           },
-          side: BorderSide(
-            color: isChecked ? AppColors.primaryColor : AppColors.primaryColor,
-            width: 1.w,
-          ),
+          side: BorderSide(color: AppColors.primaryColor, width: 1.w),
         ),
         Text.rich(
           maxLines: 2,
           TextSpan(
             text: AppString.byCreating.tr,
-            style: TextStyle(fontSize: 14.w, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 14.w, fontWeight: FontWeight.w500,color: AppColors.color878787),
             children: [
               TextSpan(
                 text: AppString.termsConditions.tr,
-                style: TextStyle(
-                    color: AppColors.primaryColor,
-                    fontSize: 14.w,
-                    fontWeight: FontWeight.w500),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    // Get.toNamed(AppRoutes.termsConditionScreen);
+                style: TextStyle(color: AppColors.primaryColor, fontSize: 14.w, fontWeight: FontWeight.w500),
+                recognizer: TapGestureRecognizer()..onTap = () {
+                    // Handle terms and conditions
                   },
               ),
               const TextSpan(text: ' & '),
               TextSpan(
                 text: AppString.privacyPolicy.tr,
-                style: TextStyle(
-                    color: AppColors.primaryColor,
-                    fontSize: 14.w,
-                    fontWeight: FontWeight.w500),
+                style: TextStyle(color: AppColors.primaryColor, fontSize: 14.w, fontWeight: FontWeight.w500),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    // Get.toNamed(AppRoutes.privacyPolicyScreen);
+                    // Handle privacy policy
                   },
               ),
             ],
@@ -341,5 +279,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ],
     );
   }
-
 }

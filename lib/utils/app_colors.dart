@@ -4,7 +4,7 @@ class AppColors{
 
   static const primaryColor= Color(0xFFF7941E);
   static const secondatyColor = Color(0xffFDDEB9);
-  static const fillUpColor = Color(0xffFEF4E9);
+  static const fillUpColor = Color(0xffffffff);
   static const Color appGreyColor= Color(0xFFA0A0A0);
   static const Color roseTaupeColor= Color(0xFF9D5859);
   static const Color floatingButtonColor= Color(0xFF994343);

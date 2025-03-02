@@ -10,4 +10,8 @@ class SignupController extends GetxController {
   TextEditingController signUpConfrimPassCtrl = TextEditingController();
   TextEditingController signUpBirthday = TextEditingController();
   TextEditingController signUpAddressCtrl = TextEditingController();
+  TextEditingController signUpCompanyCtrl = TextEditingController();
+  List<String> userRole = ['Project Manager','Project Supervisor'];
+  RxString selectedRole = ''.obs;
+
 }

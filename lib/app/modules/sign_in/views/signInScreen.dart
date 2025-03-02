@@ -1,11 +1,12 @@
 import 'package:aim_construction_app/app/modules/sign_in/controllers/sign_in_controller.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
-import 'package:aim_construction_app/common/app_color/app_colors.dart';
-import 'package:aim_construction_app/common/app_icons/app_icons.dart';
-import 'package:aim_construction_app/common/app_text_style/style.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
+import 'package:aim_construction_app/utils/app_colors.dart';
+import 'package:aim_construction_app/utils/app_icons.dart';
+import 'package:aim_construction_app/utils/app_string.dart';
+import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,8 +14,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_utils/get_utils.dart';
-
-import '../../../../common/app_string/app_string.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -83,7 +82,7 @@ class _SignInScreenState extends State<SignInScreen> {
               /// Sing In Button
               CustomButton(
                 onTap: () {
-                //  Get.toNamed(AppRoutes.userHomeScreen);
+                  Get.toNamed(AppRoutes.ROLE_SUPERVISOR_HOME_SCREEN);
                 },
                 text: AppString.signInText.tr,
               ),

@@ -1,11 +1,10 @@
-import 'package:aim_construction_app/app/routes/app_pages.dart';
-import 'package:aim_construction_app/common/app_icons/app_icons.dart';
-import 'package:aim_construction_app/common/app_images/app_images.dart';
-import 'package:aim_construction_app/common/app_text_style/style.dart';
+import 'package:aim_construction_app/utils/app_icons.dart';
+import 'package:aim_construction_app/utils/app_images.dart';
+import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+
 
 
 class CustomAppBarTitle extends StatelessWidget implements PreferredSizeWidget {
