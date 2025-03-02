@@ -18,5 +18,10 @@ class AppString {
   static String loginText  = "Login";
   static String passwordChangedText  = "Password Changed";
   static String returnToTheLoginPageText  = "Return To The Login Page";
+  static String cameraText  = "Camera";
+  static String galleryText  = "Gallery";
+  static String byCreating  = "By creating an account, I accept the ";
+  static String privacyPolicy  = "Privacy Policy";
+  static String termsConditions  = "Terms \n& Conditions";
 
 }

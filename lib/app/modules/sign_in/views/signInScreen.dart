@@ -97,7 +97,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   TextButton(
                       onPressed: () {
-                        Get.toNamed(AppRoutes.HOME);
+                        Get.toNamed(AppRoutes.SIGNUP);
                       },
                       child: CustomText(
                         text: AppString.signUpText.tr,
