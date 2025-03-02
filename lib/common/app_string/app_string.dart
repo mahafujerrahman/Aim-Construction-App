@@ -23,5 +23,10 @@ class AppString {
   static String byCreating  = "By creating an account, I accept the ";
   static String privacyPolicy  = "Privacy Policy";
   static String termsConditions  = "Terms \n& Conditions";
+  static String forgetPassWordText  = "Forget Password";
+  static String sendOTPText  = "Send OTP";
+  static String verifyEmail  = "Verify Email";
+  static String didNotGetCode = 'Didn’t get the code?';
+  static String resend = 'Resend';
 
 }

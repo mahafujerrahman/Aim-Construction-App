@@ -21,7 +21,7 @@ class SearchField extends StatelessWidget {
       children: [
         Expanded(
           child: CustomTextField(
-            filColor:fillColor?? AppColors.grayLight,
+            filColor:fillColor?? AppColors.color878787,
             contentPaddingVertical: 14.h,
             prefixIcon: Padding(
               padding:  EdgeInsets.all(8.0.sp),
