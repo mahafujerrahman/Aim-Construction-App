@@ -7,6 +7,9 @@ abstract class AppRoutes {
   static const HOME = _Paths.HOME;
   static const splashScreen = _Paths.splashScreen;
   static const onboardingScreen = _Paths.onboardingScreen;
+  static const successfullScreen = _Paths.successfullScreen;
+  static const FORGET_PASSWORD = _Paths.FORGET_PASSWORD;
+  static const VERIFY_EMAIL = _Paths.VERIFY_EMAIL;
 }
 
 abstract class _Paths {
@@ -16,4 +19,7 @@ abstract class _Paths {
   static const SIGN_IN = '/sign-in';
   static const HOME = '/home';
   static const SIGNUP = '/signup';
+  static const FORGET_PASSWORD = '/forget-password';
+  static const VERIFY_EMAIL = '/verify-email';
+  static const successfullScreen = '/successfullScreen';
 }

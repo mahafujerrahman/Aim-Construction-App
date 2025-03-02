@@ -11,11 +11,12 @@ class AppColors{
   static const Color textFieldFillColor= Color(0xFFFFFFFF);
   static const Color bottomNavColor= Color(0xFF0b2651);
   static const Color scheduleCardColor= Color(0xFFD4F9F9);
+  static const Color color878787 = Color(0xFF878787);
 
 
   //fixed color
   static const Color transparent = Colors.transparent;
-  static const grayLight = Color(0xffE7E7E7);
+
   static const gray = Color(0xffa5a5a5);
   static const white = Color(0xffffffff);
   static const blackColor = Color(0xff000000);
