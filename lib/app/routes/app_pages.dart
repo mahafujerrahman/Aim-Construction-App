@@ -1,5 +1,7 @@
 import 'package:aim_construction_app/app/modules/forgetPassword/bindings/forget_password_binding.dart';
 import 'package:aim_construction_app/app/modules/forgetPassword/views/forget_password_view.dart';
+import 'package:aim_construction_app/app/modules/resetPassword/bindings/reset_password_binding.dart';
+import 'package:aim_construction_app/app/modules/resetPassword/views/reset_password_view.dart';
 import 'package:aim_construction_app/app/modules/signup/bindings/signup_binding.dart';
 import 'package:aim_construction_app/app/modules/signup/views/signupScreen.dart';
 import 'package:aim_construction_app/app/modules/verifyEmail/bindings/verify_email_binding.dart';
@@ -31,7 +33,9 @@ class AppPages {
     GetPage(name: _Paths.HOME, page: () =>  HomeView(),binding: HomeBinding()),
     GetPage(name: _Paths.FORGET_PASSWORD, page: () =>  ForgotPasswordScreen(),binding: ForgetPasswordBinding()),
     GetPage(name: _Paths.VERIFY_EMAIL, page: () =>  VerifyCodeScreen(),binding: VerifyEmailBinding()),
+    GetPage(name: _Paths.resetPasswordScreen, page: () =>  ResetPasswordScreen(),binding: ResetPasswordBinding()),
     GetPage(name: _Paths.successfullScreen, page: () =>  SuccessfullScreen()),
+
 
   ];
 }

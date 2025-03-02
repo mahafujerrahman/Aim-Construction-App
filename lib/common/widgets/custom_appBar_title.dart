@@ -42,7 +42,7 @@ class CustomAppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                  // Get.toNamed(Routes.MESSAGE);
                 },
                 child: SvgPicture.asset(
-                  AppIcons.bubbleChatIcon,
+                  AppIcons.massageIcon,
                   height: 40.h,
                 ),
               ),

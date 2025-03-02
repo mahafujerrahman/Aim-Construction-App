@@ -10,6 +10,7 @@ abstract class AppRoutes {
   static const successfullScreen = _Paths.successfullScreen;
   static const FORGET_PASSWORD = _Paths.FORGET_PASSWORD;
   static const VERIFY_EMAIL = _Paths.VERIFY_EMAIL;
+  static const resetPasswordScreen = _Paths.resetPasswordScreen;
 }
 
 abstract class _Paths {
@@ -22,4 +23,5 @@ abstract class _Paths {
   static const FORGET_PASSWORD = '/forget-password';
   static const VERIFY_EMAIL = '/verify-email';
   static const successfullScreen = '/successfullScreen';
+  static const resetPasswordScreen = '/reset-password';
 }
