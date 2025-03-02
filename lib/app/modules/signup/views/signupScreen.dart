@@ -209,20 +209,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  //==========================> Show Calender Function <=======================
-  Future<void> _pickBirthDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(3050),
-    );
-    if (pickedDate != null) {
-      setState(() {
-        signupController.signUpBirthday.text = "${pickedDate.month}-${pickedDate.day}-${pickedDate.year}";
-      });
-    }
-  }
 
   //==================================> ShowImagePickerOption Function <===============================
   void showImagePickerOption(BuildContext context) {
