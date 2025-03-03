@@ -14,6 +14,8 @@ class AppIcons{
   static String activatesIcon = "$baseUrl/activatesIcon.svg";
   static String homeIconBlack = "$baseUrl/homeIconBlack.svg";
   static String moreIcon = "$baseUrl/moreIcon.svg";
+  static String settingIcon = "$baseUrl/settingIcon.svg";
+  static String logout = "$baseUrl/logout.svg";
 
 
 

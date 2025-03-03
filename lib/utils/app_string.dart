@@ -29,4 +29,32 @@ class AppString {
   static String didNotGetCode = 'Didn’t get the code?';
   static String resend = 'Resend';
 
+  //Profile Section
+  static String profileText = "Profile";
+  static String personalInfo = "Personal Information";
+  static String editPersonalInfo = "Edit Profile";
+  static String chatHistory = "Chat History";
+  static String settings = "Settings";
+  static String logout = "Logout";
+  static String enterName = "Enter Name";
+  static String enterEmail = "Enter Email";
+  static String enterPhone = "Enter Phone Number";
+  static String enterBirthday = "Enter Birthday";
+  static String enterAddress = "Enter Address";
+  static String contactUsText = "Contact Us";
+  static String aboutUsText = "About Us";
+  static String cancellationPolicyText = "Cancellation Policy";
+  static String termsServicesText = "Terms of Services";
+  static String changePasswordText = "Change Password";
+  static String updateText = "Update";
+  static String updatePasswordText = "Update Password";
+  static String currentPasswordText = "Current Password";
+  static String newPasswordText = "New Password";
+  static String confrimNewPasswordText = "Confrim New Password";
+  static String CancellationPolicyText = "Cancellation Policy";
+
+  static String yesText = "Yes";
+  static String cancelText = "Cancel";
+  static String sureLogoutText = "Are you sure you want to log out ?";
+  static String chatHistoryText = "Chat History";
 }

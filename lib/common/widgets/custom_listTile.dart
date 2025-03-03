@@ -1,44 +1,47 @@
-import 'package:aim_construction_app/utils/app_colors.dart';
-import 'package:aim_construction_app/utils/style.dart';
+import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-
+import '../../utils/app_colors.dart';
 
 class CustomListTile extends StatelessWidget {
-  final String? icon;
-  final String? title;
-  final VoidCallback onTap;
-  final double? iconHeight;
-
-  const CustomListTile({super.key, this.icon, this.title, required this.onTap, this.iconHeight});
+  final String title;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final Color? borderColor;
+  final VoidCallback? onTap;
+  const CustomListTile({
+    super.key,
+    required this.title,
+    this.onTap,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.borderColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w),
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: AppColors.primaryColor, width: 1),
-            color: AppColors.fillColor,
-            borderRadius: BorderRadius.circular(16).r),
-        child: ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
-          onTap: onTap,
-          leading: SvgPicture.asset(icon!,height: iconHeight ?? 20.h,),
-          title: Text(
-            title!,
-            style: AppStyles.customSize(
-              size: 16,
-              fontWeight: FontWeight.w500,
-              color: AppColors.subTextColor,
-              family: "Schuyler",
+      padding: EdgeInsets.only(bottom: 12.h),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16.r),
+              color: AppColors.fillColor,
+              border: Border.all(width: 1.w, color: borderColor ?? AppColors.primaryColor)),
+          child: ListTile(
+            leading: prefixIcon,
+            trailing: suffixIcon,
+            horizontalTitleGap: 16.w,
+            dense: true,
+            title: CustomText(
+              textAlign: TextAlign.left,
+              text: title,
+              maxLine: 2,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w400,
             ),
-          ),
-          trailing: Icon(
-            Icons.arrow_forward_ios,
-            size: 18,
-            color: AppColors.dark2Color,
           ),
         ),
       ),
