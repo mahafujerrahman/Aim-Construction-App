@@ -32,6 +32,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Uint8List? _image;
   File? selectedImage;
   bool isChecked = false;
+  bool isSupervisorSelected = false;
   final SignupController signupController = Get.put(SignupController());
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -89,7 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         hintText: 'Enter Email Address',
                         controller: signupController.signUpEmailCtrl),
                   ),
-
+/*
                   //==================== Company Name ====================
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -101,7 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         hintText: 'Enter Company Name',
                         controller: signupController.signUpCompanyCtrl),
-                  ),
+                  ),*/
 
                   //==================== Role Selection ====================
                   Padding(
@@ -143,7 +144,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     );
                                   }).toList(),
                                   onChanged: (newRole) {
-                                    signupController.selectedRole.value = newRole ?? '';  // Update the observable variable
+                                    signupController.selectedRole.value = newRole ?? '';
+                                    setState(() {
+                                      isSupervisorSelected = newRole == "Project Supervisor";
+                                    });
                                   },
                                 );
                               }),
@@ -154,6 +158,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                   ),
+                  //==================== Selected Manager ====================
+                  if (isSupervisorSelected)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Container(
+                        height: 60.h,
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        decoration: BoxDecoration(
+                          color: AppColors.fillUpColor,
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(color: AppColors.primaryColor, width: 1),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(AppIcons.emailIcon,color: AppColors.primaryColor),
+                              SizedBox(width: 8.w),
+                              Expanded(
+                                child: Obx(() {
+                                  return DropdownButton<String>(
+                                    value: signupController.selectedManagerRole.isEmpty ? null : signupController.selectedManagerRole.value,
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    hint: Text(
+                                      signupController.selectedManagerRole.isEmpty ? "Select Manager" : signupController.selectedManagerRole.value,
+                                      style: AppStyles.fontSize16(color: AppColors.blackColor),
+                                    ),
+                                    icon: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(Icons.keyboard_arrow_down_rounded,color: AppColors.primaryColor),
+                                    ),
+                                    isExpanded: true,
+                                    items: signupController.managerRole.map((role) {
+                                      return DropdownMenuItem<String>(
+                                        value: role,
+                                        child: Text(
+                                          role,
+                                          style: AppStyles.fontSize18(color: AppColors.blackColor),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (newRole) {
+                                      signupController.selectedManagerRole.value = newRole ?? '';
+                                    },
+                                  );
+                                }),
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
 
                   //==================== Password & Confirm Password ====================
                   Padding(

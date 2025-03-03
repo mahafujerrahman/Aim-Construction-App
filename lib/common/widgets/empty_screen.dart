@@ -11,7 +11,7 @@ class EmptyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Lottie.asset(AppImage.emptyImg,),
+      child: Lottie.asset(AppImage.appLogo,),
     );
   }
 }

@@ -14,4 +14,7 @@ class SignupController extends GetxController {
   List<String> userRole = ['Project Manager','Project Supervisor'];
   RxString selectedRole = ''.obs;
 
+  List<String> managerRole = ['Project Manager 1','Project Manager 2'];
+  RxString selectedManagerRole = ''.obs;
+
 }

@@ -12,6 +12,8 @@ class AppColors{
   static const Color bottomNavColor= Color(0xFF0b2651);
   static const Color scheduleCardColor= Color(0xFFD4F9F9);
   static const Color color878787 = Color(0xFF878787);
+  static const Color color5F6774 = Color(0xFF5F6774);
+  static const Color color323B4A = Color(0xFF323B4A);
 
 
   //fixed color

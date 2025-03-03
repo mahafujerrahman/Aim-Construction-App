@@ -28,7 +28,7 @@ class CustomAppBarTitle extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: backgroundColor ?? Colors.white,
-      title:isShowText? Text(text!,style: AppStyles.fontSize20(),):Image.asset(AppImage.appLogoImg, height: 35.h),
+      title:isShowText? Text(text!,style: AppStyles.fontSize20(),):Image.asset(AppImage.appLogo, height: 35.h),
       centerTitle: true,
       actions: [
         Padding(

@@ -15,7 +15,7 @@ class _BackgroundImageState extends State<BackgroundImage> {
 bool _isImageLoaded=false;
 
   Future<void> _preloadImage() async {
-    await precacheImage(AssetImage( AppImage.backgroundImg), context);
+    await precacheImage(AssetImage( AppImage.appLogo), context);
     setState(() {
       _isImageLoaded = true;
     });
@@ -37,7 +37,7 @@ bool _isImageLoaded=false;
       children: [
         Positioned.fill(
           child: Image.asset(
-            AppImage.backgroundImg,
+            AppImage.appLogo,
             fit: BoxFit.fill,
           ),
         ),

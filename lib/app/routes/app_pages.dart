@@ -6,6 +6,8 @@ import 'package:aim_construction_app/app/modules/role/supervisor/homeScreen/bind
 import 'package:aim_construction_app/app/modules/role/supervisor/homeScreen/views/role_supervisor_home_screen_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/more/bindings/role_supervisor_more_binding.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/more/views/role_supervisor_more_view.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/projectTool/bindings/role_supervisor_project_tool_binding.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/projectTool/views/role_supervisor_project_tool_view.dart';
 import 'package:aim_construction_app/app/modules/signup/bindings/signup_binding.dart';
 import 'package:aim_construction_app/app/modules/signup/views/signupScreen.dart';
 import 'package:aim_construction_app/app/modules/verifyEmail/bindings/verify_email_binding.dart';
@@ -37,8 +39,11 @@ class AppPages {
     GetPage(name: _Paths.VERIFY_EMAIL, page: () =>  VerifyCodeScreen(),binding: VerifyEmailBinding()),
     GetPage(name: _Paths.resetPasswordScreen, page: () =>  ResetPasswordScreen(),binding: ResetPasswordBinding()),
     GetPage(name: _Paths.successfullScreen, page: () =>  SuccessfullScreen()),
-    GetPage(name: _Paths.ROLE_SUPERVISOR_HOME_SCREEN, page: () =>  SupervisorHomeScreenView(),binding: RoleSupervisorHomeScreenBinding()),
-    GetPage(name: _Paths.ROLE_SUPERVISOR_MORE, page: () =>  SupervisorMoreView(),binding: RoleSupervisorMoreBinding()),
+
+    // ROLE_SUPERVISOR
+    GetPage(name: _Paths.ROLE_SUPERVISOR_HOME_SCREEN, page: () =>  SupervisorHomeScreenView(),binding: RoleSupervisorHomeScreenBinding(),transition: Transition.noTransition),
+    GetPage(name: _Paths.ROLE_SUPERVISOR_MORE, page: () =>  SupervisorMoreView(),binding: RoleSupervisorMoreBinding(),transition: Transition.noTransition),
+    GetPage(name: _Paths.ROLE_SUPERVISOR_PROJECT_TOOL, page: () =>  RoleSupervisorProjectToolView(),binding: RoleSupervisorProjectToolBinding()),
 
 
   ];

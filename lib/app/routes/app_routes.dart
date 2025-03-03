@@ -12,6 +12,7 @@ abstract class AppRoutes {
   static const resetPasswordScreen = _Paths.resetPasswordScreen;
   static const ROLE_SUPERVISOR_HOME_SCREEN = _Paths.ROLE_SUPERVISOR_HOME_SCREEN;
   static const ROLE_SUPERVISOR_MORE = _Paths.ROLE_SUPERVISOR_MORE;
+  static const ROLE_SUPERVISOR_PROJECT_TOOL = _Paths.ROLE_SUPERVISOR_PROJECT_TOOL;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
 
   static const ROLE_SUPERVISOR_HOME_SCREEN = '/home-screen';
   static const ROLE_SUPERVISOR_MORE = '/more';
+  static const ROLE_SUPERVISOR_PROJECT_TOOL = '/project-tool';
 }
