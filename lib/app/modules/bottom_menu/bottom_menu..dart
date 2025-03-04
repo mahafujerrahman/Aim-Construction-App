@@ -49,7 +49,7 @@ class BottomMenu extends StatelessWidget {
                 Get.offAndToNamed(AppRoutes.ROLE_SUPERVISOR_HOME_SCREEN);
                 break;
               case 1:
-                Get.offAndToNamed(AppRoutes.successfullScreen);
+                Get.offAndToNamed(AppRoutes.ROLE_SUPERVISOR_ACTIVITY_SCREEN);
                 break;
               case 2:
                 Get.offAndToNamed(AppRoutes.ROLE_SUPERVISOR_MORE);

@@ -98,7 +98,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         contentPadding: EdgeInsets.symmetric(
             horizontal: widget.contentPaddingHorizontal ?? 16.w,
             vertical: widget.contentPaddingVertical ?? 16.w),
-        fillColor: widget.filColor,
+        fillColor: AppColors.white,
         prefixIcon: widget.prefixIcon,
         suffixIcon: widget.isPassword
             ? GestureDetector(

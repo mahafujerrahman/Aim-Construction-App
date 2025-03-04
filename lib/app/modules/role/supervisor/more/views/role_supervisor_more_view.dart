@@ -9,9 +9,7 @@ import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:get/get.dart';
-
 import '../controllers/role_supervisor_more_controller.dart';
 
 class SupervisorMoreView extends GetView<RoleSupervisorMoreController> {
@@ -42,7 +40,7 @@ class SupervisorMoreView extends GetView<RoleSupervisorMoreController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height :102.h,
+                      height : 102.h,
                       decoration: BoxDecoration(
                           color: AppColors.primaryColor,
                           borderRadius: BorderRadius.all(Radius.circular(8.r))
@@ -55,7 +53,7 @@ class SupervisorMoreView extends GetView<RoleSupervisorMoreController> {
                             child: Container(
                               width: 80.w,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(8.r)), // Removed .r for simplicity
+                                  borderRadius: BorderRadius.all(Radius.circular(8.r))
                               ),
                               child: Image.asset(
                                 'assets/image/workImage.jpg',
@@ -81,7 +79,7 @@ class SupervisorMoreView extends GetView<RoleSupervisorMoreController> {
                     //============================> PersonalInfo List Tile <=================
                     CustomListTile(
                       onTap: () {
-                        //Get.toNamed(AppRoutes.personalInformationScreen);
+                        Get.toNamed(AppRoutes.ROLE_SUPERVISOR_PERSONAL_INFORMATION_SCREEN);
                       },
                       title:AppString.personalInfo.tr,
                       prefixIcon: SvgPicture.asset(AppIcons.profileIcon,color: AppColors.primaryColor,height: 20.h,width: 20.w),
@@ -90,7 +88,7 @@ class SupervisorMoreView extends GetView<RoleSupervisorMoreController> {
                     //============================> Settings List Tile <=================
                     CustomListTile(
                       onTap: () {
-                       // Get.toNamed(AppRoutes.settingScreen);
+                        Get.toNamed(AppRoutes.settingScreen);
                       },
                       title:AppString.settings.tr,
                       prefixIcon: SvgPicture.asset(AppIcons.settingIcon,color: AppColors.primaryColor,height: 20.h,width: 20.w),
@@ -154,13 +152,13 @@ class SupervisorMoreView extends GetView<RoleSupervisorMoreController> {
                         backgroundColor:  AppColors.fillColor,
                         side: BorderSide(
                             width: 1,
-                            color: AppColors.greyColor),
+                            color: AppColors.failedColor),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
                         ),
                       ),
                       child: Text(AppString.cancelText.tr,
-                        style: AppStyles.fontSize18(color: AppColors.primaryColor),
+                        style: AppStyles.fontSize18(color: AppColors.white),
                       ),
                     ),
                   ),

@@ -16,6 +16,12 @@ class AppIcons{
   static String moreIcon = "$baseUrl/moreIcon.svg";
   static String settingIcon = "$baseUrl/settingIcon.svg";
   static String logout = "$baseUrl/logout.svg";
+  static String editIcon ="$baseUrl/editIcon.svg";
+
+  static String birthday ="$baseUrl/birthday.svg";
+  static String location ="$baseUrl/location.svg";
+  static String phoneIcon ="$baseUrl/phone.svg";
+  static String arrowRight ="$baseUrl/arrow-right.svg";
 
 
 
