@@ -2,9 +2,11 @@ import 'package:aim_construction_app/app/modules/bottom_menu/bottom_menu..dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/activityScreen/controllers/role_supervisor_activity_screen_controller.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
+import 'package:aim_construction_app/utils/app_icons.dart';
 import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 
@@ -44,10 +46,11 @@ class RoleSupervisorActivityScreenView extends StatelessWidget {
                 itemCount: 3,
                 itemBuilder: (context, index) {
                   return Container(
-                    padding: const EdgeInsets.all(16),
+                    padding:  EdgeInsets.all(8),
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     decoration: BoxDecoration(
                       color: Colors.white,
+                      border: Border.all(color: AppColors.color323B4A),
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
@@ -63,19 +66,23 @@ class RoleSupervisorActivityScreenView extends StatelessWidget {
                       children: [
                         Text(
                           'Manager submitted a attachment in sample project',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                          style: AppStyles.fontSize16(fontWeight: FontWeight.w600,color: AppColors.color323B4A)
                         ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Submitted: Sunday, February 23, 2025',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14,
-                          ),
+                        SizedBox(height: 8.h),
+                        Row(
+                          children: [
+                            SvgPicture.asset(AppIcons.submittedIcon),
+                            SizedBox(width: 4.w),
+                            Text(
+                              'Submitted: Sunday, February 23, 2025',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
                         ),
+
                       ],
                     ),
                   );

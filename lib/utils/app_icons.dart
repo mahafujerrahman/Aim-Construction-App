@@ -22,6 +22,7 @@ class AppIcons{
   static String location ="$baseUrl/location.svg";
   static String phoneIcon ="$baseUrl/phone.svg";
   static String arrowRight ="$baseUrl/arrow-right.svg";
+  static String submittedIcon ="$baseUrl/submittedIcon.svg";
 
 
 
