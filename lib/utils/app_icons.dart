@@ -31,6 +31,10 @@ class AppIcons{
   static String excelFileIcon ="$baseUrl/excelFileIcon.svg";
   static String downloadIcon ="$baseUrl/downloadIcon.svg";
   static String deletedIcon ="$baseUrl/deletedIcon.svg";
+  static String attachmentIcon ="$baseUrl/attachmentIcon.svg";
+  static String file_icon ="$baseUrl/file_icon.svg";
+  static String calender ="$baseUrl/calender.svg";
+
 
 
 

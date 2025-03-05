@@ -24,12 +24,12 @@ abstract class AppRoutes {
   static const privacyPolicyScreen = _Paths.privacyPolicyScreen;
   static const termsandConditionsScreen = _Paths.termsandConditionsScreen;
   static const aboutUsScreen = _Paths.aboutUsScreen;
-  static const ROLE_SUPERVISOR_ACTIVITY_SCREEN =
-      _Paths.ROLE_SUPERVISOR_ACTIVITY_SCREEN;
+  static const ROLE_SUPERVISOR_ACTIVITY_SCREEN = _Paths.ROLE_SUPERVISOR_ACTIVITY_SCREEN;
   static const ROLE_SUPERVISOR_DAILY_LOG = _Paths.ROLE_SUPERVISOR_DAILY_LOG;
   static const ROLE_SUPERVISOR_TASK = _Paths.ROLE_SUPERVISOR_TASK;
   static const ROLE_SUPERVISOR_IMAGES = _Paths.ROLE_SUPERVISOR_IMAGES;
   static const ROLE_SUPERVISOR_DOCUMENTS = _Paths.ROLE_SUPERVISOR_DOCUMENTS;
+  static const taskStatusScreen = _Paths.taskStatusScreen;
 }
 
 abstract class _Paths {
@@ -62,4 +62,5 @@ abstract class _Paths {
   static const ROLE_SUPERVISOR_TASK = '/task';
   static const ROLE_SUPERVISOR_IMAGES = '/images';
   static const ROLE_SUPERVISOR_DOCUMENTS = '/documents';
+  static const taskStatusScreen = '/taskStatusScreen';
 }

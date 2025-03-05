@@ -40,10 +40,7 @@ class CustomAppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                 onTap:  () {
                  // Get.toNamed(Routes.MESSAGE);
                 },
-                child: SvgPicture.asset(
-                  AppIcons.massageIcon,
-                  height: 40.h,
-                ),
+                child: SvgPicture.asset(AppIcons.massageIcon, height: 40.h),
               ),
               if(isShowChat && notificationCount != null && notificationCount!.isNotEmpty)
                 Positioned(

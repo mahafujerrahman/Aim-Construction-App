@@ -112,11 +112,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
         hintText: widget.hintText,
         labelStyle: widget.labelTextStyle,
           enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: AppColors.primaryColor),
+      borderSide: BorderSide(color: AppColors.color323B4A),
       borderRadius: BorderRadius.circular(8.r),
     ),
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: AppColors.primaryColor),
+      borderSide: BorderSide(color: AppColors.color323B4A),
     borderRadius: BorderRadius.circular(8.r),
     ),
       ),

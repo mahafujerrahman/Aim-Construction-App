@@ -28,6 +28,7 @@ import 'package:aim_construction_app/app/modules/role/supervisor/projectTool/bin
 import 'package:aim_construction_app/app/modules/role/supervisor/projectTool/views/role_supervisor_project_tool_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/task/bindings/role_supervisor_task_binding.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/task/views/role_supervisor_task_view.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/task/views/taskStatusScreen.dart';
 import 'package:aim_construction_app/app/modules/signup/bindings/signup_binding.dart';
 import 'package:aim_construction_app/app/modules/signup/views/signupScreen.dart';
 import 'package:aim_construction_app/app/modules/verifyEmail/bindings/verify_email_binding.dart';
@@ -77,6 +78,7 @@ class AppPages {
     GetPage(name: _Paths.ROLE_SUPERVISOR_TASK, page: () =>  RoleSupervisorTaskView(),binding: RoleSupervisorTaskBinding(),transition: Transition.noTransition),
     GetPage(name: _Paths.ROLE_SUPERVISOR_IMAGES, page: () =>  RoleSupervisorImagesView(),binding: RoleSupervisorImagesBinding(),transition: Transition.noTransition),
     GetPage(name: _Paths.ROLE_SUPERVISOR_DOCUMENTS, page: () =>  RoleSupervisorDocumentsView(),binding: RoleSupervisorDocumentsBinding(),transition: Transition.noTransition),
+    GetPage(name: _Paths.taskStatusScreen, page: () =>  TaskStatusScreen(),transition: Transition.noTransition),
 
 
   ];

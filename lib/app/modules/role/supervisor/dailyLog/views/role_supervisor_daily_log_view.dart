@@ -7,7 +7,7 @@ class RoleSupervisorDailyLogView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('RoleSupervisorTaskView'),
+        title: const Text('Project Name'),
         centerTitle: true,
       ),
       body: const Center(
