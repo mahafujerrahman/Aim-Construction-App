@@ -152,7 +152,7 @@ class SupervisorMoreView extends GetView<RoleSupervisorMoreController> {
                         backgroundColor:  AppColors.fillColor,
                         side: BorderSide(
                             width: 1,
-                            color: AppColors.failedColor),
+                            color: AppColors.redColor),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
                         ),

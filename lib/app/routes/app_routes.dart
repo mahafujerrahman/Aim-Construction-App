@@ -24,7 +24,12 @@ abstract class AppRoutes {
   static const privacyPolicyScreen = _Paths.privacyPolicyScreen;
   static const termsandConditionsScreen = _Paths.termsandConditionsScreen;
   static const aboutUsScreen = _Paths.aboutUsScreen;
-  static const ROLE_SUPERVISOR_ACTIVITY_SCREEN = _Paths.ROLE_SUPERVISOR_ACTIVITY_SCREEN;
+  static const ROLE_SUPERVISOR_ACTIVITY_SCREEN =
+      _Paths.ROLE_SUPERVISOR_ACTIVITY_SCREEN;
+  static const ROLE_SUPERVISOR_DAILY_LOG = _Paths.ROLE_SUPERVISOR_DAILY_LOG;
+  static const ROLE_SUPERVISOR_TASK = _Paths.ROLE_SUPERVISOR_TASK;
+  static const ROLE_SUPERVISOR_IMAGES = _Paths.ROLE_SUPERVISOR_IMAGES;
+  static const ROLE_SUPERVISOR_DOCUMENTS = _Paths.ROLE_SUPERVISOR_DOCUMENTS;
 }
 
 abstract class _Paths {
@@ -47,8 +52,14 @@ abstract class _Paths {
   static const ROLE_SUPERVISOR_HOME_SCREEN = '/home-screen';
   static const ROLE_SUPERVISOR_MORE = '/more';
   static const ROLE_SUPERVISOR_PROJECT_TOOL = '/project-tool';
-  static const ROLE_SUPERVISOR_PERSONAL_INFORMATION_SCREEN = '/personal-information-screen';
-  static const ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION = '/edit-personal-information';
+  static const ROLE_SUPERVISOR_PERSONAL_INFORMATION_SCREEN =
+      '/personal-information-screen';
+  static const ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION =
+      '/edit-personal-information';
 
   static const ROLE_SUPERVISOR_ACTIVITY_SCREEN = '/activity-screen';
+  static const ROLE_SUPERVISOR_DAILY_LOG = '/daily-log';
+  static const ROLE_SUPERVISOR_TASK = '/task';
+  static const ROLE_SUPERVISOR_IMAGES = '/images';
+  static const ROLE_SUPERVISOR_DOCUMENTS = '/documents';
 }

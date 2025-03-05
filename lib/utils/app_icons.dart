@@ -23,6 +23,15 @@ class AppIcons{
   static String phoneIcon ="$baseUrl/phone.svg";
   static String arrowRight ="$baseUrl/arrow-right.svg";
   static String submittedIcon ="$baseUrl/submittedIcon.svg";
+  static String taskIcon ="$baseUrl/taskIcon.svg";
+  static String imageIcon ="$baseUrl/imageIcon.svg";
+  static String documentsIcon ="$baseUrl/documentsIcon.svg";
+  static String daliyLogs ="$baseUrl/daliyLogs.svg";
+  static String pdfIcon ="$baseUrl/pdfIcon.svg";
+  static String excelFileIcon ="$baseUrl/excelFileIcon.svg";
+  static String downloadIcon ="$baseUrl/downloadIcon.svg";
+  static String deletedIcon ="$baseUrl/deletedIcon.svg";
+
 
 
 

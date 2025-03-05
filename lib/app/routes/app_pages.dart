@@ -4,10 +4,16 @@ import 'package:aim_construction_app/app/modules/resetPassword/bindings/reset_pa
 import 'package:aim_construction_app/app/modules/resetPassword/views/reset_password_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/activityScreen/bindings/role_supervisor_activity_screen_binding.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/activityScreen/views/role_supervisor_activity_screen_view.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/bindings/role_supervisor_daily_log_binding.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/role_supervisor_daily_log_view.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/documents/bindings/role_supervisor_documents_binding.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/documents/views/role_supervisor_documents_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/editPersonalInformation/bindings/role_supervisor_edit_personal_information_binding.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/editPersonalInformation/views/role_supervisor_edit_personal_information_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/homeScreen/bindings/role_supervisor_home_screen_binding.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/homeScreen/views/role_supervisor_home_screen_view.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/images/bindings/role_supervisor_images_binding.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/images/views/role_supervisor_images_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/more/bindings/role_supervisor_more_binding.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/more/views/role_supervisor_more_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/more/views/settings/aboutus/aboutUs_screen.dart';
@@ -20,6 +26,8 @@ import 'package:aim_construction_app/app/modules/role/supervisor/personalInforma
 import 'package:aim_construction_app/app/modules/role/supervisor/personalInformationScreen/views/role_supervisor_personal_information_screen_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/projectTool/bindings/role_supervisor_project_tool_binding.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/projectTool/views/role_supervisor_project_tool_view.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/task/bindings/role_supervisor_task_binding.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/task/views/role_supervisor_task_view.dart';
 import 'package:aim_construction_app/app/modules/signup/bindings/signup_binding.dart';
 import 'package:aim_construction_app/app/modules/signup/views/signupScreen.dart';
 import 'package:aim_construction_app/app/modules/verifyEmail/bindings/verify_email_binding.dart';
@@ -65,6 +73,10 @@ class AppPages {
     GetPage(name: _Paths.ROLE_SUPERVISOR_PERSONAL_INFORMATION_SCREEN, page: () =>  PersonalInformationScreen(),binding: RoleSupervisorPersonalInformationScreenBinding()),
     GetPage(name: _Paths.ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION, page: () =>  EditPersonalInformationScreen(),binding: RoleSupervisorEditPersonalInformationBinding()),
     GetPage(name: _Paths.ROLE_SUPERVISOR_ACTIVITY_SCREEN, page: () =>  RoleSupervisorActivityScreenView(),binding: RoleSupervisorActivityScreenBinding(),transition: Transition.noTransition),
+    GetPage(name: _Paths.ROLE_SUPERVISOR_DAILY_LOG, page: () =>  RoleSupervisorDailyLogView(),binding: RoleSupervisorDailyLogBinding(),transition: Transition.noTransition),
+    GetPage(name: _Paths.ROLE_SUPERVISOR_TASK, page: () =>  RoleSupervisorTaskView(),binding: RoleSupervisorTaskBinding(),transition: Transition.noTransition),
+    GetPage(name: _Paths.ROLE_SUPERVISOR_IMAGES, page: () =>  RoleSupervisorImagesView(),binding: RoleSupervisorImagesBinding(),transition: Transition.noTransition),
+    GetPage(name: _Paths.ROLE_SUPERVISOR_DOCUMENTS, page: () =>  RoleSupervisorDocumentsView(),binding: RoleSupervisorDocumentsBinding(),transition: Transition.noTransition),
 
 
   ];

@@ -28,7 +28,8 @@ class AppColors{
   static const whiteDark = Color(0xffBEBEBE);
   static const primary = Color(0xff4DB5AD);
   static const orange = Color(0xffff6200);
-  static const failedColor = Color(0xffff3c00);
+  static const redColor = Color(0xffff3c00);
+
 
   static const backgroundColor= Color(0xFF010101);
   static const Color cardColor =  Color(0xFF2F2F2F);
