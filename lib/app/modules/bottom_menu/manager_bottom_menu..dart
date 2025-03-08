@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_icons.dart';
 
-class BottomMenu extends StatelessWidget {
+class ManagerBottomMenu extends StatelessWidget {
   final int menuIndex;
-  const BottomMenu(this.menuIndex, {super.key});
+  const ManagerBottomMenu(this.menuIndex, {super.key});
 
   Color colorByIndex(ThemeData theme, int index) {
     return index == menuIndex ? AppColors.white : AppColors.blackColor;
@@ -38,27 +38,27 @@ class BottomMenu extends StatelessWidget {
     ];
 
     return BottomNavigationBar(
-       //   backgroundColor: AppColors.transparent,
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: AppColors.white,
-          unselectedItemColor: AppColors.white,
-          currentIndex: menuIndex,
-          onTap: (value) {
-            switch (value) {
-              case 0:
-                Get.offAndToNamed(AppRoutes.ROLE_SUPERVISOR_HOME_SCREEN);
-                break;
-              case 1:
-                Get.offAndToNamed(AppRoutes.ROLE_SUPERVISOR_ACTIVITY_SCREEN);
-                break;
-              case 2:
-                Get.offAndToNamed(AppRoutes.ROLE_SUPERVISOR_MORE);
-                break;
+      //   backgroundColor: AppColors.transparent,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: AppColors.white,
+      unselectedItemColor: AppColors.white,
+      currentIndex: menuIndex,
+      onTap: (value) {
+        switch (value) {
+          case 0:
+            Get.offAndToNamed(AppRoutes.managerHomeScreen);
+            break;
+          case 1:
+            Get.offAndToNamed(AppRoutes.managerActivityScreen);
+            break;
+          case 2:
+            Get.offAndToNamed(AppRoutes.managerMoreScreen);
+            break;
 
-            }
-          },
-          items: menuItems,
-        );
+        }
+      },
+      items: menuItems,
+    );
 
 
   }

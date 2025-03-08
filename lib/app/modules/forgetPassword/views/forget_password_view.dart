@@ -1,4 +1,4 @@
-import 'package:aim_construction_app/app/modules/bottom_menu/bottom_menu..dart';
+import 'package:aim_construction_app/app/modules/bottom_menu/supervisor_bottom_menu..dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';

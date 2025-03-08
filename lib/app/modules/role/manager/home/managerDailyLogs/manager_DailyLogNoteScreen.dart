@@ -5,9 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class DailyLogNoteScreen extends StatelessWidget {
-  DailyLogNoteScreen({super.key});
+class ManagerDailyLogNoteScreen extends StatefulWidget {
+  ManagerDailyLogNoteScreen({super.key});
 
+  @override
+  State<ManagerDailyLogNoteScreen> createState() => _ManagerDailyLogNoteScreenState();
+}
+
+class _ManagerDailyLogNoteScreenState extends State<ManagerDailyLogNoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,26 +32,17 @@ class DailyLogNoteScreen extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          Get.toNamed(AppRoutes.dailyNoteDetailsScreen);
+                          Get.toNamed(AppRoutes.projectReportDetailsScreen);
                         },
                         child: NoteCard(
                           title: "Name of notes",
                           description:
                           "This note structure ensures clear communication of the day's events.",
-                          status: "Pending",
                           notesCount: 2,
                           attachmentsCount: 2,
                         ),
                       ),
                       SizedBox(height: 16.h),
-                      NoteCard(
-                        title: "Name of notes",
-                        description:
-                        "This note structure ensures clear communication of the day's events.",
-                        status: "Accepted",
-                        notesCount: 2,
-                        attachmentsCount: 2,
-                      ),
                       const SizedBox(height: 16),
                     ],
                   );
@@ -66,5 +62,4 @@ class DailyLogNoteScreen extends StatelessWidget {
 
     );
   }
-
 }

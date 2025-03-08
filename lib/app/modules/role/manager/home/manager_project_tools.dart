@@ -1,19 +1,22 @@
 import 'package:aim_construction_app/app/modules/role/supervisor/projectTool/views/toolsCard.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
+import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
 import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
-import '../../../../../../utils/app_colors.dart';
-import '../controllers/role_supervisor_project_tool_controller.dart';
 
-class RoleSupervisorProjectToolView
-    extends GetView<RoleSupervisorProjectToolController> {
-  const RoleSupervisorProjectToolView({super.key});
+class ManagerProjectToolsScreen extends StatefulWidget {
+  const ManagerProjectToolsScreen({super.key});
 
+  @override
+  State<ManagerProjectToolsScreen> createState() => _ManagerProjectToolsScreenState();
+}
+
+class _ManagerProjectToolsScreenState extends State<ManagerProjectToolsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +31,7 @@ class RoleSupervisorProjectToolView
         body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
             child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
                 "Project Tool",
                 style: AppStyles.fontSize16(
@@ -45,7 +48,7 @@ class RoleSupervisorProjectToolView
                       title: 'Daily Logs',
                       icon: AppIcons.daliyLogs,
                       onTap: () {
-                        Get.toNamed(AppRoutes.ROLE_SUPERVISOR_DAILY_LOG);
+                        Get.toNamed(AppRoutes.managerDailyLogScreen);
                       },
                     ),
                   ),
@@ -81,9 +84,29 @@ class RoleSupervisorProjectToolView
                         Get.toNamed(AppRoutes.supervisorDocuments);
                       },
                     ),
+                  ),
+
+                ],
+              ),
+              SizedBox(height: 10.h),
+              Row(
+                children: [
+                  ///============================== Contract
+                  Padding(
+                    padding:  EdgeInsets.symmetric(horizontal: 10.w),
+                    child: ToolsCard(
+                      title: 'Contract',
+                      icon: AppIcons.contractIcon,
+                      onTap: () {
+                        Get.toNamed(AppRoutes.managerContactScreen);
+                      },
+                    ),
                   )
                 ],
               )
-            ])));
+            ]
+            )
+        )
+    );
   }
 }

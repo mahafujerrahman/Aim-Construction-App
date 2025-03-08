@@ -46,12 +46,18 @@ class OnboardingScreen extends StatelessWidget {
             SizedBox(height: 145.h),
             Image.asset('assets/image/onboarding.png', width: 357.w, height: 357.h),
             //=============================> GET STARTED Button <========================
-            SizedBox(height: 135.h),
+            SizedBox(height: 120.h),
             CustomButton(
                 onTap: () {
                     Get.toNamed(AppRoutes.SIGN_IN);
                 },
                 text: 'GET STARTED'),
+            SizedBox(height: 4.h),
+            CustomButton(
+                onTap: () {
+                  Get.toNamed(AppRoutes.managerHomeScreen);
+                },
+                text: 'Manager'),
           ],
         ),
       ),

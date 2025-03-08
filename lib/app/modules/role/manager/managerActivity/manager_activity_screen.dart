@@ -1,5 +1,4 @@
-import 'package:aim_construction_app/app/modules/bottom_menu/supervisor_bottom_menu..dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/activityScreen/controllers/role_supervisor_activity_screen_controller.dart';
+import 'package:aim_construction_app/app/modules/bottom_menu/manager_bottom_menu..dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
@@ -7,19 +6,18 @@ import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
 
-class RoleSupervisorActivityScreenView extends StatelessWidget {
-  const RoleSupervisorActivityScreenView({super.key});
+
+class ManagerActivityScreen extends StatelessWidget {
+  const ManagerActivityScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final RoleSupervisorActivityScreenController activityScreenController = Get.put(RoleSupervisorActivityScreenController());
+    final TextEditingController textEditingController = TextEditingController();
 
     return Scaffold(
-      bottomNavigationBar: const SupervisorBottomMenu(1),
+      bottomNavigationBar: const ManagerBottomMenu(1),
       appBar: AppBar(
-        title: const Text('Sample project'),
+        title: const Text('Manager Project'),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
@@ -30,13 +28,13 @@ class RoleSupervisorActivityScreenView extends StatelessWidget {
           children: [
             // Activity Log
             Text(
-              'Activity',
-              style: AppStyles.fontSize20(fontWeight: FontWeight.w700,color: AppColors.color323B4A)
+                'Activity',
+                style: AppStyles.fontSize20(fontWeight: FontWeight.w700,color: AppColors.color323B4A)
             ),
             SizedBox(height: 16),
             // Search bar
             CustomTextField(
-              controller: activityScreenController.textEditingController,
+              controller: textEditingController,
               hintText: "Search",
             ),
             SizedBox(height: 16),
@@ -65,8 +63,8 @@ class RoleSupervisorActivityScreenView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Manager submitted a attachment in sample project',
-                          style: AppStyles.fontSize16(fontWeight: FontWeight.w600,color: AppColors.color323B4A)
+                            'Manager submitted a attachment in sample project',
+                            style: AppStyles.fontSize16(fontWeight: FontWeight.w600,color: AppColors.color323B4A)
                         ),
                         SizedBox(height: 8.h),
                         Row(

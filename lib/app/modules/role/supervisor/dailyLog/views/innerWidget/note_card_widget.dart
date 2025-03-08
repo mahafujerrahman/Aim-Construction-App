@@ -8,27 +8,29 @@ import 'package:flutter_svg/flutter_svg.dart';
 class NoteCard extends StatelessWidget {
   final String title;
   final String description;
-  final String status;
+  final String? status;
   final int notesCount;
   final int attachmentsCount;
 
   NoteCard({
     required this.title,
     required this.description,
-    required this.status,
+    this.status,
     required this.notesCount,
     required this.attachmentsCount,
   });
 
   @override
   Widget build(BuildContext context) {
-    Color statusColor;
-    if (status.toLowerCase() == 'pending') {
-      statusColor = Color(0xFFE39CEA);;
-    } else if (status.toLowerCase() == 'accepted') {
-      statusColor = Colors.green;
-    } else {
-      statusColor = Colors.grey;
+    Color? statusColor;
+    if (status != null) {
+      if (status!.toLowerCase() == 'pending') {
+        statusColor = Color(0xFFE39CEA);
+      } else if (status!.toLowerCase() == 'accepted') {
+        statusColor = Colors.green;
+      } else {
+        statusColor = Colors.grey;
+      }
     }
 
     return Container(
@@ -44,7 +46,7 @@ class NoteCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Title and Status
+            // Title and optional Status
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -54,17 +56,18 @@ class NoteCard extends StatelessWidget {
                     style: AppStyles.fontSize16(color: AppColors.color323B4A),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: statusColor,
-                    borderRadius: BorderRadius.circular(12),
+                if (status != null) // Show only if status is provided
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: statusColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      status!,
+                      style: AppStyles.fontSize14(color: AppColors.white),
+                    ),
                   ),
-                  child: Text(
-                    status,
-                    style: AppStyles.fontSize14(color: AppColors.white),
-                  ),
-                ),
               ],
             ),
             // Description
@@ -111,5 +114,3 @@ class NoteCard extends StatelessWidget {
     );
   }
 }
-
-

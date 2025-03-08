@@ -1,4 +1,6 @@
+import 'package:aim_construction_app/app/modules/bottom_menu/manager_bottom_menu..dart';
 import 'package:aim_construction_app/app/modules/bottom_menu/supervisor_bottom_menu..dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/more/controllers/role_supervisor_more_controller.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:aim_construction_app/common/widgets/custom_listTile.dart';
@@ -10,15 +12,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import '../controllers/role_supervisor_more_controller.dart';
 
-class SupervisorMoreView extends GetView<RoleSupervisorMoreController> {
-  const SupervisorMoreView({super.key});
+
+class ManagerMoreScreen extends StatefulWidget {
+  const ManagerMoreScreen({super.key});
+
+  @override
+  State<ManagerMoreScreen> createState() => _ManagerMoreScreenState();
+}
+
+class _ManagerMoreScreenState extends State<ManagerMoreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      bottomNavigationBar: const SupervisorBottomMenu(2),
+      bottomNavigationBar: const ManagerBottomMenu(2),
       appBar: AppBar(
         title: Text(AppString.profileText.tr,
           style: AppStyles.fontSize18(fontWeight: FontWeight.w600),
@@ -94,6 +102,15 @@ class SupervisorMoreView extends GetView<RoleSupervisorMoreController> {
                       prefixIcon: SvgPicture.asset(AppIcons.settingIcon,color: AppColors.primaryColor,height: 20.h,width: 20.w),
                     ),
                     SizedBox(height: 8.h),
+                    //============================> Settings List Tile <=================
+                    CustomListTile(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.mySupervisorListScreen);
+                      },
+                      title:'Supervisor Management',
+                      prefixIcon: SvgPicture.asset(AppIcons.profileIcon,color: AppColors.primaryColor,height: 20.h,width: 20.w),
+                    ),
+                    SizedBox(height: 8.h),
                     //============================> LogOut List Tile <=================
                     CustomListTile(
                       onTap: () {
@@ -110,6 +127,7 @@ class SupervisorMoreView extends GetView<RoleSupervisorMoreController> {
       ),
     );
   }
+
   //=========================>>>>>  Log out Custom BottomSheet    <<<================================
   void _showCustomBottomSheet(BuildContext context) {
     showModalBottomSheet(

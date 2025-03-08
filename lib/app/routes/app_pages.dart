@@ -2,9 +2,20 @@ import 'package:aim_construction_app/app/modules/forgetPassword/bindings/forget_
 import 'package:aim_construction_app/app/modules/forgetPassword/views/forget_password_view.dart';
 import 'package:aim_construction_app/app/modules/resetPassword/bindings/reset_password_binding.dart';
 import 'package:aim_construction_app/app/modules/resetPassword/views/reset_password_view.dart';
+import 'package:aim_construction_app/app/modules/role/manager/home/managerContarctScreen.dart';
+import 'package:aim_construction_app/app/modules/role/manager/home/managerDailyLogs/managerDailyLogNoteDetailsScreen.dart';
+import 'package:aim_construction_app/app/modules/role/manager/home/managerDailyLogs/managerDailyLogScreen.dart';
+import 'package:aim_construction_app/app/modules/role/manager/home/manager_project_tools.dart';
+import 'package:aim_construction_app/app/modules/role/manager/home/managerhomeScreen.dart';
+import 'package:aim_construction_app/app/modules/role/manager/managerActivity/manager_activity_screen.dart';
+import 'package:aim_construction_app/app/modules/role/manager/more/indivisualSupervisorInformation.dart';
+import 'package:aim_construction_app/app/modules/role/manager/more/managerMoreScreen.dart';
+import 'package:aim_construction_app/app/modules/role/manager/more/mysupervisorListScreen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/activityScreen/bindings/role_supervisor_activity_screen_binding.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/activityScreen/views/role_supervisor_activity_screen_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/bindings/role_supervisor_daily_log_binding.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/innerWidget/dailylog_note_details_screen.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/innerWidget/noteAddDetailsScreen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/role_supervisor_daily_log_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/documents/bindings/role_supervisor_documents_binding.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/documents/views/role_supervisor_documents_view.dart';
@@ -37,11 +48,8 @@ import 'package:aim_construction_app/app/modules/verifyEmail/views/verify_email_
 import 'package:aim_construction_app/onboarding_screen.dart';
 import 'package:aim_construction_app/splash_screen.dart';
 import 'package:get/get.dart';
-
-
 import '../modules/sign_in/bindings/sign_in_binding.dart';
 import '../modules/sign_in/views/signInScreen.dart';
-
 part 'app_routes.dart';
 
 class AppPages {
@@ -77,9 +85,21 @@ class AppPages {
     GetPage(name: _Paths.ROLE_SUPERVISOR_DAILY_LOG, page: () =>  RoleSupervisorDailyLogView(),binding: RoleSupervisorDailyLogBinding(),transition: Transition.noTransition),
     GetPage(name: _Paths.ROLE_SUPERVISOR_TASK, page: () =>  RoleSupervisorTaskView(),binding: RoleSupervisorTaskBinding(),transition: Transition.noTransition),
     GetPage(name: _Paths.ROLE_SUPERVISOR_IMAGES, page: () =>  RoleSupervisorImagesView(),binding: RoleSupervisorImagesBinding(),transition: Transition.noTransition),
-    GetPage(name: _Paths.ROLE_SUPERVISOR_DOCUMENTS, page: () =>  RoleSupervisorDocumentsView(),binding: RoleSupervisorDocumentsBinding(),transition: Transition.noTransition),
+    GetPage(name: _Paths.supervisorDocuments, page: () =>  RoleSupervisorDocumentsView(),binding: RoleSupervisorDocumentsBinding(),transition: Transition.noTransition),
     GetPage(name: _Paths.taskStatusScreen, page: () =>  TaskStatusScreen(),transition: Transition.noTransition),
+    GetPage(name: _Paths.dailyNoteDetailsScreen, page: () =>  DailyNoteDetailsScreen(),transition: Transition.noTransition),
+    GetPage(name: _Paths.addNewNoteScreen, page: () =>  AddNewNoteScreen(),transition: Transition.noTransition),
 
+    //manager
+    GetPage(name: _Paths.managerHomeScreen, page: () =>  ManagerHomeScreen(),transition: Transition.noTransition),
+    GetPage(name: _Paths.managerMoreScreen, page: () =>  ManagerMoreScreen(),transition: Transition.noTransition),
+    GetPage(name: _Paths.managerActivityScreen, page: () =>  ManagerActivityScreen(),transition: Transition.noTransition),
+    GetPage(name: _Paths.mySupervisorListScreen, page: () =>  MySupervisorListScreen(),transition: Transition.noTransition),
+    GetPage(name: _Paths.indivitualSupervisorInfoScreen, page: () =>  IndivitualSupervisorInfoScreen(),transition: Transition.noTransition),
+    GetPage(name: _Paths.managerProjectToolsScreen, page: () =>  ManagerProjectToolsScreen(),transition: Transition.noTransition),
+    GetPage(name: _Paths.managerContactScreen, page: () =>  ManagerContactScreen(),transition: Transition.noTransition),
+    GetPage(name: _Paths.managerDailyLogScreen, page: () =>  ManagerDailyLogScreen(),transition: Transition.noTransition),
+    GetPage(name: _Paths.projectReportDetailsScreen, page: () =>  ManagerProjectReportDetailsScreen(),transition: Transition.noTransition),
 
   ];
 }

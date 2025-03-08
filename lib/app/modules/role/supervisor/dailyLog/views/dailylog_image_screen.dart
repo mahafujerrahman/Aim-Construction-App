@@ -1,5 +1,3 @@
-import 'package:aim_construction_app/app/modules/role/supervisor/homeScreen/views/widget/projectCard.dart';
-import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
 import 'package:flutter/material.dart';

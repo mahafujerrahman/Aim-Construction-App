@@ -1,23 +1,29 @@
+import 'package:aim_construction_app/app/modules/bottom_menu/manager_bottom_menu..dart';
 import 'package:aim_construction_app/app/modules/bottom_menu/supervisor_bottom_menu..dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/homeScreen/controllers/role_supervisor_home_screen_controller.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/homeScreen/views/widget/projectCard.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
+import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class SupervisorHomeScreenView extends StatelessWidget {
-  SupervisorHomeScreenView({super.key});
+class ManagerHomeScreen extends StatefulWidget {
+  ManagerHomeScreen({super.key});
 
-  final RoleSupervisorHomeScreenController roleSupervisorHomeScreenController = Get.put(RoleSupervisorHomeScreenController());
+  @override
+  State<ManagerHomeScreen> createState() => _ManagerHomeScreenState();
+}
+
+class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
+TextEditingController textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: SupervisorBottomMenu(0),
+      bottomNavigationBar: ManagerBottomMenu(0),
       appBar: AppBar(
-        title: const Text('Project'),
+        title: const Text('Manager Project'),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
@@ -28,7 +34,7 @@ class SupervisorHomeScreenView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomTextField(
-                controller: roleSupervisorHomeScreenController.textEditingController,
+                controller: textEditingController,
                 hintText: "Search Project",
               ),
               SizedBox(height: 16.h),
@@ -40,13 +46,14 @@ class SupervisorHomeScreenView extends StatelessWidget {
                   return Column(
                     children: [
                       ProjectCard(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.managerProjectToolsScreen);
+                          print('Project tapped');
+                        },
                         imageUrl: 'assets/image/workImage.jpg',
                         title: 'Sample project',
                         projectID: '12345',
-                        onTap: () {
-                          Get.toNamed(AppRoutes.ROLE_SUPERVISOR_PROJECT_TOOL);
-                          print('Project tapped');
-                        },
+
                       ),
                       const SizedBox(height: 16),
                     ],
@@ -56,6 +63,11 @@ class SupervisorHomeScreenView extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){},
+        backgroundColor: AppColors.primaryColor,
+        child: Icon(Icons.add),
       ),
     );
   }

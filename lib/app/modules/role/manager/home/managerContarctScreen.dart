@@ -1,28 +1,25 @@
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
+import 'package:aim_construction_app/utils/style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class DailyLogDocumentScreen extends StatefulWidget {
-  DailyLogDocumentScreen({super.key});
+
+class ManagerContactScreen extends StatefulWidget {
+  const ManagerContactScreen({super.key});
 
   @override
-  State<DailyLogDocumentScreen> createState() => _DailyLogDocumentScreenState();
+  State<ManagerContactScreen> createState() => _ManagerContactScreenState();
 }
 
-class _DailyLogDocumentScreenState extends State<DailyLogDocumentScreen> {
+class _ManagerContactScreenState extends State<ManagerContactScreen> {
+
   List<Map<String, dynamic>> groupedFiles = [
     {
       'date': 'Monday, February 24, 2025',
       'files': [
-        'building_structure_2025.pdf',
-        'building_structure_2025.pdf',
-        'building_structure_2025.pdf',
-        'building_structure_2025.xlsx',
-        'building_structure_2025.xlsx',
-        'building_structure_2025.pdf',
-        'building_structure_2025.xlsx',
         'building_structure_2025.pdf',
         'building_structure_2025.pdf',
         'building_structure_2025.xlsx',
@@ -48,8 +45,21 @@ class _DailyLogDocumentScreenState extends State<DailyLogDocumentScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: AppColors.white,
+      appBar: AppBar(
+        title: Text('Project Name',
+          style: AppStyles.fontSize18(fontWeight: FontWeight.w600),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
@@ -61,6 +71,8 @@ class _DailyLogDocumentScreenState extends State<DailyLogDocumentScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text('Contract',style: AppStyles.fontSize20()),
+                    SizedBox(height: 16.h),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
@@ -94,13 +106,15 @@ class _DailyLogDocumentScreenState extends State<DailyLogDocumentScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showTakeDocumentDialog,
+        onPressed: (){
+          _showTakePhotoDialog();
+        },
         backgroundColor: AppColors.primaryColor,
         child: Icon(Icons.add),
       ),
     );
   }
-  void _showTakeDocumentDialog() {
+  void _showTakePhotoDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -114,20 +128,22 @@ class _DailyLogDocumentScreenState extends State<DailyLogDocumentScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "Add a attachment",
+                  "Select an Option",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20.h),
                 TextButton(
                   onPressed: () {
-                  // //Navigator.of(context).pop();
+                    // Add functionality to take a photo using device camera
+                    // You can integrate camera plugin here
+                    Navigator.of(context).pop();
                   },
-                  child: Text("Select file"),
+                  child: Text("Take Photo"),
                 ),
                 SizedBox(height: 8.h),
                 TextButton(
                   onPressed: () {
-                   //    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                   child: Text("Cancel"),
                 ),
