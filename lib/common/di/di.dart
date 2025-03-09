@@ -21,8 +21,6 @@ Future<Map<String, Map<String, String>>>  init() async {
 
 
 
-
-
   //Retrieving localized data
   Map<String, Map<String, String>> _languages = Map();
   for(LanguageModel languageModel in AppConstants.languages) {

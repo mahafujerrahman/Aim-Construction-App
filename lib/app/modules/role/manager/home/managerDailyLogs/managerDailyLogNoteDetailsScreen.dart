@@ -19,6 +19,7 @@ class _ManagerProjectReportDetailsScreenState extends State<ManagerProjectReport
       ],
     },
   ];
+
   List<Map<String, dynamic>> documentFiles = [
     {
       'date': 'Monday, February 24, 2025',
@@ -34,11 +35,11 @@ class _ManagerProjectReportDetailsScreenState extends State<ManagerProjectReport
 
   Widget getFileIcon(String fileName) {
     if (fileName.endsWith('.pdf')) {
-      return SvgPicture.asset(AppIcons.pdfIcon);
+      return SvgPicture.asset(AppIcons.pdfIcon, width: 24, height: 24);
     } else if (fileName.endsWith('.xlsx')) {
-      return SvgPicture.asset(AppIcons.excelFileIcon);
+      return SvgPicture.asset(AppIcons.excelFileIcon, width: 24, height: 24);
     } else {
-      return SvgPicture.asset(AppIcons.documentsIcon);
+      return SvgPicture.asset(AppIcons.documentsIcon, width: 24, height: 24);
     }
   }
 
@@ -88,20 +89,49 @@ class _ManagerProjectReportDetailsScreenState extends State<ManagerProjectReport
             Text('Sunday, February 23, 2025',
                 style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(height: 8),
-            Column(
-              children: [
 
-              ],
+            // Display images
+            Row(
+              children: groupedFiles[0]['images'].map<Widget>((image) {
+                return GestureDetector(
+                  onTap: () => _showImagePreview(image),
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.asset(image, width: 80, height: 80, fit: BoxFit.cover),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+            SizedBox(height: 16.h),
+            // Display documents
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: documentFiles.map((doc) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(doc['date'], style: TextStyle(fontWeight: FontWeight.bold)),
+                    SizedBox(height: 8),
+                    ...doc['files'].map<Widget>((file) {
+                      return ListTile(
+                        leading: getFileIcon(file),
+                        title: Text(file),
+                        trailing:SvgPicture.asset(AppIcons.downloadIcon),
+                        onTap: () {},
+                      );
+                    }).toList(),
+                  ],
+                );
+              }).toList(),
             ),
 
+            SizedBox(height: 16),
             Divider(),
-            Row(
-              children: [
-                Expanded(child: CustomButton(onTap: () {}, text: 'Preview Report')),
-                SizedBox(width: 4.w),
-                Expanded(child: CustomButton(onTap: () {}, text: 'Add Note')),
-              ],
-            )
+            SizedBox(height: 16),
+            CustomButton(onTap: () {}, text: 'Accept')
           ],
         ),
       ),

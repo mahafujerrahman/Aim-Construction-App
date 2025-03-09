@@ -1,3 +1,4 @@
+import 'package:aim_construction_app/service/filePicker_service.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
 import 'package:aim_construction_app/utils/style.dart';
@@ -45,7 +46,6 @@ class _ManagerContactScreenState extends State<ManagerContactScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -71,31 +71,37 @@ class _ManagerContactScreenState extends State<ManagerContactScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Contract',style: AppStyles.fontSize20()),
+                    Text('Contract', style: AppStyles.fontSize20()),
                     SizedBox(height: 16.h),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         '${group['date']}',
-                        style: TextStyle(fontWeight: FontWeight.w600,color: AppColors.color323B4A),
+                        style: TextStyle(fontWeight: FontWeight.w600,
+                            color: AppColors.color323B4A),
                       ),
                     ),
                     ...List.generate(group['files'].length, (index) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(8.r),
-                            child: Row(
-                              children: [
-                                getFileIcon(group['files'][index]),
-                                SizedBox(width: 8.w),
-                                Text(group['files'][index]),
-                              ],
-                            ),
+                      return GestureDetector(
+                        onLongPress: () {
+                          _removeFile(group['files'][index]);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 4.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  getFileIcon(group['files'][index]),
+                                  SizedBox(width: 8.w),
+                                  Text(group['files'][index]),
+                                ],
+                              ),
+                              SvgPicture.asset(AppIcons.downloadIcon),
+                            ],
                           ),
-                          SvgPicture.asset(AppIcons.downloadIcon),
-                        ],
+                        ),
                       );
                     }),
                   ],
@@ -106,15 +112,16 @@ class _ManagerContactScreenState extends State<ManagerContactScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          _showTakePhotoDialog();
+        onPressed: () {
+          _showTakeFileDialog();
         },
         backgroundColor: AppColors.primaryColor,
         child: Icon(Icons.add),
       ),
     );
   }
-  void _showTakePhotoDialog() {
+
+  void _showTakeFileDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -126,30 +133,78 @@ class _ManagerContactScreenState extends State<ManagerContactScreen> {
             padding: EdgeInsets.all(20.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Select an Option",
+                  "Add a attachment",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20.h),
-                TextButton(
-                  onPressed: () {
-                    // Add functionality to take a photo using device camera
-                    // You can integrate camera plugin here
+                InkWell(
+                  onTap: () async {
                     Navigator.of(context).pop();
+                    String? fileName = await FilePickerService.pickFile();
+
+                    if (fileName != null) {
+                      setState(() {
+                        groupedFiles[0]['files'].add(fileName);
+                      });
+                    }
                   },
-                  child: Text("Take Photo"),
-                ),
-                SizedBox(height: 8.h),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("Cancel"),
+
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor,
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(AppIcons.documentsIcon, height: 20,color: Colors.white),
+                        SizedBox(width: 8),
+                        Text(
+                          "Select File",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+  // Function to remove a file with confirmation
+  void _removeFile(String fileName) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Remove File"),
+          content: Text("Are you sure you want to remove this file?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  groupedFiles[0]['files'].remove(fileName);
+                });
+                Navigator.pop(context);
+              },
+              child: Text("Yes", style: TextStyle(color: Colors.red)),
+            ),
+          ],
         );
       },
     );

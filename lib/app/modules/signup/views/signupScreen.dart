@@ -33,6 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   File? selectedImage;
   bool isChecked = false;
   bool isSupervisorSelected = false;
+
   final SignupController signupController = Get.put(SignupController());
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -64,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: SvgPicture.asset(AppIcons.profileIcon, color: AppColors.primaryColor),
                         ),
                         hintText: AppString.fullName.tr,
-                        controller: signupController.signUpFullNameCtrl),
+                        controller: signupController.signUpFirstNameCtrl),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -75,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: SvgPicture.asset(AppIcons.profileIcon, color: AppColors.primaryColor),
                         ),
                         hintText: 'Last Name',
-                        controller: signupController.signUpPassCtrl),
+                        controller: signupController.signUpLastNameCtrl),
                   ),
 
                   //==================== Email ==========================
@@ -118,25 +119,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: DropdownButtonHideUnderline(
                         child: Row(
                           children: [
-                            SvgPicture.asset(AppIcons.emailIcon,color: AppColors.primaryColor),
+                            SvgPicture.asset(AppIcons.emailIcon, color: AppColors.primaryColor),
                             SizedBox(width: 8.w),
                             Expanded(
                               child: Obx(() {
                                 return DropdownButton<String>(
-                                  value: signupController.selectedRole.isEmpty ? null : signupController.selectedRole.value,
+                                  value: signupController.selectedRole.value.isEmpty
+                                      ? null
+                                      : signupController.selectedRole.value,
                                   borderRadius: BorderRadius.circular(8.r),
                                   hint: Text(
-                                    signupController.selectedRole.isEmpty ? "Select Role" : signupController.selectedRole.value,
+                                    signupController.selectedRole.isEmpty
+                                        ? "Select Role"
+                                        : signupController.selectedRole.value,
                                     style: AppStyles.fontSize16(color: AppColors.blackColor),
                                   ),
                                   icon: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Icon(Icons.keyboard_arrow_down_rounded,color: AppColors.primaryColor),
+                                    child: Icon(
+                                      Icons.keyboard_arrow_down_rounded,
+                                      color: AppColors.primaryColor,
+                                    ),
                                   ),
                                   isExpanded: true,
                                   items: signupController.userRole.map((role) {
                                     return DropdownMenuItem<String>(
-                                      value: role,
+                                      value: role == 'Project Manager'
+                                          ? 'projectManager'
+                                          : 'projectSupervisor',
                                       child: Text(
                                         role,
                                         style: AppStyles.fontSize18(color: AppColors.blackColor),
@@ -145,14 +155,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   }).toList(),
                                   onChanged: (newRole) {
                                     signupController.selectedRole.value = newRole ?? '';
+                                    if (newRole == 'projectManager') {
+                                      signupController.selectedRole.value = 'projectManager';
+                                    } else if (newRole == 'projectSupervisor') {
+                                      signupController.selectedRole.value = 'projectSupervisor';
+                                    }
                                     setState(() {
-                                      isSupervisorSelected = newRole == "Project Supervisor";
+                                      isSupervisorSelected = newRole == "projectSupervisor";
                                     });
                                   },
                                 );
                               }),
                             ),
-
                           ],
                         ),
                       ),
@@ -204,7 +218,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   );
                                 }),
                               ),
-
                             ],
                           ),
                         ),
@@ -235,7 +248,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: SvgPicture.asset(AppIcons.lockIcon, color: AppColors.primaryColor),
                       ),
                       hintText: AppString.enterConfirmPasswordText.tr,
-                      controller: signupController.signUpConfrimPassCtrl,
+                      controller: signupController.signUpConfirmPassCtrl,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please enter Confirm password";
@@ -254,9 +267,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(height: 16.h),
                   CustomButton(
                     onTap: () {
-                      if (_formKey.currentState!.validate()) {
-
-                      }
+                      /*if (_formKey.currentState!.validate()) {
+                        signupController.signUpMethod();
+                      }*/
+                      signupController.signUpMethod();
                     },
                     text: AppString.signUpText.tr,
                   ),

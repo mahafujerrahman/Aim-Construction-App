@@ -39,4 +39,7 @@ class AppConstants {
     LanguageModel( languageName: 'عربى', countryCode: 'SA', languageCode: 'ar'),
     LanguageModel( languageName: 'Spanish', countryCode: 'ES', languageCode: 'es'),
   ];
+
+  static String fcmToken = "fcmToken";
+  static String isLogged = "IsLogged";
 }
