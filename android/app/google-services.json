@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "266329438760",
+    "project_id": "aim-construction-d864e",
+    "storage_bucket": "aim-construction-d864e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:266329438760:android:d944786db1a9e72a2f131d",
+        "android_client_info": {
+          "package_name": "com.example.aim_construction_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSen1-19i1c70mluQ3yZnmS1Px-Ualsbg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
