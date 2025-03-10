@@ -81,4 +81,8 @@ class SignupController extends GetxController {
     signUpPassCtrl.clear();
     userRole.clear();
   }
+
+
+  //===================================
+
 }

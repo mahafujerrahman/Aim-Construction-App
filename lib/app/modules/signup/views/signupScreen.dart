@@ -270,7 +270,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       /*if (_formKey.currentState!.validate()) {
                         signupController.signUpMethod();
                       }*/
-                      signupController.signUpMethod();
+                    //  signupController.signUpMethod();
+                      Get.toNamed(AppRoutes.VERIFY_EMAIL);
                     },
                     text: AppString.signUpText.tr,
                   ),
