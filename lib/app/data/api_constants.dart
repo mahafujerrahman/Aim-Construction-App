@@ -7,8 +7,8 @@ static const String baseUrl = "https://api.carrentpro.com/api/v1";
 
 
 //==========================================>> Local <<=================================
- static const String baseUrl = "https://ariful8080.sobhoy.com/api/v1";
-  static const String imageBaseUrl = "https://ariful8080.sobhoy.com";
+ static const String baseUrl = "https://aminula6731.sobhoy.com/api/v1/";
+  static const String imageBaseUrl = "https://aminula6731.sobhoy.com";
 
 /*  http://192.168.10.163:8081/api/v1
   http://192.168.10.163:8081/api/v1*/
@@ -18,7 +18,7 @@ static const String baseUrl = "https://api.carrentpro.com/api/v1";
 
 
   //============================ >> User Auth << =================================
-  static const String signUpEndPoint = "/users/user-signup";
+  static const String signUpEndPoint = "/auth/register";
 
 
 }

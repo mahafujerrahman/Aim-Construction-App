@@ -1,4 +1,5 @@
-import 'package:aim_construction_app/common/app_color/app_colors.dart';
+
+import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 

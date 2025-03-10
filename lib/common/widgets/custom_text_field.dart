@@ -1,5 +1,6 @@
-import 'package:aim_construction_app/common/app_color/app_colors.dart';
-import 'package:aim_construction_app/common/app_constant/app_constant.dart';
+
+import 'package:aim_construction_app/utils/app_colors.dart';
+import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -95,9 +96,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
       style: TextStyle(color: AppColors.textColor, fontSize: 16.sp),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
-            horizontal: widget.contentPaddingHorizontal ?? 20.w,
-            vertical: widget.contentPaddingVertical ?? 20.w),
-        fillColor: widget.filColor,
+            horizontal: widget.contentPaddingHorizontal ?? 16.w,
+            vertical: widget.contentPaddingVertical ?? 16.w),
+        fillColor: AppColors.white,
         prefixIcon: widget.prefixIcon,
         suffixIcon: widget.isPassword
             ? GestureDetector(
@@ -111,11 +112,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
         hintText: widget.hintText,
         labelStyle: widget.labelTextStyle,
           enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: AppColors.primaryColor),
+      borderSide: BorderSide(color: AppColors.color323B4A),
       borderRadius: BorderRadius.circular(8.r),
     ),
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: AppColors.primaryColor),
+      borderSide: BorderSide(color: AppColors.color323B4A),
     borderRadius: BorderRadius.circular(8.r),
     ),
       ),

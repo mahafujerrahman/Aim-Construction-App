@@ -1,10 +1,11 @@
+import 'package:aim_construction_app/app/modules/bottom_menu/supervisor_bottom_menu..dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
-import 'package:aim_construction_app/common/app_color/app_colors.dart';
-import 'package:aim_construction_app/common/app_icons/app_icons.dart';
-import 'package:aim_construction_app/common/app_string/app_string.dart';
-import 'package:aim_construction_app/common/app_text_style/style.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
+import 'package:aim_construction_app/utils/app_colors.dart';
+import 'package:aim_construction_app/utils/app_icons.dart';
+import 'package:aim_construction_app/utils/app_string.dart';
+import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';

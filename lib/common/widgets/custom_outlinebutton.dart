@@ -1,5 +1,6 @@
-import 'package:aim_construction_app/common/app_color/app_colors.dart';
-import 'package:aim_construction_app/common/app_text_style/style.dart';
+
+import 'package:aim_construction_app/utils/app_colors.dart';
+import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

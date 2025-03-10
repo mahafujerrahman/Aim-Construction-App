@@ -1,11 +1,10 @@
-import 'package:aim_construction_app/app/routes/app_pages.dart';
-import 'package:aim_construction_app/common/app_icons/app_icons.dart';
-import 'package:aim_construction_app/common/app_images/app_images.dart';
-import 'package:aim_construction_app/common/app_text_style/style.dart';
+import 'package:aim_construction_app/utils/app_icons.dart';
+import 'package:aim_construction_app/utils/app_images.dart';
+import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+
 
 
 class CustomAppBarTitle extends StatelessWidget implements PreferredSizeWidget {
@@ -29,7 +28,7 @@ class CustomAppBarTitle extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: backgroundColor ?? Colors.white,
-      title:isShowText? Text(text!,style: AppStyles.fontSize20(),):Image.asset(AppImage.appLogoImg, height: 35.h),
+      title:isShowText? Text(text!,style: AppStyles.fontSize20(),):Image.asset(AppImage.appLogo, height: 35.h),
       centerTitle: true,
       actions: [
         Padding(
@@ -41,10 +40,7 @@ class CustomAppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                 onTap:  () {
                  // Get.toNamed(Routes.MESSAGE);
                 },
-                child: SvgPicture.asset(
-                  AppIcons.bubbleChatIcon,
-                  height: 40.h,
-                ),
+                child: SvgPicture.asset(AppIcons.massageIcon, height: 40.h),
               ),
               if(isShowChat && notificationCount != null && notificationCount!.isNotEmpty)
                 Positioned(

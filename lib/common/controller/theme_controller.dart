@@ -1,4 +1,5 @@
-import 'package:aim_construction_app/common/app_constant/app_constant.dart';
+
+import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';

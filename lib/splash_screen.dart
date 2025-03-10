@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
-import 'package:aim_construction_app/common/app_color/app_colors.dart';
+import 'package:aim_construction_app/utils/app_colors.dart';
+import 'package:aim_construction_app/utils/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -41,13 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(24.r)),
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(24.r),
-                    child: Image.network(
-                      'https://img.freepik.com/free-photo/construction-site-silhouettes_1127-3253.jpg?uid=R185017981&ga=GA1.1.2010102622.1725357692&semt=ais_hybrid',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  child:   Image.asset(AppImage.appLogo, width: 357.w, height: 357.h),
                 ),
                 SizedBox(height: 20.h),
                 // Text sections

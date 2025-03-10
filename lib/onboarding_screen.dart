@@ -1,7 +1,7 @@
 import 'package:aim_construction_app/app/routes/app_pages.dart';
-import 'package:aim_construction_app/common/app_color/app_colors.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
+import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -46,12 +46,18 @@ class OnboardingScreen extends StatelessWidget {
             SizedBox(height: 145.h),
             Image.asset('assets/image/onboarding.png', width: 357.w, height: 357.h),
             //=============================> GET STARTED Button <========================
-            SizedBox(height: 135.h),
+            SizedBox(height: 120.h),
             CustomButton(
                 onTap: () {
                     Get.toNamed(AppRoutes.SIGN_IN);
                 },
                 text: 'GET STARTED'),
+            SizedBox(height: 4.h),
+            CustomButton(
+                onTap: () {
+                  Get.toNamed(AppRoutes.managerHomeScreen);
+                },
+                text: 'Manager'),
           ],
         ),
       ),

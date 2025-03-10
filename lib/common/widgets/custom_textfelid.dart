@@ -1,9 +1,7 @@
+import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
-import '../app_color/app_colors.dart';
-import '../app_text_style/styles.dart';
 
 class CustomSimpleTextField extends StatelessWidget {
   final double? horizontalPadding;

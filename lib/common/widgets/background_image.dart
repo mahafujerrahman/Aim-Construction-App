@@ -1,4 +1,4 @@
-import 'package:aim_construction_app/common/app_images/app_images.dart';
+import 'package:aim_construction_app/utils/app_images.dart';
 import 'package:flutter/material.dart';
 
 
@@ -15,7 +15,7 @@ class _BackgroundImageState extends State<BackgroundImage> {
 bool _isImageLoaded=false;
 
   Future<void> _preloadImage() async {
-    await precacheImage(AssetImage( AppImage.backgroundImg), context);
+    await precacheImage(AssetImage( AppImage.appLogo), context);
     setState(() {
       _isImageLoaded = true;
     });
@@ -37,7 +37,7 @@ bool _isImageLoaded=false;
       children: [
         Positioned.fill(
           child: Image.asset(
-            AppImage.backgroundImg,
+            AppImage.appLogo,
             fit: BoxFit.fill,
           ),
         ),
