@@ -2,6 +2,7 @@ import 'package:aim_construction_app/app/modules/forgetPassword/bindings/forget_
 import 'package:aim_construction_app/app/modules/forgetPassword/views/forget_password_view.dart';
 import 'package:aim_construction_app/app/modules/resetPassword/bindings/reset_password_binding.dart';
 import 'package:aim_construction_app/app/modules/resetPassword/views/reset_password_view.dart';
+import 'package:aim_construction_app/app/modules/role/manager/home/createProject/projectCreateScreen.dart';
 import 'package:aim_construction_app/app/modules/role/manager/home/managerContarctScreen.dart';
 import 'package:aim_construction_app/app/modules/role/manager/home/managerDailyLogs/managerDailyLogNoteDetailsScreen.dart';
 import 'package:aim_construction_app/app/modules/role/manager/home/managerDailyLogs/managerDailyLogScreen.dart';
@@ -100,6 +101,7 @@ class AppPages {
     GetPage(name: _Paths.managerContactScreen, page: () =>  ManagerContactScreen(),transition: Transition.noTransition),
     GetPage(name: _Paths.managerDailyLogScreen, page: () =>  ManagerDailyLogScreen(),transition: Transition.noTransition),
     GetPage(name: _Paths.projectReportDetailsScreen, page: () =>  ManagerProjectReportDetailsScreen(),transition: Transition.noTransition),
+    GetPage(name: _Paths.projectCreateScreen, page: () =>  ProjectCreateScreen(),transition: Transition.noTransition),
 
   ];
 }

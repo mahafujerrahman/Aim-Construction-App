@@ -91,19 +91,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         hintText: 'Enter Email Address',
                         controller: signupController.signUpEmailCtrl),
                   ),
-/*
-                  //==================== Company Name ====================
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: CustomTextField(
-                        filColor: AppColors.fillUpColor,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SvgPicture.asset(AppIcons.companyIcon, color: AppColors.primaryColor),
-                        ),
-                        hintText: 'Enter Company Name',
-                        controller: signupController.signUpCompanyCtrl),
-                  ),*/
 
                   //==================== Role Selection ====================
                   Padding(

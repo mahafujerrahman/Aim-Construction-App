@@ -65,7 +65,9 @@ TextEditingController textEditingController = TextEditingController();
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: (){
+          Get.toNamed(AppRoutes.projectCreateScreen);
+        },
         backgroundColor: AppColors.primaryColor,
         child: Icon(Icons.add),
       ),
