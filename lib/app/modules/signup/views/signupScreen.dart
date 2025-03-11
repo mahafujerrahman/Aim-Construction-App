@@ -39,6 +39,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    signupController.getAllManager();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -174,27 +180,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: DropdownButtonHideUnderline(
                           child: Row(
                             children: [
-                              SvgPicture.asset(AppIcons.emailIcon,color: AppColors.primaryColor),
+                              SvgPicture.asset(AppIcons.emailIcon, color: AppColors.primaryColor),
                               SizedBox(width: 8.w),
                               Expanded(
                                 child: Obx(() {
                                   return DropdownButton<String>(
-                                    value: signupController.selectedManagerRole.isEmpty ? null : signupController.selectedManagerRole.value,
+                                    value: signupController.selectedManagerRole.isEmpty
+                                        ? null
+                                        : signupController.selectedManagerRole.value,
                                     borderRadius: BorderRadius.circular(8.r),
                                     hint: Text(
-                                      signupController.selectedManagerRole.isEmpty ? "Select Manager" : signupController.selectedManagerRole.value,
+                                      signupController.selectedManagerRole.isEmpty
+                                          ? "Select Manager"
+                                          : signupController.selectedManagerRole.value,
                                       style: AppStyles.fontSize16(color: AppColors.blackColor),
                                     ),
                                     icon: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Icon(Icons.keyboard_arrow_down_rounded,color: AppColors.primaryColor),
+                                      child: Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: AppColors.primaryColor,
+                                      ),
                                     ),
                                     isExpanded: true,
-                                    items: signupController.managerRole.map((role) {
+                                    items: signupController.getAllManagerModel.map((manager) {
                                       return DropdownMenuItem<String>(
-                                        value: role,
+                                        value: manager.userId,
                                         child: Text(
-                                          role,
+                                          '${manager.fname} ${manager.lname}',
                                           style: AppStyles.fontSize18(color: AppColors.blackColor),
                                         ),
                                       );
@@ -210,7 +223,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                     ),
-
                   //==================== Password & Confirm Password ====================
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -254,11 +266,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(height: 16.h),
                   CustomButton(
                     onTap: () {
-                      /*if (_formKey.currentState!.validate()) {
-                        signupController.signUpMethod();
-                      }*/
-                    //  signupController.signUpMethod();
-                      Get.toNamed(AppRoutes.VERIFY_EMAIL);
+                      signupController.signUpMethod();
                     },
                     text: AppString.signUpText.tr,
                   ),
