@@ -42,7 +42,7 @@ class _SuccessfullScreenState extends State<SuccessfullScreen> {
               alignment: Alignment.bottomCenter,
               child: CustomButton(
                 onTap: () {
-                  Get.toNamed(AppRoutes.resetPasswordScreen);
+                  Get.toNamed(AppRoutes.SIGN_IN);
                 },
                 text: 'Login'
               ),

@@ -265,8 +265,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   //==================== Sign Up Button ====================
                   SizedBox(height: 16.h),
                   CustomButton(
+                    loading: signupController.signUpLoading.value,
                     onTap: () {
-                      signupController.signUpMethod();
+                      if (_formKey.currentState!.validate()) {
+                        if (isChecked) {
+                          signupController.signUpMethod();
+                        } else {
+                          Get.snackbar(
+                            "Error in Checkbox",
+                            "Must agree to terms and conditions",
+                          );
+                        }
+                      }
                     },
                     text: AppString.signUpText.tr,
                   ),

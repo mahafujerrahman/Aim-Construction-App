@@ -52,6 +52,7 @@ class SignupController extends GetxController {
     );
 
     if(response.statusCode==200 || response.statusCode==201){
+      PrefsHelper.setString(AppConstants.verificationToken, response.body['data']['attributes']['verificationToken']);
       print('Hera is your fcmToken : $fcmToken');
       Get.toNamed(AppRoutes.VERIFY_EMAIL, parameters: {
         "email": signUpEmailCtrl.text.trim(),
@@ -62,13 +63,9 @@ class SignupController extends GetxController {
       signUpLoading(false);
       update();
     }
-    if(response.statusCode==409){
-      Get.snackbar('Error', 'Email Already in Use');
-      signUpLoading(false);
-      update();
-    }
     else{
       ApiChecker.checkApi(response);
+      Get.snackbar('Error', response.body['message']);
       signUpLoading(false);
       update();
     }
@@ -79,7 +76,8 @@ class SignupController extends GetxController {
     signUpLastNameCtrl.clear();
     signUpEmailCtrl.clear();
     signUpPassCtrl.clear();
-    userRole.clear();
+    signUpConfirmPassCtrl.clear();
+    selectedRole.value = "";
   }
 
 
