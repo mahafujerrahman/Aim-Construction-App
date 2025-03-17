@@ -1,4 +1,4 @@
-import 'package:aim_construction_app/app/routes/app_pages.dart';
+import 'package:aim_construction_app/app/modules/verifyEmail/controllers/verify_email_controller.dart';
 import 'package:aim_construction_app/base/pin_code_text_field.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
@@ -18,6 +18,15 @@ class VerifyCodeScreen extends StatefulWidget {
 }
 
 class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
+  final VerifyEmailController verifyEmailController = Get.put(VerifyEmailController());
+  late final String? email;
+
+  @override
+  void initState() {
+    super.initState();
+    email = Get.parameters['email'];
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -42,7 +51,9 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
               textAlign: TextAlign.justify,
             ),
             SizedBox(height: 30.h),
-            CustomPinCodeTextField(),
+            CustomPinCodeTextField(
+              textEditingController: verifyEmailController.verifyCodeCtrl,
+            ),
             SizedBox(height: 16.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,11 +76,15 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
             ),
             SizedBox(height: 100.h),
             CustomButton(
+              loading: verifyEmailController.verifyOTPLoading.value,
               onTap: () {
-               Get.toNamed(AppRoutes.successfullScreen);
+                verifyEmailController.verifyCode(
+                email: email ?? "",
+                otp: verifyEmailController.verifyCodeCtrl.text);
               },
               text: AppString.verifyEmail.tr,
             ),
+
             SizedBox(height: 30.h),
           ],
         ),

@@ -7,6 +7,8 @@ import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../model/all_manager_model.dart';
+
 class SignupController extends GetxController {
 
   ///<=============================== Sign Up Method ===========================>
@@ -22,7 +24,6 @@ class SignupController extends GetxController {
   List<String> userRole = ['Project Manager','Project Supervisor'];
   RxString selectedRole = ''.obs;
 
-  List<String> managerRole = ['Project Manager 1','Project Manager 2'];
   RxString selectedManagerRole = ''.obs;
   var signUpLoading = false.obs;
 
@@ -36,10 +37,9 @@ class SignupController extends GetxController {
       "password": signUpPassCtrl.text,
       "email": signUpEmailCtrl.text.trim(),
       "role": selectedRole.value,
+      "superVisorsManagerId": selectedManagerRole.value,
 
       "fcmToken": fcmToken,
-     // if (role.value == 'driver') 'agencyId': agencyId.value,
-    //  if (role.value == 'agency') 'city': signUpCityCtrl.text.trim(),
     };
 
     Map<String, String> headers = {
@@ -52,6 +52,7 @@ class SignupController extends GetxController {
     );
 
     if(response.statusCode==200 || response.statusCode==201){
+      PrefsHelper.setString(AppConstants.verificationToken, response.body['data']['attributes']['verificationToken']);
       print('Hera is your fcmToken : $fcmToken');
       Get.toNamed(AppRoutes.VERIFY_EMAIL, parameters: {
         "email": signUpEmailCtrl.text.trim(),
@@ -62,13 +63,9 @@ class SignupController extends GetxController {
       signUpLoading(false);
       update();
     }
-    if(response.statusCode==409){
-      Get.snackbar('Error', 'Email Already in Use');
-      signUpLoading(false);
-      update();
-    }
     else{
       ApiChecker.checkApi(response);
+      Get.snackbar('Error', response.body['message']);
       signUpLoading(false);
       update();
     }
@@ -79,10 +76,29 @@ class SignupController extends GetxController {
     signUpLastNameCtrl.clear();
     signUpEmailCtrl.clear();
     signUpPassCtrl.clear();
-    userRole.clear();
+    signUpConfirmPassCtrl.clear();
+    selectedRole.value = "";
   }
 
 
-  //===================================
 
+  //=========================>> Get All Manager  <<============================
+
+  RxList<GetAllManagerModel> getAllManagerModel = <GetAllManagerModel>[].obs;
+  var loading = false.obs;
+
+  getAllManager() async {
+    loading(true);
+    var response = await ApiClient.getData("${ApiConstants.getAllManagerEndPoint}");
+    if (response.statusCode == 200) {
+      getAllManagerModel.value = List.from(response.body['data']['attributes'].map((x) => GetAllManagerModel.fromJson(x)));
+      loading(false);
+      update();
+    }
+    else {
+      ApiChecker.checkApi(response);
+      loading(false);
+      update();
+    }
+  }
 }
