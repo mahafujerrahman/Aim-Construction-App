@@ -39,4 +39,8 @@ class AppConstants {
 
   static String fcmToken = "fcmToken";
   static String isLogged = "IsLogged";
+
+  static String role = "Role";
+
 }
+enum Role {projectManager, projectSupervisor}
