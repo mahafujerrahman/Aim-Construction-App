@@ -13,6 +13,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../../../common/prefs_helper/prefs_helpers.dart' show PrefsHelper;
+import '../../../../../utils/app_constant.dart' show AppConstants;
+
 
 class ManagerMoreScreen extends StatefulWidget {
   const ManagerMoreScreen({super.key});
@@ -167,7 +170,7 @@ class _ManagerMoreScreenState extends State<ManagerMoreScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity, 58),
-                        backgroundColor:  AppColors.fillColor,
+                        backgroundColor:  AppColors.orange,
                         side: BorderSide(
                             width: 1,
                             color: AppColors.redColor),
@@ -183,8 +186,12 @@ class _ManagerMoreScreenState extends State<ManagerMoreScreen> {
                   SizedBox(width: 16.w),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {
-                        Get.toNamed(AppRoutes.onboardingScreen);
+                      onPressed: () async {
+                        await PrefsHelper.remove(AppConstants.isLogged);
+                        await PrefsHelper.remove(AppConstants.bearerToken);
+                        await PrefsHelper.remove(AppConstants.role);
+                        //await PrefsHelper.remove(AppConstants.fcmToken);
+                        Get.offAllNamed(AppRoutes.SIGN_IN);
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity, 58),

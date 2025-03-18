@@ -82,7 +82,7 @@ class _SignInScreenState extends State<SignInScreen> {
               /// Sing In Button
               CustomButton(
                 onTap: () {
-                  Get.toNamed(AppRoutes.ROLE_SUPERVISOR_HOME_SCREEN);
+                  signInController.signInMethod();
                 },
                 text: AppString.signInText.tr,
               ),

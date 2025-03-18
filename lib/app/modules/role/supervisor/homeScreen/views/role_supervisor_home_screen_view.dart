@@ -17,7 +17,7 @@ class SupervisorHomeScreenView extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: SupervisorBottomMenu(0),
       appBar: AppBar(
-        title: const Text('Project'),
+        title: const Text('Supervisor Project'),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),

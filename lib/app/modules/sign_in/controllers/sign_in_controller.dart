@@ -41,28 +41,22 @@ class SignInController extends GetxController {
 
       print("============> Response Body: ${response.body}, Status Code: ${response.statusCode}");
       if (response.statusCode == 200 || response.statusCode == 201) {
-        PrefsHelper.setString(AppConstants.bearerToken, response.body['data']['token']);
+        print("===================> fccc --- $fcmToken");
+        PrefsHelper.setString(AppConstants.fcmToken, response.body['data']['fcmToken']);
+        var userRole = response.body['data']['attributes']['userWithoutPassword']['role'].toString();
+        //await PrefsHelper.setString(AppConstants.role, userRole);
 
-        String userRole = response.body['data']['attributes']['userWithoutPassword']['role'];
-        String userID = response.body['data']['attributes']['_id'];
-        await PrefsHelper.setString(AppConstants.role, userRole);
-
-        await PrefsHelper.setString(AppConstants.userId, userID);
 
 
         await PrefsHelper.setBool(AppConstants.isLogged, true);
         print('===================>> User Role: $userRole');
-        print('===================>> User IDddddddddddddddddddd: $userID');
-        //
-        // final socketService = Get.find<UniversalSocketService>();
-        // await socketService.reinitializeSocket();
 
         if (userRole == Role.projectManager.name) {
           Get.offAllNamed(AppRoutes.managerHomeScreen);
-          Get.snackbar('Successfully', 'Logged in as User');
+          Get.snackbar('Successfully', 'Logged in as Manager');
         } else if (userRole == Role.projectSupervisor.name) {
           Get.offAllNamed(AppRoutes.ROLE_SUPERVISOR_HOME_SCREEN);
-          Get.snackbar('Successfully', 'Logged in as Driver');
+          Get.snackbar('Successfully', 'Logged in as Supervisor');
         }
       }
       if ( response.statusCode == 401) {
@@ -73,7 +67,7 @@ class SignInController extends GetxController {
       }
       else {
         ApiChecker.checkApi(response);
-        print("=============================> Server Down");
+        Get.snackbar('Error', response.body['message']);
       }
     } catch (e) {
       signInLoading(false);

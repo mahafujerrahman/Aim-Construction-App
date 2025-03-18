@@ -3,6 +3,7 @@ import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:aim_construction_app/common/widgets/custom_listTile.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
+import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
 import 'package:aim_construction_app/utils/app_string.dart';
 import 'package:aim_construction_app/utils/style.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import '../../../../../../common/prefs_helper/prefs_helpers.dart' show PrefsHelper;
 import '../controllers/role_supervisor_more_controller.dart';
 
 class SupervisorMoreView extends GetView<RoleSupervisorMoreController> {
@@ -149,10 +151,10 @@ class SupervisorMoreView extends GetView<RoleSupervisorMoreController> {
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity, 58),
-                        backgroundColor:  AppColors.fillColor,
-                        side: BorderSide(
+                        backgroundColor:  AppColors.orange,
+                     /*   side: BorderSide(
                             width: 1,
-                            color: AppColors.redColor),
+                            color: AppColors.redColor),*/
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
                         ),
@@ -165,8 +167,12 @@ class SupervisorMoreView extends GetView<RoleSupervisorMoreController> {
                   SizedBox(width: 16.w),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {
-                        Get.toNamed(AppRoutes.onboardingScreen);
+                      onPressed: () async {
+                        await PrefsHelper.remove(AppConstants.isLogged);
+                        await PrefsHelper.remove(AppConstants.bearerToken);
+                        await PrefsHelper.remove(AppConstants.role);
+                        //await PrefsHelper.remove(AppConstants.fcmToken);
+                        Get.offAllNamed(AppRoutes.SIGN_IN);
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity, 58),
