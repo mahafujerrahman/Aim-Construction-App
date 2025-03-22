@@ -80,7 +80,7 @@ class AppPages {
     GetPage(name: _Paths.ROLE_SUPERVISOR_HOME_SCREEN, page: () =>  SupervisorHomeScreenView(),binding: RoleSupervisorHomeScreenBinding(),transition: Transition.noTransition),
     GetPage(name: _Paths.ROLE_SUPERVISOR_MORE, page: () =>  SupervisorMoreView(),binding: RoleSupervisorMoreBinding(),transition: Transition.noTransition),
     GetPage(name: _Paths.ROLE_SUPERVISOR_PROJECT_TOOL, page: () =>  RoleSupervisorProjectToolView(),binding: RoleSupervisorProjectToolBinding()),
-    GetPage(name: _Paths.ROLE_SUPERVISOR_PERSONAL_INFORMATION_SCREEN, page: () =>  PersonalInformationScreen(),binding: RoleSupervisorPersonalInformationScreenBinding()),
+    GetPage(name: _Paths.personalInformationScreen, page: () =>  PersonalInformationScreen(),binding: RoleSupervisorPersonalInformationScreenBinding()),
     GetPage(name: _Paths.ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION, page: () =>  EditPersonalInformationScreen(),binding: RoleSupervisorEditPersonalInformationBinding()),
     GetPage(name: _Paths.ROLE_SUPERVISOR_ACTIVITY_SCREEN, page: () =>  RoleSupervisorActivityScreenView(),binding: RoleSupervisorActivityScreenBinding(),transition: Transition.noTransition),
     GetPage(name: _Paths.ROLE_SUPERVISOR_DAILY_LOG, page: () =>  RoleSupervisorDailyLogView(),binding: RoleSupervisorDailyLogBinding(),transition: Transition.noTransition),

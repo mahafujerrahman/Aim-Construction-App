@@ -22,6 +22,7 @@ static const String baseUrl = "https://api.carrentpro.com/api/v1";
   static const String signInEndPoint = "/auth/login";
   static const String getAllManagerEndPoint = "/user/getAllManager";
   static const String verifyCodeEndPoint = "/auth/verify-email";
+  static const String userprofileDetailsEndPoint = "/user";
 
 
 }

@@ -8,14 +8,13 @@ class AppConstants {
   static const token = 'token';
   static const company = 'company';
   static const tempId = 'tempId';
-  static const userId = 'userId';
+
   static const resetPasswordToken = 'resetPasswordToken';
 
 
 
-  static String APP_NAME="Golf Game";
+  static String APP_NAME="Aim Construction";
   static String bearerToken="bearerToken";
-  static String userID="userID";
   static String verificationToken="verificationToken";
 
 
@@ -39,8 +38,10 @@ class AppConstants {
 
   static String fcmToken = "fcmToken";
   static String isLogged = "IsLogged";
+  static String userId = 'userId';
 
   static String role = "Role";
+  static String lname = "lname";
 
 }
 enum Role {projectManager, projectSupervisor}

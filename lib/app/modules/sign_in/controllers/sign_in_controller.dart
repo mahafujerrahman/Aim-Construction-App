@@ -41,32 +41,43 @@ class SignInController extends GetxController {
 
       print("============> Response Body: ${response.body}, Status Code: ${response.statusCode}");
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print("===================> fccc --- $fcmToken");
+
         PrefsHelper.setString(AppConstants.fcmToken, response.body['data']['fcmToken']);
+        PrefsHelper.setString(AppConstants.bearerToken, response.body['data']['attributes']['tokens']['accessToken']);
+        print('===================>> Check error');
         var userRole = response.body['data']['attributes']['userWithoutPassword']['role'].toString();
-        //await PrefsHelper.setString(AppConstants.role, userRole);
+        var userID = response.body['data']['attributes']['userWithoutPassword']['id'];
+
+       if(userRole.isNotEmpty){
+         await PrefsHelper.setString(AppConstants.role, userRole);
+       }
+        if(userID !=  null){
+          await PrefsHelper.setString(AppConstants.userId, userID);
+        }
+       // await PrefsHelper.setBool(AppConstants.isLogged, true);
+
+       String userId = await PrefsHelper.getString(AppConstants.userId);
+       String b = await PrefsHelper.getString(AppConstants.bearerToken);
 
 
-
-        await PrefsHelper.setBool(AppConstants.isLogged, true);
         print('===================>> User Role: $userRole');
+        print('===================>> UserId: $userId');
+
+
+
 
         if (userRole == Role.projectManager.name) {
           Get.offAllNamed(AppRoutes.managerHomeScreen);
-          Get.snackbar('Successfully', 'Logged in as Manager');
+          Get.snackbar('Successfully', response.body['message']);
         } else if (userRole == Role.projectSupervisor.name) {
           Get.offAllNamed(AppRoutes.ROLE_SUPERVISOR_HOME_SCREEN);
-          Get.snackbar('Successfully', 'Logged in as Supervisor');
+          Get.snackbar('Successfully', response.body['message']);
         }
       }
       if ( response.statusCode == 401) {
         Get.snackbar('Error', response.body['message']);
       }
       if (response.statusCode == 404) {
-        Get.snackbar('Error', response.body['message']);
-      }
-      else {
-        ApiChecker.checkApi(response);
         Get.snackbar('Error', response.body['message']);
       }
     } catch (e) {

@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
+import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
+import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:aim_construction_app/utils/app_images.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     });
     super.initState();
     StreamSubscription;
-    //  getConnectivity();
+     getConnectivity();
   }
   @override
   Widget build(BuildContext context) {
@@ -63,5 +67,45 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
+  }
+
+  ///===================internet connection checker==================>
+  StreamSubscription? streamSubscription;
+  bool isConnection = false;
+
+  ///========================is internet connection check========================>
+  void getConnectivity() async {
+    streamSubscription = Connectivity().onConnectivityChanged.listen((event) async {
+      isConnection = await InternetConnectionChecker.instance.hasConnection;
+
+      ///==================if internet is available===================>
+      if (isConnection) {
+        print("------------------Internet available");
+        Timer(const Duration(seconds: 4), () async {
+          bool? isLogged = await PrefsHelper.getBool(AppConstants.isLogged);
+          var role = await PrefsHelper.getString(AppConstants.role);
+          //String token = await PrefsHelper.getString(AppConstants.bearerToken);
+
+          ///========================Check islogged in, token, and role then decide where will be navigate====================>
+
+          if (isLogged) {
+              if (role == Role.projectManager.name) {
+                Get.offAllNamed(AppRoutes.managerHomeScreen);
+              }
+              if (role == Role.projectSupervisor.name) {
+                Get.offAllNamed(AppRoutes.ROLE_SUPERVISOR_HOME_SCREEN);
+              }
+          } else {
+            Get.offAllNamed(AppRoutes.onboardingScreen);
+          }
+        });
+      }
+
+      ///======================no internet=========================>
+      else {
+        Get.snackbar("No Internet", 'Connect you device with internet');
+        print("----------------------No internet");
+      }
+    });
   }
 }

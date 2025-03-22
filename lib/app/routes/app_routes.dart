@@ -13,7 +13,7 @@ abstract class AppRoutes {
   static const ROLE_SUPERVISOR_HOME_SCREEN = _Paths.ROLE_SUPERVISOR_HOME_SCREEN;
   static const ROLE_SUPERVISOR_MORE = _Paths.ROLE_SUPERVISOR_MORE;
   static const ROLE_SUPERVISOR_PROJECT_TOOL = _Paths.ROLE_SUPERVISOR_PROJECT_TOOL;
-  static const ROLE_SUPERVISOR_PERSONAL_INFORMATION_SCREEN = _Paths.ROLE_SUPERVISOR_PERSONAL_INFORMATION_SCREEN;
+  static const personalInformationScreen = _Paths.personalInformationScreen;
   static const ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION = _Paths.ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION;
   static const settingScreen = _Paths.settingScreen;
   static const changePasswordScreen = _Paths.changePasswordScreen;
@@ -63,7 +63,7 @@ abstract class _Paths {
   static const ROLE_SUPERVISOR_HOME_SCREEN = '/home-screen';
   static const ROLE_SUPERVISOR_MORE = '/more';
   static const ROLE_SUPERVISOR_PROJECT_TOOL = '/project-tool';
-  static const ROLE_SUPERVISOR_PERSONAL_INFORMATION_SCREEN = '/personal-information-screen';
+  static const personalInformationScreen = '/personal-information-screen';
   static const ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION = '/edit-personal-information';
 
   static const ROLE_SUPERVISOR_ACTIVITY_SCREEN = '/activity-screen';
