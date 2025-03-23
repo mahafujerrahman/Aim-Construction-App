@@ -1,3 +1,4 @@
+import 'package:aim_construction_app/app/data/api_constants.dart';
 import 'package:aim_construction_app/app/modules/bottom_menu/supervisor_bottom_menu..dart';
 import 'package:aim_construction_app/app/modules/role/manager/more/controller/profile_more_controller.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
@@ -9,6 +10,7 @@ import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
 import 'package:aim_construction_app/utils/app_string.dart';
 import 'package:aim_construction_app/utils/style.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -73,15 +75,17 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: 80,
+                              padding:  EdgeInsets.all(8.r),
+                              child:  Container(
+                                width: 80.w,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderRadius: BorderRadius.all(Radius.circular(8.r)),
                                 ),
-                                child: Image.network(
-                                  'http://www.clker.com/cliparts/Z/J/g/U/V/b/avatar-male-silhouette-md.png',
+                                child: CachedNetworkImage(
+                                  imageUrl: "${ApiConstants.imageBaseUrl}${profileData.profileImage?.imageUrl ?? ''}",
                                   fit: BoxFit.cover,
+                                  errorWidget: (context, url, error) => Image.network('http://www.clker.com/cliparts/Z/J/g/U/V/b/avatar-male-silhouette-md.png',
+                                      fit: BoxFit.cover),
                                 ),
                               ),
                             ),

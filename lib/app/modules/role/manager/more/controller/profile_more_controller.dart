@@ -1,4 +1,5 @@
 import 'package:aim_construction_app/app/data/api_constants.dart';
+import 'package:aim_construction_app/app/modules/role/manager/more/model/getAllSupervisorbyManagerModel.dart';
 import 'package:aim_construction_app/app/modules/role/manager/more/model/useProfileDetailsModel.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
 import 'package:aim_construction_app/service/api_checker.dart';
@@ -36,6 +37,24 @@ class ProfileMoreController extends GetxController {
       update();
     }
 
+  }
+
+  //=========================>> All Supervisor by Manger  <<============================
+
+  RxList<GetAllSupervisorByManagerModel> getAllSupervisorByManagerModel = <GetAllSupervisorByManagerModel>[].obs;
+
+  getAllSupervisorByManger() async {
+    isLoading (true);
+    var response = await ApiClient.getData("${ApiConstants.getAllSupervisorByManagerEndPoint}");
+    if (response.statusCode == 200) {
+      getAllSupervisorByManagerModel.value = List<GetAllSupervisorByManagerModel>.from(response.body['data']['attributes'].map((x) => GetAllSupervisorByManagerModel.fromJson(x)));
+      isLoading (false);
+      update();
+    } else {
+      ApiChecker.checkApi(response);
+      update();
+      isLoading (false);
+    }
   }
 
 }

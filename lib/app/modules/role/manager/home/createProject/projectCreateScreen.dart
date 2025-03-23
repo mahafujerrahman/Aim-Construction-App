@@ -1,11 +1,15 @@
+import 'dart:io';
+import 'package:aim_construction_app/app/controller/project_controller.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/style.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 class ProjectCreateScreen extends StatefulWidget {
   @override
@@ -13,82 +17,125 @@ class ProjectCreateScreen extends StatefulWidget {
 }
 
 class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController projectNameController = TextEditingController();
-  List<String> userRole = ['Default template'];
-  RxString selectedRole = ''.obs;
+
+  ProjectController projectController = Get.put(ProjectController());
+  Uint8List? _profileImage;
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create New Project',style: AppStyles.fontSize18()),
+        title: Text('Create New Project', style: AppStyles.fontSize18()),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
             children: [
-              Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/image/work1.jpg'),
-                    fit: BoxFit.cover,
-                  ),
+              Center(
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    _profileImage != null
+                        ? Padding(
+                      padding: EdgeInsets.all(8.r),
+                      child: Container(
+                        height: 200.h,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            width: 1.w,
+                            color: AppColors.white,
+                          ),
+                          image: DecorationImage(
+                            image: MemoryImage(_profileImage!),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    )
+                        : Container(
+                      height: 200.h,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/image/work1.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 30,
+                      right: 180,
+                      child: GestureDetector(
+                        onTap: () {
+                          showImagePickerOption(context);
+                        },
+                        child: Icon(
+                          Icons.image_outlined,
+                          size: 25,
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 20),
-             CustomTextField(
-               controller: projectNameController,
-               hintText: 'Project Name',
-             ),
-              SizedBox(height: 16),
-              CustomTextField(
-                controller: projectNameController,
-                hintText: 'Street Address',
-              ),
-              SizedBox(height: 16),
-              CustomTextField(
-                controller: projectNameController,
-                hintText: 'City',
-              ),
-              SizedBox(height: 16),
-              CustomTextField(
-                controller: projectNameController,
-                hintText: 'Zip Code',
-              ),
-              SizedBox(height: 16),
-              CustomTextField(
-                controller: projectNameController,
-                hintText: 'Country',
-              ),
-              SizedBox(height: 20),
-              Text('Project Deadline'),
-              SizedBox(height: 10),
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child:  CustomTextField(
-                      controller: projectNameController,
-                      hintText: 'Start Date',
-                    ),
+                  CustomTextField(
+                    controller: projectController.projectNameController,
+                    hintText: 'Project Name',
                   ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child:  CustomTextField(
-                      controller: projectNameController,
-                      hintText: 'End Date',
-                    ),
+                  SizedBox(height: 16),
+                  CustomTextField(
+                    controller: projectController.streetAddressController,
+                    hintText: 'Street Address',
                   ),
+                  SizedBox(height: 16),
+                  CustomTextField(
+                    controller: projectController.cityController,
+                    hintText: 'City',
+                  ),
+                  SizedBox(height: 16),
+                  CustomTextField(
+                    controller: projectController.zipCodeController,
+                    hintText: 'Zip Code',
+                  ),
+                  SizedBox(height: 16),
+                  CustomTextField(
+                    controller: projectController.countryController,
+                    hintText: 'Country',
+                  ),
+                  SizedBox(height: 20),
+                  Text('Project Deadline'),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomTextField(
+                          controller: projectController.startDateController,
+                          hintText: 'Start Date',
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: CustomTextField(
+                          controller: projectController.endDateController,
+                          hintText: 'End Date',
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
                 ],
               ),
-              SizedBox(height: 16),
+
               DropdownButtonFormField<String>(
-              //  value: supervisor,
                 decoration: InputDecoration(
                   labelText: 'Assign Supervisor',
                   border: OutlineInputBorder(),
@@ -104,11 +151,8 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
                   );
                 }).toList(),
                 onChanged: (value) {
-                  setState(() {
-                  //  supervisor = value;
-                  });
+                  // Handle supervisor selection
                 },
-               // onSaved: (value) => supervisor = value,
               ),
               SizedBox(height: 16),
               Padding(
@@ -127,14 +171,14 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
                         Expanded(
                           child: Obx(() {
                             return DropdownButton<String>(
-                              value: selectedRole.value.isEmpty
+                              value: projectController.selectedRole.value.isEmpty
                                   ? null
-                                  : selectedRole.value,
+                                  : projectController.selectedRole.value,
                               borderRadius: BorderRadius.circular(8.r),
                               hint: Text(
-                                selectedRole.isEmpty
-                                    ? "Select Tempelet"
-                                    :selectedRole.value,
+                                projectController.selectedRole.isEmpty
+                                    ? "Select Template"
+                                    : projectController.selectedRole.value,
                                 style: AppStyles.fontSize16(color: AppColors.blackColor),
                               ),
                               icon: Padding(
@@ -145,7 +189,7 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
                                 ),
                               ),
                               isExpanded: true,
-                              items: userRole.map((role) {
+                              items: projectController.userRole.map((role) {
                                 return DropdownMenuItem<String>(
                                   value: role == 'Project Manager'
                                       ? 'projectManager'
@@ -157,8 +201,8 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
                                 );
                               }).toList(),
                               onChanged: (newRole) {
-
-                              }
+                                projectController.selectedRole.value = newRole!;
+                              },
                             );
                           }),
                         ),
@@ -168,19 +212,101 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
                 ),
               ),
               SizedBox(height: 40),
-              CustomButton(onTap: (){
-                {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    _formKey.currentState?.save();
-                    // Process the data (e.g., send to API)
-                  //  print('Project Created: $projectName');
-                  }}
-
-              }, text: 'Create Project'),
+              CustomButton(
+                onTap: () {
+                   projectController.projectCreate();
+                    print('Project Created');
+                  },
+                text: 'Create Project',
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  // Show image picker option
+  void showImagePickerOption(BuildContext context) {
+    showModalBottomSheet(
+      backgroundColor: AppColors.white,
+      context: context,
+      builder: (builder) {
+        return Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 4.2,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Gallery Option
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      _pickImageFromGallery();
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.image,
+                          size: 50.w,
+                          color: AppColors.primaryColor,
+                        ),
+                        SizedBox(height: 8.h),
+                        CustomText(text: 'Gallery'),
+                      ],
+                    ),
+                  ),
+                ),
+                // Camera Option
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      _pickImageFromCamera();
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.camera_alt,
+                          size: 50.w,
+                          color: AppColors.primaryColor,
+                        ),
+                        SizedBox(height: 8.h),
+                        CustomText(text: 'Camera'),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // Pick image function
+  Future<void> _pickImage(ImageSource source) async {
+    final returnImage = await ImagePicker().pickImage(source: source);
+    if (returnImage == null) return;
+
+    setState(() {
+      projectController.selectedProfileImage = File(returnImage.path);
+      _profileImage = File(returnImage.path).readAsBytesSync();
+    });
+    Get.back();
+  }
+
+  // Pick image from gallery
+  Future<void> _pickImageFromGallery() async {
+    await _pickImage(ImageSource.gallery);
+  }
+
+  // Pick image from camera
+  Future<void> _pickImageFromCamera() async {
+    await _pickImage(ImageSource.camera);
   }
 }
