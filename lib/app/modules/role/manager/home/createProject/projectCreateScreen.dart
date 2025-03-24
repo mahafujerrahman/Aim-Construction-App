@@ -1,8 +1,12 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:aim_construction_app/app/controller/project_controller.dart';
+import 'package:aim_construction_app/app/modules/role/manager/more/controller/profile_more_controller.dart';
+import 'package:aim_construction_app/utils/app_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
@@ -10,6 +14,8 @@ import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/style.dart';
+import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 
 class ProjectCreateScreen extends StatefulWidget {
   @override
@@ -21,6 +27,17 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
   ProjectController projectController = Get.put(ProjectController());
   Uint8List? _profileImage;
 
+
+  final ProfileMoreController profileMoreController = Get.put(ProfileMoreController());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      profileMoreController.getAllSupervisorByManger();
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,109 +132,159 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
                   Text('Project Deadline'),
                   SizedBox(height: 10),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: CustomTextField(
+                          readOnly: true,
                           controller: projectController.startDateController,
                           hintText: 'Start Date',
-                        ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              _calenderDatePicker(controller: projectController.startDateController, isEndDate: false);
+                            }, icon: SvgPicture.asset(AppIcons.calender,color: AppColors.primaryColor,height: 18.h))
+                        )
                       ),
-                      SizedBox(width: 16),
+                      SizedBox(width: 4.w),
                       Expanded(
                         child: CustomTextField(
+                          readOnly: true,
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                _calenderDatePicker(controller: projectController.endDateController, isEndDate: true);
+                                Logger logger = Logger();
+                                logger.d('====> Selected End Date: ${projectController.endDateController.text}');
+                              }, icon: SvgPicture.asset(AppIcons.calender,color: AppColors.primaryColor,height: 18.h)),
                           controller: projectController.endDateController,
                           hintText: 'End Date',
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 16),
-                ],
-              ),
-
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  labelText: 'Assign Supervisor',
-                  border: OutlineInputBorder(),
-                ),
-                items: [
-                  'Shohan Hossion (Own CEO)',
-                  'Supervisor 2',
-                  'Supervisor 3'
-                ].map((supervisor) {
-                  return DropdownMenuItem<String>(
-                    value: supervisor,
-                    child: Text(supervisor),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  // Handle supervisor selection
-                },
-              ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Container(
-                  height: 60.h,
-                  padding: EdgeInsets.symmetric(horizontal: 8.w),
-                  decoration: BoxDecoration(
-                    color: AppColors.fillUpColor,
-                    borderRadius: BorderRadius.circular(8.r),
-                    border: Border.all(color: AppColors.primaryColor, width: 1),
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Obx(() {
-                            return DropdownButton<String>(
-                              value: projectController.selectedRole.value.isEmpty
-                                  ? null
-                                  : projectController.selectedRole.value,
-                              borderRadius: BorderRadius.circular(8.r),
-                              hint: Text(
-                                projectController.selectedRole.isEmpty
-                                    ? "Select Template"
-                                    : projectController.selectedRole.value,
-                                style: AppStyles.fontSize16(color: AppColors.blackColor),
-                              ),
-                              icon: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.keyboard_arrow_down_rounded,
-                                  color: AppColors.primaryColor,
-                                ),
-                              ),
-                              isExpanded: true,
-                              items: projectController.userRole.map((role) {
-                                return DropdownMenuItem<String>(
-                                  value: role == 'Project Manager'
-                                      ? 'projectManager'
-                                      : 'projectSupervisor',
-                                  child: Text(
-                                    role,
-                                    style: AppStyles.fontSize18(color: AppColors.blackColor),
+                  SizedBox(height: 16.h),
+                  Text('Assign Supervisor', style: AppStyles.fontSize18(fontWeight: FontWeight.w600)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Container(
+                      height: 60.h,
+                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                      decoration: BoxDecoration(
+                        color: AppColors.fillColor,
+                        borderRadius: BorderRadius.circular(8.r),
+                        border: Border.all(color: AppColors.primaryColor, width: 1),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: Row(
+                          children: [
+                            SizedBox(width: 8.w),
+                            Expanded(
+                              child: Obx(() {
+                                return DropdownButton<String>(
+                                  value: projectController.selectedSupervisor.isEmpty
+                                      ? null
+                                      : projectController.selectedSupervisor.value,
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  hint: Text(
+                                    projectController.selectedSupervisor.isEmpty
+                                        ? "Select Supervisor"
+                                        : projectController.selectedSupervisor.value,
+                                    style: AppStyles.fontSize16(color: AppColors.blackColor),
                                   ),
+                                  icon: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.keyboard_arrow_down_rounded,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                  isExpanded: true,
+                                  items: profileMoreController.getAllSupervisorByManagerModel.map((supervisor) {
+                                    return DropdownMenuItem<String>(
+                                      value: supervisor.userId,
+                                      child: Text(
+                                        '${supervisor.fname} ${supervisor.lname}',
+                                        style: AppStyles.fontSize18(color: AppColors.blackColor),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newRole) {
+                                    projectController.selectedSupervisor.value = newRole ?? '';
+                                    print('================== Supervisor ID : ${projectController.selectedSupervisor.value}');
+                                  },
                                 );
-                              }).toList(),
-                              onChanged: (newRole) {
-                                projectController.selectedRole.value = newRole!;
-                              },
-                            );
-                          }),
+                              }),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-              SizedBox(height: 40),
-              CustomButton(
-                onTap: () {
-                   projectController.projectCreate();
-                    print('Project Created');
-                  },
-                text: 'Create Project',
+                  SizedBox(height: 16.h),
+                  Text('Project Template', style: AppStyles.fontSize18(fontWeight: FontWeight.w600)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Container(
+                      height: 60.h,
+                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                      decoration: BoxDecoration(
+                        color: AppColors.fillColor,
+                        borderRadius: BorderRadius.circular(8.r),
+                        border: Border.all(color: AppColors.primaryColor, width: 1),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Obx(() {
+                                return DropdownButton<String>(
+                                  value: projectController.selectedTampelet.value.isEmpty
+                                      ? null
+                                      : projectController.selectedTampelet.value,
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  hint: Text(
+                                    projectController.selectedTampelet.isEmpty
+                                        ? "Select Tempelet"
+                                        : projectController.selectedTampelet.value,
+                                    style: AppStyles.fontSize16(color: AppColors.blackColor),
+                                  ),
+                                  icon: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.keyboard_arrow_down_rounded,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                  isExpanded: true,
+                                  items: projectController.tampelet.map((value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: AppStyles.fontSize18(color: AppColors.blackColor),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValue) {
+                                    // Update the selectedTampelet value
+                                    projectController.selectedTampelet.value = newValue ?? '';
+                                  },
+                                );
+                              }),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  CustomButton(
+                    onTap: () {
+                      projectController.projectCreate();
+                    },
+                    text: 'Create Project',
+                  ),
+                ],
               ),
             ],
           ),
@@ -225,6 +292,71 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
       ),
     );
   }
+
+  Future<void> _calenderDatePicker({
+    required TextEditingController controller,
+    required bool isEndDate,
+  }) async {
+    DateTime currentDate = DateTime.now();
+    DateTime firstDate = currentDate;
+    if (isEndDate && projectController.startDateController.text.isNotEmpty) {
+
+      DateTime startDate = DateFormat('dd-MM-yyyy').parse(projectController.startDateController.text);
+      firstDate = startDate;
+    }
+
+    DateTime lastDate = DateTime(currentDate.year + 1, currentDate.month, currentDate.day);
+
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: currentDate.isAfter(firstDate) ? currentDate : firstDate,  // Set the initial date to current date or the start date
+      firstDate: firstDate,
+      lastDate: lastDate,
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: AppColors.primaryColor,
+              onPrimary: Colors.white,
+              onSurface: AppColors.blackColor,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: AppColors.primaryColor,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        if (isEndDate) {
+          DateTime startDate = DateFormat('yyyy-MM-dd').parse(projectController.startDateController.text);
+
+          if (pickedDate.isBefore(startDate)) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('End date must be after the start date!'),
+                backgroundColor: Colors.red,
+              ),
+            );
+            controller.text = '';
+          } else {
+            controller.text = DateFormat('dd-MM-yyyy').format(pickedDate);
+          }
+        } else {
+          controller.text = DateFormat('dd-MM-yyyy').format(pickedDate);
+        }
+      });
+    }
+  }
+
+
+
+
 
   // Show image picker option
   void showImagePickerOption(BuildContext context) {
@@ -294,7 +426,7 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
     if (returnImage == null) return;
 
     setState(() {
-      projectController.selectedProfileImage = File(returnImage.path);
+      projectController.selectedProjectImage = File(returnImage.path);
       _profileImage = File(returnImage.path).readAsBytesSync();
     });
     Get.back();

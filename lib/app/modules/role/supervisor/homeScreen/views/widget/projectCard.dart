@@ -1,4 +1,6 @@
 import 'package:aim_construction_app/utils/app_colors.dart';
+import 'package:aim_construction_app/utils/app_images.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -33,11 +35,12 @@ class ProjectCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8.r),
-              child: Image.asset(
-                imageUrl,
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
                 width: 93.w,
                 height: 85.h,
                 fit: BoxFit.cover,
+                errorWidget: (context, url, error) => Image.asset(AppImage.noData, fit: BoxFit.cover),
               ),
             ),
             SizedBox(width: 12.w),
