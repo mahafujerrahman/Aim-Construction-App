@@ -1,4 +1,5 @@
 import 'package:aim_construction_app/app/modules/bottom_menu/supervisor_bottom_menu..dart';
+import 'package:aim_construction_app/app/modules/forgetPassword/controllers/forget_password_controller.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
@@ -21,10 +22,10 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  final ForgetPasswordController forgetPasswordController = Get.put(ForgetPasswordController());
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -52,11 +53,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 child: SvgPicture.asset(AppIcons.emailIcon),
               ),
               hintText: AppString.enterEmailText.tr,
-              controller: emailController,
+              controller: forgetPasswordController.forgetEmailTextCtrl,
             ),
             SizedBox(height: 100.h),
             CustomButton(
-              onTap: () {Get.toNamed(AppRoutes.VERIFY_EMAIL);
+              onTap: () {
+                forgetPasswordController.handleForget();
               },
               text: AppString.sendOTPText.tr,
             ),
