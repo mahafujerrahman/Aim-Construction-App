@@ -20,9 +20,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   void initState() {
-    Future.delayed(const Duration(seconds: 3),(){
-      Get.offAllNamed(AppRoutes.onboardingScreen);
-    });
     super.initState();
     StreamSubscription;
      getConnectivity();
@@ -88,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
           ///========================Check islogged in, token, and role then decide where will be navigate====================>
 
-          if (isLogged) {
+          if (isLogged != null && isLogged) {
               if (role == Role.projectManager.name) {
                 Get.offAllNamed(AppRoutes.managerHomeScreen);
               }

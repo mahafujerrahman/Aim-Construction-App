@@ -54,11 +54,9 @@ class SignInController extends GetxController {
         if(userID !=  null){
           await PrefsHelper.setString(AppConstants.userId, userID);
         }
-       // await PrefsHelper.setBool(AppConstants.isLogged, true);
+       await PrefsHelper.setBool(AppConstants.isLogged, true);
 
        String userId = await PrefsHelper.getString(AppConstants.userId);
-       String b = await PrefsHelper.getString(AppConstants.bearerToken);
-
 
         print('===================>> User Role: $userRole');
         print('===================>> UserId: $userId');

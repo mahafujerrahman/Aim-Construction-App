@@ -3,8 +3,10 @@ import 'package:aim_construction_app/app/data/api_constants.dart';
 import 'package:aim_construction_app/app/modules/bottom_menu/manager_bottom_menu..dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/homeScreen/views/widget/projectCard.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
+import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
+import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:aim_construction_app/utils/app_images.dart';
 import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,8 +29,9 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      projectController.getAllProjectDetails(projectManager:"67c3142779cb61823ae90cf6", );
+    WidgetsBinding.instance.addPostFrameCallback((_) async{
+      var userId = await PrefsHelper.getString(AppConstants.userId);
+      projectController.getAllProjectDetails(projectManager: userId);
     });
   }
 
