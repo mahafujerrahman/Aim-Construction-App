@@ -53,8 +53,7 @@ class _SupervisorHomeScreenViewState extends State<SupervisorHomeScreenView> {
             children: [
               // Always display the search field
               CustomTextField(
-                controller: roleSupervisorHomeScreenController
-                    .textEditingController,
+                controller: roleSupervisorHomeScreenController.textEditingController,
                 hintText: "Search Project",
               ),
               SizedBox(height: 16.h),

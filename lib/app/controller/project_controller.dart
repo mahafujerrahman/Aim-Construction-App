@@ -31,10 +31,8 @@ class ProjectController extends GetxController {
   ];
 
   projectCreate() async {
-    String formattedStartDate = DateFormat('yyyy-MM-dd')
-        .format(DateFormat('dd-MM-yyyy').parse(startDateController.text));
-    String formattedEndDate = DateFormat('yyyy-MM-dd')
-        .format(DateFormat('dd-MM-yyyy').parse(endDateController.text));
+    String formattedStartDate = DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse(startDateController.text));
+    String formattedEndDate = DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse(endDateController.text));
 
     List<MultipartBody> multipartBody = [];
     if (selectedProjectImage != null) {
@@ -113,9 +111,7 @@ class ProjectController extends GetxController {
 
     // Handle response
     if (response.statusCode == 200) {
-      projectDetailsModel.value = List.from(response.body['data']['attributes']
-              ['results']
-          .map((x) => ProjectDetailsModel.fromJson(x)));
+      projectDetailsModel.value = List.from(response.body['data']['attributes']['results'].map((x) => ProjectDetailsModel.fromJson(x)));
       isLoading(false);
       update();
     } else {
@@ -124,4 +120,44 @@ class ProjectController extends GetxController {
       update();
     }
   }
+
+
+  //Manger Task Create
+  RxString assignToSupervisor = ''.obs;
+
+  TextEditingController taskTitelCTRl = TextEditingController();
+  TextEditingController taskDescriptionCTRl = TextEditingController();
+managerTaskCreate({required String projectId}) async{
+
+  List<MultipartBody> multipartBody = [];
+  if (selectedProjectImage != null) {
+    multipartBody.add(MultipartBody("attachments", selectedProjectImage!));
+  }
+
+  Map<String, String> body = {
+    "projectId": projectId,
+    "title": taskTitelCTRl.text.trim(),
+    "description": taskDescriptionCTRl.text.trim(),
+    "assignedTo": assignToSupervisor.value,
+    "dueDate": assignToSupervisor.value,
+  };
+
+  var response = await ApiClient.postMultipartData(
+    ApiConstants.projectCreateEndPoint,
+    body,
+    multipartBody: multipartBody,
+  );
+  // Handle response
+  if (response.statusCode == 200 || response.statusCode == 201) {
+    Get.snackbar('Successfully', 'Task created successfully');
+    update();
+    Get.toNamed(AppRoutes.managerHomeScreen);
+  } else {
+    ApiChecker.checkApi(response);
+    update();
+  }
+
+}
+
+
 }

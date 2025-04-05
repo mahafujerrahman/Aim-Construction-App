@@ -91,9 +91,15 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
                         children: [
                           ProjectCard(
                             onTap: () {
-                              Get.toNamed(AppRoutes.managerProjectToolsScreen);
+                              Get.toNamed(AppRoutes.managerProjectToolsScreen,
+                              parameters: {
+                                "projectId": projectDetails.projectId ?? '',
+                                "projectName": projectDetails.projectName ?? '',
+                              }
+
+                              );
                             },
-                            imageUrl: "${ApiConstants.imageBaseUrl}${projectDetails.projectLogo ?? ''}",
+                            imageUrl: "${projectDetails.projectLogo ?? ''}",
                             title: '${projectDetails.projectName}',
                             projectID: '${projectDetails.projectId}',
                           ),

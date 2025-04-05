@@ -41,6 +41,7 @@ abstract class AppRoutes {
   static const managerDailyLogScreen = _Paths.managerDailyLogScreen;
   static const projectReportDetailsScreen = _Paths.projectReportDetailsScreen;
   static const projectCreateScreen = _Paths.projectCreateScreen;
+  static const managerTaskCreate = _Paths.managerTaskCreate;
 }
 
 abstract class _Paths {
@@ -77,6 +78,7 @@ abstract class _Paths {
 
 
 
+
   //manager
   static const managerHomeScreen = '/managerHomeScreen';
   static const managerMoreScreen = '/managerMoreScreen';
@@ -88,5 +90,6 @@ abstract class _Paths {
   static const managerDailyLogScreen = '/managerDailyLogScreen';
   static const projectReportDetailsScreen = '/projectReportDetailsScreen';
   static const projectCreateScreen = '/projectCreateScreen';
+  static const managerTaskCreate = '/managerTaskCreate';
 
 }

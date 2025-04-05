@@ -1,11 +1,16 @@
 import 'package:aim_construction_app/app/modules/role/supervisor/task/views/allTaskScreen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/task/views/completedTaskScreen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/task/views/openTaskScreen.dart';
+import 'package:aim_construction_app/app/routes/app_pages.dart';
+import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
+import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart' show Get;
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class RoleSupervisorTaskView extends StatefulWidget {
   const RoleSupervisorTaskView({super.key});
@@ -18,11 +23,18 @@ class _RoleSupervisorTaskViewState
     extends State<RoleSupervisorTaskView> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final  TextEditingController textEditingController = TextEditingController();
+  String role = '';
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+
+    PrefsHelper.getString(AppConstants.role).then((value) {
+      setState(() {
+        role = value ?? '';
+      });
+    });
 
     _tabController.addListener(() {
       setState(() {});
@@ -147,6 +159,16 @@ class _RoleSupervisorTaskViewState
           ),
         ],
       ),
+      // FloatingActionButton
+      floatingActionButton: role == Role.projectManager.name
+          ? FloatingActionButton(
+        onPressed: () {
+          Get.toNamed(AppRoutes.managerTaskCreate);
+        },
+        backgroundColor: AppColors.primaryColor,
+        child: Icon(Icons.add),
+      )
+          : null,
     );
   }
 }

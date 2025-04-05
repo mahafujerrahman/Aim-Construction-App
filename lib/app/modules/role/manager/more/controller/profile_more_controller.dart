@@ -12,6 +12,7 @@ class ProfileMoreController extends GetxController {
 
 //============================> Get Profile Data <=============================
 
+
   Rx<UserProfileDetailsModel> userProfileDetailsModel = UserProfileDetailsModel().obs;
   var isLoading = false.obs;
 

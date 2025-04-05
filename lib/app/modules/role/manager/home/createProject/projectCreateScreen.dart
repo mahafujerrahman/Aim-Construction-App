@@ -36,7 +36,6 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_){
       profileMoreController.getAllSupervisorByManger();
     });
-
   }
 
   @override

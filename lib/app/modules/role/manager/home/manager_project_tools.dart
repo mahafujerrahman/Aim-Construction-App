@@ -1,3 +1,4 @@
+import 'package:aim_construction_app/app/controller/project_controller.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/projectTool/views/toolsCard.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
@@ -6,22 +7,36 @@ import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
 class ManagerProjectToolsScreen extends StatefulWidget {
   const ManagerProjectToolsScreen({super.key});
 
   @override
-  State<ManagerProjectToolsScreen> createState() =>
-      _ManagerProjectToolsScreenState();
+  State<ManagerProjectToolsScreen> createState() => _ManagerProjectToolsScreenState();
 }
 
 class _ManagerProjectToolsScreenState extends State<ManagerProjectToolsScreen> {
+  final ProjectController projectController = Get.put(ProjectController());
+
+  var parameter = Get.parameters;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      //projectController.getAllProjectDetails(id: parameter['projectId']);
+      print( "Project Id : ${parameter['projectId']}");
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sample Project'),
+        title:  Text("${parameter['projectName']}"),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -103,6 +118,12 @@ class _ManagerProjectToolsScreenState extends State<ManagerProjectToolsScreen> {
                           Get.toNamed(AppRoutes.managerContactScreen);
                         },
                       ),
+
+
+
+
+
+
                     );
                   }
                 },
