@@ -23,7 +23,7 @@ abstract class AppRoutes {
   static const aboutUsScreen = _Paths.aboutUsScreen;
   static const ROLE_SUPERVISOR_ACTIVITY_SCREEN = _Paths.ROLE_SUPERVISOR_ACTIVITY_SCREEN;
   static const ROLE_SUPERVISOR_DAILY_LOG = _Paths.ROLE_SUPERVISOR_DAILY_LOG;
-  static const ROLE_SUPERVISOR_TASK = _Paths.ROLE_SUPERVISOR_TASK;
+  static const ROLE_SUPERVISOR_TASK = _Paths.TASK_VIEW_SCREEN;
   static const ROLE_SUPERVISOR_IMAGES = _Paths.ROLE_SUPERVISOR_IMAGES;
   static const supervisorDocuments = _Paths.supervisorDocuments;
   static const taskStatusScreen = _Paths.taskStatusScreen;
@@ -69,7 +69,7 @@ abstract class _Paths {
 
   static const ROLE_SUPERVISOR_ACTIVITY_SCREEN = '/activity-screen';
   static const ROLE_SUPERVISOR_DAILY_LOG = '/daily-log';
-  static const ROLE_SUPERVISOR_TASK = '/task';
+  static const TASK_VIEW_SCREEN = '/task';
   static const ROLE_SUPERVISOR_IMAGES = '/images';
   static const supervisorDocuments = '/documents';
   static const taskStatusScreen = '/taskStatusScreen';

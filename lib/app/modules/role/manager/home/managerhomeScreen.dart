@@ -90,13 +90,12 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
                       return Column(
                         children: [
                           ProjectCard(
-                            onTap: () {
+                            onTap: () async  {
+                             await PrefsHelper.setString(AppConstants.projectID, projectDetails.projectId);
                               Get.toNamed(AppRoutes.managerProjectToolsScreen,
                               parameters: {
-                                "projectId": projectDetails.projectId ?? '',
                                 "projectName": projectDetails.projectName ?? '',
                               }
-
                               );
                             },
                             imageUrl: "${projectDetails.projectLogo ?? ''}",

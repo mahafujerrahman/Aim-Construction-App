@@ -40,7 +40,7 @@ import 'package:aim_construction_app/app/modules/role/supervisor/personalInforma
 import 'package:aim_construction_app/app/modules/role/supervisor/projectTool/bindings/role_supervisor_project_tool_binding.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/projectTool/views/role_supervisor_project_tool_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/task/bindings/role_supervisor_task_binding.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/task/views/role_supervisor_task_view.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/task/views/task_view_screen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/task/views/taskStatusScreen.dart';
 import 'package:aim_construction_app/app/modules/signup/bindings/signup_binding.dart';
 import 'package:aim_construction_app/app/modules/signup/views/signupScreen.dart';
@@ -85,7 +85,7 @@ class AppPages {
     GetPage(name: _Paths.ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION, page: () =>  EditPersonalInformationScreen(),binding: RoleSupervisorEditPersonalInformationBinding()),
     GetPage(name: _Paths.ROLE_SUPERVISOR_ACTIVITY_SCREEN, page: () =>  RoleSupervisorActivityScreenView(),binding: RoleSupervisorActivityScreenBinding(),transition: Transition.noTransition),
     GetPage(name: _Paths.ROLE_SUPERVISOR_DAILY_LOG, page: () =>  RoleSupervisorDailyLogView(),binding: RoleSupervisorDailyLogBinding(),transition: Transition.noTransition),
-    GetPage(name: _Paths.ROLE_SUPERVISOR_TASK, page: () =>  RoleSupervisorTaskView(),binding: RoleSupervisorTaskBinding(),transition: Transition.noTransition),
+    GetPage(name: _Paths.TASK_VIEW_SCREEN, page: () =>  RoleTaskView(),binding: RoleSupervisorTaskBinding(),transition: Transition.noTransition),
     GetPage(name: _Paths.ROLE_SUPERVISOR_IMAGES, page: () =>  RoleSupervisorImagesView(),binding: RoleSupervisorImagesBinding(),transition: Transition.noTransition),
     GetPage(name: _Paths.supervisorDocuments, page: () =>  RoleSupervisorDocumentsView(),binding: RoleSupervisorDocumentsBinding(),transition: Transition.noTransition),
     GetPage(name: _Paths.taskStatusScreen, page: () =>  TaskStatusScreen(),transition: Transition.noTransition),

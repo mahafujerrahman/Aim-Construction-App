@@ -40,6 +40,8 @@ class AppConstants {
   static String isLogged = "IsLogged";
   static String userId = 'userId';
 
+  static String projectID = 'projectID';
+
   static String role = "Role";
   static String lname = "lname";
 

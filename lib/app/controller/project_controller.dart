@@ -6,10 +6,12 @@ import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/service/api_checker.dart';
 import 'package:aim_construction_app/service/api_client.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class ProjectController extends GetxController {
@@ -121,43 +123,6 @@ class ProjectController extends GetxController {
     }
   }
 
-
-  //Manger Task Create
-  RxString assignToSupervisor = ''.obs;
-
-  TextEditingController taskTitelCTRl = TextEditingController();
-  TextEditingController taskDescriptionCTRl = TextEditingController();
-managerTaskCreate({required String projectId}) async{
-
-  List<MultipartBody> multipartBody = [];
-  if (selectedProjectImage != null) {
-    multipartBody.add(MultipartBody("attachments", selectedProjectImage!));
-  }
-
-  Map<String, String> body = {
-    "projectId": projectId,
-    "title": taskTitelCTRl.text.trim(),
-    "description": taskDescriptionCTRl.text.trim(),
-    "assignedTo": assignToSupervisor.value,
-    "dueDate": assignToSupervisor.value,
-  };
-
-  var response = await ApiClient.postMultipartData(
-    ApiConstants.projectCreateEndPoint,
-    body,
-    multipartBody: multipartBody,
-  );
-  // Handle response
-  if (response.statusCode == 200 || response.statusCode == 201) {
-    Get.snackbar('Successfully', 'Task created successfully');
-    update();
-    Get.toNamed(AppRoutes.managerHomeScreen);
-  } else {
-    ApiChecker.checkApi(response);
-    update();
-  }
-
 }
 
 
-}

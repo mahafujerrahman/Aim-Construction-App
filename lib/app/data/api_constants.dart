@@ -26,7 +26,9 @@ static const String baseUrl = "https://api.carrentpro.com/api/v1";
   static const String userprofileDetailsEndPoint = "/user";
   static const String getAllSupervisorByManagerEndPoint = "/user/superVisors";
   static const String projectCreateEndPoint = "/project/create";
+  static const String projectTaskCreateEndPoint = "/task/create";
   static const String projectDetailsEndPoint = "/project/paginate";
+  static const String projectTaskDetailsEndPoint = "/task/paginate";
 
 
 }

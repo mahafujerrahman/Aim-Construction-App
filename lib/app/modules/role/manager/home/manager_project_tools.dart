@@ -27,7 +27,6 @@ class _ManagerProjectToolsScreenState extends State<ManagerProjectToolsScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_){
       //projectController.getAllProjectDetails(id: parameter['projectId']);
-      print( "Project Id : ${parameter['projectId']}");
     });
 
   }

@@ -29,8 +29,8 @@ class SupervisorCompletedTaskScreen extends StatelessWidget {
                     children: [
                       TaskCard(
                         noteText: "This note structure ensures clear communication of the day's",
-                        attachmentCount: 1,
-                        commentCount: 1,
+                        doumentCount: 1,
+                        imageCount: 1,
                         authorName: "Billal",
                         date: "25 February, 2025",
                         onTap: () {

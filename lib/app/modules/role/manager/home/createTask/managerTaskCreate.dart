@@ -1,7 +1,12 @@
+import 'dart:io';
+
+import 'package:aim_construction_app/app/controller/projectTask_controller.dart';
 import 'package:aim_construction_app/app/controller/project_controller.dart';
+import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
 import 'package:aim_construction_app/service/filePicker_service.dart';
+import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:intl/intl.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
@@ -25,10 +30,9 @@ class ManagerTaskCreate extends StatefulWidget {
 
 class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
   final ProfileMoreController profileMoreController = Get.put(ProfileMoreController());
-  final ProjectController projectController = Get.put(ProjectController());
+  final ProjectTaskController projectTaskController = Get.put(ProjectTaskController());
 
 
-  DateTime? selectedDate;
 
   Widget getFileIcon(String fileName) {
     if (fileName.endsWith('.pdf')) {
@@ -39,20 +43,20 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
       return SvgPicture.asset(AppIcons.documentsIcon);
     }
   }
-  
-  var parameter = Get.parameters;
+
   String projectId = '';
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       profileMoreController.getAllSupervisorByManger();
-      projectId = parameter['projectId'] ?? '';
-      print( "Project Id : $projectId");
+      projectId = await PrefsHelper.getString(AppConstants.projectID);
+      setState(() {});
+      print("Project Id : $projectId");
     });
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,14 +101,14 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
                   child: DropdownButtonHideUnderline(
                     child: Obx(() {
                       return DropdownButton<String>(
-                        value: projectController.assignToSupervisor.isEmpty
+                        value: projectTaskController.assignToSupervisor.isEmpty
                             ? null
-                            : projectController.assignToSupervisor.value,
+                            : projectTaskController.assignToSupervisor.value,
                         borderRadius: BorderRadius.circular(8.r),
                         hint: Text(
-                          projectController.assignToSupervisor.isEmpty
+                          projectTaskController.assignToSupervisor.isEmpty
                               ? "Select Supervisor"
-                              : projectController.assignToSupervisor.value,
+                              : projectTaskController.assignToSupervisor.value,
                           style: AppStyles.fontSize16(color: AppColors.primaryColor),
                         ),
                         icon: Padding(
@@ -125,7 +129,7 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
                           );
                         }).toList(),
                         onChanged: (newRole) {
-                          projectController.assignToSupervisor.value = newRole ?? '';
+                          projectTaskController.assignToSupervisor.value = newRole ?? '';
                           print('===========>>Selected Supervisor Id : $newRole');
                         },
                       );
@@ -136,7 +140,7 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
 
               SizedBox(height: 8.h),
               CustomTextField(
-                controller: projectController.taskTitelCTRl,
+                controller: projectTaskController.taskTitelCTRl,
                 hintText: "Type here",
 
               ),
@@ -150,14 +154,14 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
                         context: context,
-                        initialDate: selectedDate ?? DateTime.now(),
+                        initialDate: projectTaskController.selectedDate ?? DateTime.now(),
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2201),
                       );
 
-                      if (pickedDate != null && pickedDate != selectedDate) {
+                      if (pickedDate != null && pickedDate != projectTaskController.selectedDate) {
                         setState(() {
-                          selectedDate = pickedDate;
+                          projectTaskController.selectedDate = pickedDate;
                           print('===========>>Picked Date : $pickedDate');
                         });
                       }
@@ -167,9 +171,9 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
                   SizedBox(width: 8),
 
                   Text(
-                    selectedDate == null
+                      projectTaskController.selectedDate == null
                         ? 'Select Date'
-                        : DateFormat('EEEE, dd MMMM, yyyy').format(selectedDate!),
+                        : DateFormat('EEEE, dd MMMM, yyyy').format(projectTaskController.selectedDate!),
                     style: AppStyles.fontSize16(color: AppColors.color323B4A),
                   ),
                 ],
@@ -183,7 +187,7 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
               SizedBox(height: 12.h),
               CustomTextField(
                 maxLines: 3,
-                controller: projectController.taskDescriptionCTRl,
+                controller: projectTaskController.taskDescriptionCTRl,
               ),
 
               SizedBox(height: 20.h),
@@ -210,16 +214,59 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
                   SizedBox(width: 16.w),
                   SvgPicture.asset(AppIcons.imageIcon, height: 16.h, color: AppColors.color323B4A),
                   SizedBox(width: 4.w),
-                  const Text("2"),
+                  Obx(() => Text(
+                    "${projectTaskController.images.length}",
+                    style: AppStyles.fontSize16(color: AppColors.color323B4A),
+                  )),
                 ],
               ),
+
+              Obx(() =>  projectTaskController.images.isNotEmpty ?
+              Container(
+                height: 130.h,
+                child: ListView.builder(
+                    itemCount: projectTaskController.images.value.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context,index){
+                      return Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          Padding(
+                            padding:  EdgeInsets.only(left: 10.w),
+                            child: Container(
+                              height:73.h,
+                              width: 73.w,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8).r,
+                                  image: DecorationImage(image: FileImage(File(projectTaskController.images[index])),fit: BoxFit.cover),
+                                  color:AppColors.primaryColor
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                              onTap: (){
+                                projectTaskController.removeImage(index);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8,right: 5),
+                                child: CircleAvatar(
+                                  radius: 12,
+                                  backgroundColor: AppColors.primaryColor,
+                                  child: Center(child: Icon(Icons.close,color:AppColors.white),),
+                                ),
+                              )
+                          )
+                        ],
+                      );
+                    }),
+              ) : SizedBox()),
               SizedBox(height: 20.h),
               CustomButton(onTap: (){
-                projectController.managerTaskCreate(
-                  projectId: '${parameter['projectId']}'
+                projectTaskController.managerTaskCreate(
+                  projectId: projectId
 
                 );
-
+                print('Saving task with projectId: $projectId');
               }, text: 'Save')
 
             ],
@@ -252,6 +299,8 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
                   child: InkWell(
                     onTap: () async {
                       Navigator.of(context).pop();
+                      projectTaskController.pickImageFromDevice();
+
                     },
 
                     borderRadius: BorderRadius.circular(8.r),
@@ -267,10 +316,7 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
                         children: [
                           SvgPicture.asset(AppIcons.imageIcon, height: 20,color: Colors.white),
                           SizedBox(width: 8),
-                          Text(
-                            "Select Photo",
-                            style: TextStyle(color: Colors.white),
-                          ),
+                          Text("Select Photo", style: TextStyle(color: Colors.white)),
                         ],
                       ),
                     ),

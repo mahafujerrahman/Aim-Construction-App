@@ -1,3 +1,4 @@
+import 'package:aim_construction_app/app/controller/projectTask_controller.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/task/views/allTaskScreen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/task/views/completedTaskScreen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/task/views/openTaskScreen.dart';
@@ -10,20 +11,24 @@ import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart' show Get;
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 
-class RoleSupervisorTaskView extends StatefulWidget {
-  const RoleSupervisorTaskView({super.key});
+class RoleTaskView extends StatefulWidget {
+  const RoleTaskView({super.key});
 
   @override
-  _RoleSupervisorTaskViewState createState() => _RoleSupervisorTaskViewState();
+  _RoleTaskViewState createState() => _RoleTaskViewState();
 }
 
-class _RoleSupervisorTaskViewState
-    extends State<RoleSupervisorTaskView> with SingleTickerProviderStateMixin {
+class _RoleTaskViewState
+    extends State<RoleTaskView> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final  TextEditingController textEditingController = TextEditingController();
   String role = '';
+
+
+
 
   @override
   void initState() {
@@ -47,6 +52,7 @@ class _RoleSupervisorTaskViewState
     _tabController.dispose();
     super.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {

@@ -118,12 +118,6 @@ class _EditPersonalInformationScreenState extends State<EditPersonalInformationS
                           ],
                         ),
                       ),
-                      InkWell(
-                        child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SvgPicture.asset(AppIcons.editIcon)
-                        ),
-                      )
                     ],
                   ),
                 ),
