@@ -36,6 +36,8 @@ class AppIcons{
   static String calender ="$baseUrl/calender.svg";
   static String contractIcon ="$baseUrl/contractIcon.svg";
 
+  static String eyeIcon = "$baseUrl/eye.svg";
+  static String eyeOffIcon = "$baseUrl/eye-off.svg";
 
 
 

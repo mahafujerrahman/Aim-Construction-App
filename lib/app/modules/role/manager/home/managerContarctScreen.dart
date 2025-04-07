@@ -22,8 +22,7 @@ class _ManagerContactScreenState extends State<ManagerContactScreen> {
       'date': 'Monday, February 24, 2025',
       'files': [
         'building_structure_2025.pdf',
-        'building_structure_2025.pdf',
-        'building_structure_2025.xlsx',
+
       ],
     },
   ];

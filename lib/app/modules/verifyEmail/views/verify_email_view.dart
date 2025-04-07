@@ -27,6 +27,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
     email = Get.parameters['email'];
   }
 
+
   @override
   Widget build(BuildContext context) {
 

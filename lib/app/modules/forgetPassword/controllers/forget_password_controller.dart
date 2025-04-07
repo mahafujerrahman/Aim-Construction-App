@@ -1,23 +1,43 @@
+import 'package:aim_construction_app/app/data/api_constants.dart';
+import 'package:aim_construction_app/app/routes/app_pages.dart';
+import 'package:aim_construction_app/service/api_checker.dart';
+import 'package:aim_construction_app/service/api_client.dart';
+import 'package:aim_construction_app/utils/app_string.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ForgetPasswordController extends GetxController {
-  //TODO: Implement ForgetPasswordController
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  ///==================>>  Forgot pass word   <<<===============
+  TextEditingController forgetEmailTextCtrl = TextEditingController();
+
+  var forgotLoading = false.obs;
+
+  handleForget() async {
+    forgotLoading(true);
+    var body = {
+      "email": forgetEmailTextCtrl.text.trim(),
+    };
+    var headers = {
+      'Content-Type': 'application/json'
+    };
+    var response = await ApiClient.postData(ApiConstants.forgotPasswordEndPoint, body,
+        headers: headers);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      Get.toNamed(AppRoutes.VERIFY_EMAIL, parameters: {
+        "email": forgetEmailTextCtrl.text.trim(),
+        "screenType": "forgetPasswordScreen",
+      });
+      Get.snackbar("Done", 'OTP Send your email');
+    }
+    if (response.statusCode == 404) {
+      Get.snackbar('Error', response.body['message']);
+    }
+
+    else {
+      ApiChecker.checkApi(response);
+
+    }
+    forgotLoading(false);
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

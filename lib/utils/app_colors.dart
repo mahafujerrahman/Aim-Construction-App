@@ -38,7 +38,7 @@ class AppColors{
   static const Color textColor =  Color(0xFF111111);
   static const Color subTextColor =  Color(0xFF565656);
   static const Color dark2Color =  Color(0xff565656);
-  static const Color hintColor =  Color(0xFFB5B5B5);
+  static const Color hintColor =  Color(0xFF111111);
   static const Color secendryColor =  Color(0xFFC4D3F6);
   static const Color greyColor =  Color(0xFFB5B5B5);
   static  Color fillColor =  Color(0xFF5181F8).withOpacity(0.08);

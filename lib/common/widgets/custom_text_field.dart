@@ -1,17 +1,18 @@
-
-import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
+import '../../utils/app_colors.dart';
+import '../../utils/app_icons.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final TextInputType? keyboardType;
   final bool? isObscureText;
-  final String? obscure;
+  final String? obscureCharacrter;
   final Color? filColor;
-  final Color? suffixIconColor;
+  final int? maxLines;
   final Widget? prefixIcon;
   final String? labelText;
   final String? hintText;
@@ -19,35 +20,34 @@ class CustomTextField extends StatefulWidget {
   final double? contentPaddingVertical;
   final Widget? suffixIcon;
   final FormFieldValidator? validator;
+  final VoidCallback? onTab;
   final bool isPassword;
-  final int? maxLine;
   final bool? isEmail;
-  final TextStyle? labelTextStyle;
-  final Function(String?)? onChange;
+  final bool? readOnly;
 
-  const CustomTextField(
-      {super.key,
-        this.suffixIconColor,
-        this.labelTextStyle,
-      this.contentPaddingHorizontal,
-      this.contentPaddingVertical,
-      this.hintText,
-        this.maxLine,
-      this.prefixIcon,
-      this.suffixIcon,
-      this.validator,
-      this.isEmail,
-      required this.controller,
-      this.keyboardType = TextInputType.text,
-      this.isObscureText = false,
-      this.obscure = '*',
-      this.filColor,
-      this.labelText,
-      this.isPassword = false,
-        this.onChange});
+  const CustomTextField({
+  super.key,
+  this.contentPaddingHorizontal,
+  this.contentPaddingVertical,
+  this.hintText,
+  this.prefixIcon,
+  this.suffixIcon,
+  this.validator,
+  this.isEmail,
+  required this.controller,
+  this.keyboardType = TextInputType.text,
+  this.isObscureText = false,
+  this.obscureCharacrter = '*',
+  this.filColor,
+  this.maxLines= 1,
+  this.labelText,
+  this.isPassword = false,
+  this.readOnly = false,
+  this.onTab, required,
+});
 
-  @override
-  State<CustomTextField> createState() => _CustomTextFieldState();
+@override
+State<CustomTextField> createState() => _CustomTextFieldState();
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
@@ -62,23 +62,24 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: widget.maxLines,
+      onTap: widget.onTab,
+      readOnly: widget.readOnly!,
       controller: widget.controller,
       keyboardType: widget.keyboardType,
-      obscuringCharacter: widget.obscure!,
-      maxLines: widget.maxLine??1,
-      onChanged: widget.onChange,
-      // validator: widget.validator,
+      obscuringCharacter: widget.obscureCharacrter!,
+      //validator: widget.validator,
       validator: widget.validator ??
-          (value) {
+              (value) {
             if (widget.isEmail == null) {
               if (value!.isEmpty) {
-                return "Please ${widget.hintText!.toLowerCase()}";
+                return "Please enter ${widget.hintText!.toLowerCase()}";
               } else if (widget.isPassword) {
                 bool data = AppConstants.passwordValidator.hasMatch(value);
                 if (value.isEmpty) {
-                  return "Please ${widget.hintText!.toLowerCase()}";
+                  return "Please enter ${widget.hintText!.toLowerCase()}";
                 } else if (!data) {
-                  return "Password hint: [A-Z],[a-z],[!-*],[1-8]";
+                  return "Insecure password detected.";
                 }
               }
             } else {
@@ -93,38 +94,63 @@ class _CustomTextFieldState extends State<CustomTextField> {
           },
       cursorColor: AppColors.primaryColor,
       obscureText: widget.isPassword ? obscureText : false,
-      style: TextStyle(color: AppColors.textColor, fontSize: 16.sp),
+      style: const TextStyle(color: Colors.black),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
-            horizontal: widget.contentPaddingHorizontal ?? 16.w,
+            horizontal: widget.contentPaddingHorizontal ?? 12.w,
             vertical: widget.contentPaddingVertical ?? 16.w),
-        fillColor: AppColors.white,
-        prefixIcon: widget.prefixIcon,
+        filled: true,
+        fillColor: widget.filColor ?? AppColors.fillColor,
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: widget.prefixIcon,
+        ),
         suffixIcon: widget.isPassword
             ? GestureDetector(
-                onTap: toggle,
-                child: _suffixIcon(
-                    obscureText ? Icons.visibility_off : Icons.visibility),
-              )
+          onTap: toggle,
+          child: _suffixIcon(obscureText ? AppIcons.eyeOffIcon : AppIcons.eyeIcon),
+        )
             : widget.suffixIcon,
-        prefixIconConstraints: BoxConstraints(minHeight: 24.w, minWidth: 24.w),
+        prefixIconConstraints: BoxConstraints(minHeight: 24.h, minWidth: 24.w),
+        suffixIconConstraints: BoxConstraints(minHeight: 24.h, minWidth: 24.w),
+        errorStyle: const TextStyle(color: Colors.red),
+        suffixIconColor: AppColors.greyColor,
+        prefixIconColor: AppColors.greyColor,
         labelText: widget.labelText,
         hintText: widget.hintText,
-        labelStyle: widget.labelTextStyle,
-          enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: AppColors.color323B4A),
-      borderRadius: BorderRadius.circular(8.r),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: AppColors.color323B4A),
-    borderRadius: BorderRadius.circular(8.r),
-    ),
+        hintStyle: TextStyle(color: AppColors.hintColor, fontFamily: 'OpenSans'),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.r),
+          borderSide: BorderSide(
+            width: 1.w,
+            color: AppColors.primaryColor,
+          ),
+        ),
+        errorBorder: _buildOutlineInputBorder(),
+        focusedBorder: _buildOutlineInputBorder(),
+        enabledBorder: _buildOutlineInputBorder(),
+        disabledBorder: _buildOutlineInputBorder(),
       ),
     );
   }
 
-  _suffixIcon(IconData icon) {
-    return Padding(padding: const EdgeInsets.all(12.0), child: Icon(icon,color: widget.suffixIconColor?? AppColors.primaryColor,size: 20.sp,));
+  _suffixIcon(String icon) {
+    return Padding(
+      padding: EdgeInsets.only(right: 15.w),
+      child: SvgPicture.asset(
+        color: AppColors.greyColor,
+        icon,
+      ),
+    );
+  }
+
+  _buildOutlineInputBorder() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.r),
+      borderSide: BorderSide(
+        width: 1.w,
+        color: AppColors.primaryColor,
+      ),
+    );
   }
 }
-

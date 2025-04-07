@@ -7,7 +7,7 @@ static const String baseUrl = "https://api.carrentpro.com/api/v1";
 
 
 //==========================================>> Local <<=================================
- static const String baseUrl = "https://sheakh6731.sobhoy.com/api/v1/";
+ static const String baseUrl = "https://sheakh6731.sobhoy.com/api/v1";
   static const String imageBaseUrl = "https://sheakh6731.sobhoy.com";
 
 /*  http://192.168.10.163:8081/api/v1
@@ -19,8 +19,16 @@ static const String baseUrl = "https://api.carrentpro.com/api/v1";
 
   //============================ >> User Auth << =================================
   static const String signUpEndPoint = "/auth/register";
+  static const String signInEndPoint = "/auth/login";
+  static const String forgotPasswordEndPoint = "/auth/forgot-password";
   static const String getAllManagerEndPoint = "/user/getAllManager";
   static const String verifyCodeEndPoint = "/auth/verify-email";
+  static const String userprofileDetailsEndPoint = "/user";
+  static const String getAllSupervisorByManagerEndPoint = "/user/superVisors";
+  static const String projectCreateEndPoint = "/project/create";
+  static const String projectTaskCreateEndPoint = "/task/create";
+  static const String projectDetailsEndPoint = "/project/paginate";
+  static const String projectTaskDetailsEndPoint = "/task/paginate";
 
 
 }

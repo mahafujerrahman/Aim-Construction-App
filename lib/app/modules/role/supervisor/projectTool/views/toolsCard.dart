@@ -20,7 +20,7 @@ class ToolsCard extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         InkWell(
-          onTap: onTap, // Using the onTap callback passed in
+          onTap: onTap,
           child: Container(
             width: 73.0,
             height: 73.0,
