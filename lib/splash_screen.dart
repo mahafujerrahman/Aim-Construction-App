@@ -25,6 +25,11 @@ class _SplashScreenState extends State<SplashScreen> {
      getConnectivity();
   }
   @override
+  void dispose() {
+    streamSubscription?.cancel();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
