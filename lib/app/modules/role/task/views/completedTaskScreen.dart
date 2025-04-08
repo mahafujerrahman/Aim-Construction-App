@@ -1,23 +1,25 @@
 import 'package:aim_construction_app/app/controller/projectTask_controller.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/homeScreen/views/widget/projectCard.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/task/views/taskCard.dart';
-import 'package:aim_construction_app/app/routes/app_pages.dart';
+import 'package:aim_construction_app/app/modules/role/task/views/taskCard.dart';
+import 'package:aim_construction_app/common/helper/time_formate.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_images.dart';
 import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
-class SupervisorAllTaskScreen extends StatefulWidget {
-  SupervisorAllTaskScreen({super.key});
+
+class SupervisorCompletedTaskScreen extends StatefulWidget {
+  SupervisorCompletedTaskScreen({super.key});
 
   @override
-  State<SupervisorAllTaskScreen> createState() => _SupervisorAllTaskScreenState();
+  State<SupervisorCompletedTaskScreen> createState() => _SupervisorCompletedTaskScreenState();
 }
 
-class _SupervisorAllTaskScreenState extends State<SupervisorAllTaskScreen> {
+class _SupervisorCompletedTaskScreenState extends State<SupervisorCompletedTaskScreen> {
 
   final ProjectTaskController projectTaskController = Get.put(ProjectTaskController());
 
@@ -25,7 +27,7 @@ class _SupervisorAllTaskScreenState extends State<SupervisorAllTaskScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async{
-      projectTaskController.getAllProjectTaskDetails();
+      projectTaskController.getAllProjectTaskDetails(task_status: 'completed');
     });
   }
   @override
@@ -61,29 +63,29 @@ class _SupervisorAllTaskScreenState extends State<SupervisorAllTaskScreen> {
                     ),
                   )
                 else
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: projectTaskController.projectTaskDetailsModel.value.length,
-                  itemBuilder: (context, index) {
-                    final projectTaskDetails = projectTaskController.projectTaskDetailsModel.value[index];
-                    return Column(
-                      children: [
-                        TaskCard(
-                          noteText: "This note structure ensures clear communication of the day's",
-                          doumentCount: projectTaskDetails.documentCount ?? 0,
-                          imageCount: projectTaskDetails.imageCount ?? 0,
-                          authorName: projectTaskDetails.assignedTo?.fname ?? '',
-                          date: "25 February, 2025",
-                          onTap: () {
-                            print('Card tapped');
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                      ],
-                    );
-                  },
-                ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: projectTaskController.projectTaskDetailsModel.value.length,
+                    itemBuilder: (context, index) {
+                      final projectTaskDetails = projectTaskController.projectTaskDetailsModel.value[index];
+                      return Column(
+                        children: [
+                          TaskCard(
+                            noteText: projectTaskDetails.title ?? '',
+                            doumentCount: projectTaskDetails.documentCount ?? 0,
+                            imageCount: projectTaskDetails.imageCount ?? 0,
+                            authorName: projectTaskDetails.assignedTo?.fname ?? '',
+                            date: '${TimeFormatHelper.formatDate(DateTime.parse(projectTaskDetails.createdAt.toString()))}',
+                            onTap: () {
+                              print('Card tapped');
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                      );
+                    },
+                  ),
               ],
             ),
           ),

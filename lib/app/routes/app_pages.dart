@@ -39,9 +39,8 @@ import 'package:aim_construction_app/app/modules/role/supervisor/personalInforma
 import 'package:aim_construction_app/app/modules/role/supervisor/personalInformationScreen/views/role_supervisor_personal_information_screen_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/projectTool/bindings/role_supervisor_project_tool_binding.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/projectTool/views/role_supervisor_project_tool_view.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/task/bindings/role_supervisor_task_binding.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/task/views/task_view_screen.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/task/views/taskStatusScreen.dart';
+import 'package:aim_construction_app/app/modules/role/task/views/taskStatusScreen.dart';
+import 'package:aim_construction_app/app/modules/role/task/views/task_view_screen.dart';
 import 'package:aim_construction_app/app/modules/signup/bindings/signup_binding.dart';
 import 'package:aim_construction_app/app/modules/signup/views/signupScreen.dart';
 import 'package:aim_construction_app/app/modules/verifyEmail/bindings/verify_email_binding.dart';
@@ -50,6 +49,7 @@ import 'package:aim_construction_app/app/modules/verifyEmail/views/verify_email_
 import 'package:aim_construction_app/onboarding_screen.dart';
 import 'package:aim_construction_app/splash_screen.dart';
 import 'package:get/get.dart';
+import '../modules/role/task/bindings/role_supervisor_task_binding.dart';
 import '../modules/sign_in/bindings/sign_in_binding.dart';
 import '../modules/sign_in/views/signInScreen.dart';
 part 'app_routes.dart';

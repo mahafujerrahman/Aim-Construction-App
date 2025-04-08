@@ -29,6 +29,7 @@ static const String baseUrl = "https://api.carrentpro.com/api/v1";
   static const String projectTaskCreateEndPoint = "/task/create";
   static const String projectDetailsEndPoint = "/project/paginate";
   static const String projectTaskDetailsEndPoint = "/task/paginate";
+  static const String notificationEndPoint = "/activity/";
 
 
 }

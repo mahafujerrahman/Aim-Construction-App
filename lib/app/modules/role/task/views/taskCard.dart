@@ -42,13 +42,13 @@ class TaskCard extends StatelessWidget {
             // Left side content
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     noteText,
                     style: AppStyles.fontSize14(color: AppColors.color323B4A),
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+                    maxLines: 3,
                   ),
                   SizedBox(height: 8.h),
                   Row(
