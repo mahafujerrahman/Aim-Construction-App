@@ -2,8 +2,6 @@ import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/
 import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/dailylog_image_screen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/dailylog_note_screen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/innerWidget/calender_widget.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/images/views/projectManagerImage.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/images/views/projectSupervisoImageScreen.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/cupertino.dart';

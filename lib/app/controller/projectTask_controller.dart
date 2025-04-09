@@ -57,59 +57,71 @@ class ProjectTaskController extends GetxController {
     }
   }
 
-//================= pickImageFromDevice
+//================= pickFileFromDevice
   ImagePicker picker = ImagePicker();
   RxList<String> images = <String>[].obs;
+  RxList<String> file = <String>[].obs;
 
-  Future<void> pickImageFromDevice() async {
+  Future<void> pickFileFromDevice() async {
     try {
-      // Pick multiple images
-      final List<XFile>? returnImages = await picker.pickMultiImage();
+      // Pick multiple images or files (assuming you are using an image picker that supports multiple media)
+      final List<XFile>? returnFiles = await picker.pickMultipleMedia();  // This needs the correct package
 
-      // Check if no images were selected
-      if (returnImages == null || returnImages.isEmpty) {
-        print("No images selected");
+      // Check if no files were selected
+      if (returnFiles == null || returnFiles.isEmpty) {
+        print("No files selected");
         Get.snackbar(
-          "No Images Selected",
-          "Please select valid image files (JPG or PNG).",
+          "No Files Selected",
+          "Please select valid image files (JPG, PNG) or PDF files.",
           colorText: Colors.red,
           backgroundColor: Colors.white,
         );
         return;
       }
-      for (var img in returnImages) {
+
+      // Iterate through each selected file
+      for (var img in returnFiles) {
         final fileExtension = img.path.split('.').last.toLowerCase();
+
         if (fileExtension == 'jpg' || fileExtension == 'jpeg' || fileExtension == 'png') {
-          // Add the image path to the list
           images.value.add(img.path);
+        }
+        // If it's a file (PDF, DOCX, XLSX), add it to the file list
+        else if (fileExtension == 'pdf' || fileExtension == 'docx' || fileExtension == 'xls' || fileExtension == 'xlsx') {
+          file.value.add(img.path);
         } else {
+          // Handle invalid file formats
           print("Invalid file format: $fileExtension for file ${img.path}");
           Get.snackbar(
             "Invalid File Format",
-            "File '${img.name}' is not a valid image format. Only JPG and PNG are allowed.",
+            "File '${img.name}' is not a valid format. Allowed formats: JPG, PNG, PDF, DOCX, XLSX.",
             colorText: Colors.white,
             backgroundColor: Colors.red,
           );
         }
       }
+
       images.refresh();
+      file.refresh();
     } catch (e) {
       // Handle unexpected errors gracefully
-      print("Error while picking images: $e");
+      print("Error while picking files: $e");
       Get.snackbar(
         "Error",
-        "An error occurred while selecting images. Please try again.",
+        "An error occurred while selecting files. Please try again.",
         colorText: Colors.red,
         backgroundColor: Colors.white,
       );
     }
   }
 
-
-
-
   removeImage(int index) {
     images.removeAt(index);
+    refresh();
+  }
+
+  removeFile(int index) {
+    file.removeAt(index);
     refresh();
   }
 
@@ -124,14 +136,17 @@ class ProjectTaskController extends GetxController {
 
     List<MultipartBody> multipartAttachments = [];
 
+
     // Add multiple images to multipartList
     for (String imagePath in images) {
-      multipartAttachments.add(
-          MultipartBody(
-              "attachments",File(imagePath)
-          )
-      );
-    };
+      multipartAttachments.add(MultipartBody("attachments", File(imagePath)));
+    }
+
+    // Add multiple files (PDF, DOCX, XLSX) to multipartList
+    for (String filePath in file) {
+      multipartAttachments.add(MultipartBody("attachments", File(filePath)));
+    }
+
 
     Map<String, String> body = {
       "projectId": projectId,
@@ -141,7 +156,7 @@ class ProjectTaskController extends GetxController {
       "dueDate": selectedDate.toString(),
     };
 
-    var response = await ApiClient.postMultipartData(
+    var response = await ApiClient.postMultipartFileData(
       ApiConstants.projectTaskCreateEndPoint,
       body,
       multipartBody: multipartAttachments,
@@ -166,10 +181,14 @@ class ProjectTaskController extends GetxController {
     assignToSupervisor.value = '';
     selectedDate;
     clearImage();
+    clearFile();
   }
 
   void clearImage(){
     images.clear();
+  }
+  void clearFile(){
+    file.clear();
   }
 }
 

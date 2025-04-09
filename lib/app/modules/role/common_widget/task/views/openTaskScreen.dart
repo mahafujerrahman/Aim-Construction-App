@@ -1,5 +1,5 @@
 import 'package:aim_construction_app/app/controller/projectTask_controller.dart';
-import 'package:aim_construction_app/app/modules/role/task/views/taskCard.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/task/views/taskCard.dart';
 import 'package:aim_construction_app/common/helper/time_formate.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_images.dart';
@@ -7,19 +7,16 @@ import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get.dart';
 
-
-class SupervisorCompletedTaskScreen extends StatefulWidget {
-  SupervisorCompletedTaskScreen({super.key});
+class SupervisorOpenTaskScreen extends StatefulWidget {
+  SupervisorOpenTaskScreen({super.key});
 
   @override
-  State<SupervisorCompletedTaskScreen> createState() => _SupervisorCompletedTaskScreenState();
+  State<SupervisorOpenTaskScreen> createState() => _SupervisorOpenTaskScreenState();
 }
 
-class _SupervisorCompletedTaskScreenState extends State<SupervisorCompletedTaskScreen> {
+class _SupervisorOpenTaskScreenState extends State<SupervisorOpenTaskScreen> {
 
   final ProjectTaskController projectTaskController = Get.put(ProjectTaskController());
 
@@ -27,7 +24,7 @@ class _SupervisorCompletedTaskScreenState extends State<SupervisorCompletedTaskS
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async{
-      projectTaskController.getAllProjectTaskDetails(task_status: 'completed');
+      projectTaskController.getAllProjectTaskDetails(task_status: 'open');
     });
   }
   @override

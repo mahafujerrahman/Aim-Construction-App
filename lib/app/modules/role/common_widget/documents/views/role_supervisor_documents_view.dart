@@ -1,20 +1,21 @@
-import 'package:aim_construction_app/app/modules/role/supervisor/images/views/projectManagerImage.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/images/views/projectSupervisoImageScreen.dart';
+
+import 'package:aim_construction_app/app/modules/role/common_widget/documents/views/projectManagerDocuments.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/documents/views/projectSupervisorDocumentScreen.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class RoleSupervisorImagesView extends StatefulWidget {
-  const RoleSupervisorImagesView({super.key});
+class RoleSupervisorDocumentsView extends StatefulWidget {
+  const RoleSupervisorDocumentsView({super.key});
 
   @override
-  _RoleSupervisorImagesViewState createState() =>
-      _RoleSupervisorImagesViewState();
+  _RoleSupervisorDocumentsViewState createState() =>
+      _RoleSupervisorDocumentsViewState();
 }
 
-class _RoleSupervisorImagesViewState
-    extends State<RoleSupervisorImagesView> with SingleTickerProviderStateMixin {
+class _RoleSupervisorDocumentsViewState
+    extends State<RoleSupervisorDocumentsView> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -22,10 +23,10 @@ class _RoleSupervisorImagesViewState
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
 
-    _tabController.addListener(() {
-      setState(() {});
-    });
-  }
+  _tabController.addListener(() {
+  setState(() {});
+  });
+}
 
 
   @override
@@ -40,7 +41,7 @@ class _RoleSupervisorImagesViewState
       backgroundColor: AppColors.white,
       appBar: AppBar(
         title: Text(
-          'Image',
+          'Document',
           style: AppStyles.fontSize18(fontWeight: FontWeight.w600,color: AppColors.color323B4A),
         ),
         centerTitle: true,
@@ -107,8 +108,8 @@ class _RoleSupervisorImagesViewState
             child: TabBarView(
               controller: _tabController,
               children: const [
-                ProjectSupervisorImageScreen(),
-                ProjectManagerImageScreen(),
+                ProjectSupervisorDoumentScreen(),
+                ProjectManagerDoumentScreen(),
               ],
             ),
           ),

@@ -1,6 +1,5 @@
 import 'package:aim_construction_app/app/controller/projectTask_controller.dart';
-import 'package:aim_construction_app/app/modules/role/task/views/taskCard.dart';
-import 'package:aim_construction_app/app/routes/app_pages.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/task/views/taskCard.dart';
 import 'package:aim_construction_app/common/helper/time_formate.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_images.dart';
@@ -10,14 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class SupervisorOpenTaskScreen extends StatefulWidget {
-  SupervisorOpenTaskScreen({super.key});
+class SupervisorAllTaskScreen extends StatefulWidget {
+  SupervisorAllTaskScreen({super.key});
 
   @override
-  State<SupervisorOpenTaskScreen> createState() => _SupervisorOpenTaskScreenState();
+  State<SupervisorAllTaskScreen> createState() => _SupervisorAllTaskScreenState();
 }
 
-class _SupervisorOpenTaskScreenState extends State<SupervisorOpenTaskScreen> {
+class _SupervisorAllTaskScreenState extends State<SupervisorAllTaskScreen> {
 
   final ProjectTaskController projectTaskController = Get.put(ProjectTaskController());
 
@@ -25,7 +24,7 @@ class _SupervisorOpenTaskScreenState extends State<SupervisorOpenTaskScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async{
-      projectTaskController.getAllProjectTaskDetails(task_status: 'open');
+      projectTaskController.getAllProjectTaskDetails();
     });
   }
   @override
@@ -61,29 +60,29 @@ class _SupervisorOpenTaskScreenState extends State<SupervisorOpenTaskScreen> {
                     ),
                   )
                 else
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: projectTaskController.projectTaskDetailsModel.value.length,
-                    itemBuilder: (context, index) {
-                      final projectTaskDetails = projectTaskController.projectTaskDetailsModel.value[index];
-                      return Column(
-                        children: [
-                          TaskCard(
-                            noteText: projectTaskDetails.title ?? '',
-                            doumentCount: projectTaskDetails.documentCount ?? 0,
-                            imageCount: projectTaskDetails.imageCount ?? 0,
-                            authorName: projectTaskDetails.assignedTo?.fname ?? '',
-                            date: '${TimeFormatHelper.formatDate(DateTime.parse(projectTaskDetails.createdAt.toString()))}',
-                            onTap: () {
-                              print('Card tapped');
-                            },
-                          ),
-                          const SizedBox(height: 16),
-                        ],
-                      );
-                    },
-                  ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: projectTaskController.projectTaskDetailsModel.value.length,
+                  itemBuilder: (context, index) {
+                    final projectTaskDetails = projectTaskController.projectTaskDetailsModel.value[index];
+                    return Column(
+                      children: [
+                        TaskCard(
+                          noteText: projectTaskDetails.title ?? '',
+                          doumentCount: projectTaskDetails.documentCount ?? 0,
+                          imageCount: projectTaskDetails.imageCount ?? 0,
+                          authorName: projectTaskDetails.assignedTo?.fname ?? '',
+                          date: '${TimeFormatHelper.formatDate(DateTime.parse(projectTaskDetails.createdAt.toString()))}',
+                          onTap: () {
+                            print('Card tapped');
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    );
+                  },
+                ),
               ],
             ),
           ),

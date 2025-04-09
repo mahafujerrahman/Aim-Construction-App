@@ -103,6 +103,135 @@ class ApiClient extends GetxService {
     }
   }
 
+  //========================>> Post Multipart Attachment Data (Image/Pdf) <<=====================
+  static Future<Response> postMultipartFileData(
+      String uri, Map<String, String> body,
+      {List<MultipartBody>? multipartBody,
+        List<MultipartListBody>? multipartListBody,
+        Map<String, String>? headers}) async {
+    try {
+      bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
+      var mainHeaders = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $bearerToken'
+      };
+
+      // Initialize counters for images and documents
+      int imageCount = 0;
+      int documentCount = 0;
+
+      debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
+
+      // Count the images and documents
+      if (multipartBody != null && multipartBody.isNotEmpty) {
+        multipartBody.forEach((element) {
+          if (element.file.path.contains(".jpg") ||
+              element.file.path.contains(".png") ||
+              element.file.path.contains(".jpeg")) {
+            imageCount++;
+          } else if (element.file.path.contains(".pdf") ||
+              element.file.path.contains(".xls") ||
+              element.file.path.contains(".xlsx") ||
+              element.file.path.contains(".doc") ||
+              element.file.path.contains(".docx")) {
+            documentCount++;
+          }
+        });
+      }
+
+      debugPrint('====> API Body: $body with $imageCount image(s) and $documentCount document(s)');
+
+      var request =
+      http.MultipartRequest('POST', Uri.parse(ApiConstants.baseUrl + uri));
+      request.fields.addAll(body);
+
+      if (multipartBody!.isNotEmpty) {
+        multipartBody.forEach((element) async {
+          debugPrint("path : ${element.file.path}");
+
+          if (element.file.path.contains(".mp4")) {
+            debugPrint("media type mp4 ==== ${element.file.path}");
+            request.files.add(http.MultipartFile(
+              element.key,
+              element.file.readAsBytes().asStream(),
+              element.file.lengthSync(),
+              filename: 'video.mp4',
+              contentType: MediaType('video', 'mp4'),
+            ));
+          } else if (element.file.path.contains(".png")) {
+            debugPrint("media type png ==== ${element.file.path}");
+            request.files.add(http.MultipartFile(
+              element.key,
+              element.file.readAsBytes().asStream(),
+              element.file.lengthSync(),
+              filename: 'image.png',
+              contentType: MediaType('image', 'png'),
+            ));
+          } else if (element.file.path.contains(".jpg")) {
+            debugPrint("media type jpg ==== ${element.file.path}");
+            request.files.add(http.MultipartFile(
+              element.key,
+              element.file.readAsBytes().asStream(),
+              element.file.lengthSync(),
+              filename: 'image.jpg',
+              contentType: MediaType('image', 'jpg'),
+            ));
+          } else if (element.file.path.contains(".jpeg")) {
+            debugPrint("media type jpeg ==== ${element.file.path}");
+            request.files.add(http.MultipartFile(
+              element.key,
+              element.file.readAsBytes().asStream(),
+              element.file.lengthSync(),
+              filename: 'image.jpeg',
+              contentType: MediaType('image', 'jpeg'),
+            ));
+          } else if (element.file.path.contains(".pdf")) {
+            debugPrint("media type pdf ==== ${element.file.path}");
+            request.files.add(http.MultipartFile(
+              element.key,
+              element.file.readAsBytes().asStream(),
+              element.file.lengthSync(),
+              filename: 'document.pdf',
+              contentType: MediaType('application', 'pdf'),
+            ));
+          } else if (element.file.path.contains(".xls") || element.file.path.contains(".xlsx")) {
+            debugPrint("media type excel ==== ${element.file.path}");
+            request.files.add(http.MultipartFile(
+              element.key,
+              element.file.readAsBytes().asStream(),
+              element.file.lengthSync(),
+              filename: 'document.xlsx',
+              contentType: MediaType('application', 'vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+            ));
+          } else if (element.file.path.contains(".doc") || element.file.path.contains(".docx")) {
+            debugPrint("media type doc/docx ==== ${element.file.path}");
+            request.files.add(http.MultipartFile(
+              element.key,
+              element.file.readAsBytes().asStream(),
+              element.file.lengthSync(),
+              filename: 'document.docx',
+              contentType: MediaType('application', 'msword'),
+            ));
+          }
+        });
+      }
+
+      request.headers.addAll(mainHeaders);
+      http.StreamedResponse response = await request.send();
+      final content = await response.stream.bytesToString();
+      debugPrint('====> API Response: [${response.statusCode}}] $uri\n${content}');
+
+      return Response(
+          statusCode: response.statusCode,
+          statusText: noInternetMessage,
+          body: content);
+    } catch (e) {
+      return const Response(statusCode: 1, statusText: noInternetMessage);
+    }
+  }
+
+
+
   //==========================================> Post Multipart Data <======================================
   static Future<Response> postMultipartData(
       String uri, Map<String, String> body,
