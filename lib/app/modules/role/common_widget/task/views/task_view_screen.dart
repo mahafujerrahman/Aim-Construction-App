@@ -1,7 +1,6 @@
-import 'package:aim_construction_app/app/controller/projectTask_controller.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/task/views/allTaskScreen.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/task/views/completedTaskScreen.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/task/views/openTaskScreen.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/task/views/allTaskScreen.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/task/views/completedTaskScreen.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/task/views/openTaskScreen.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
@@ -10,8 +9,7 @@ import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart' show Get;
-import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class RoleTaskView extends StatefulWidget {

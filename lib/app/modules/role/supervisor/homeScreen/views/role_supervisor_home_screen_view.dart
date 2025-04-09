@@ -39,7 +39,7 @@ class _SupervisorHomeScreenViewState extends State<SupervisorHomeScreenView> {
     return Scaffold(
       bottomNavigationBar: SupervisorBottomMenu(0),
       appBar: AppBar(
-        title: const Text('Manager Project'),
+        title: const Text('Supervisor Role'),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),

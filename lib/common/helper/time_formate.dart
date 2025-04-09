@@ -4,6 +4,9 @@ class TimeFormatHelper {
   static String formatDate(DateTime date) {
     return DateFormat('dd MMM, yyyy').format(date);
   }
+  static String formatDateWithDay(DateTime date) {
+    return DateFormat('EEEE, dd MMM, yyyy').format(date);
+  }
 
   static String year(DateTime date) {
     return DateFormat('yyyy').format(date);

@@ -61,7 +61,7 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
                 if (projectController.isLoading.value)
                   Center(
                     child: CupertinoActivityIndicator(radius: 32.r, color: AppColors.primaryColor),)
-                else if (projectController.projectDetailsModel.value.isEmpty)
+                 else if (projectController.projectDetailsModel.value.isEmpty)
                 // Show message when no projects are available
                   Center(
                     child: Column(
