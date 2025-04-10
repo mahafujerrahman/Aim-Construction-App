@@ -9,14 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class SupervisorAllTaskScreen extends StatefulWidget {
-  SupervisorAllTaskScreen({super.key});
+class ProjectAllTaskScreen extends StatefulWidget {
+  ProjectAllTaskScreen({super.key});
 
   @override
-  State<SupervisorAllTaskScreen> createState() => _SupervisorAllTaskScreenState();
+  State<ProjectAllTaskScreen> createState() => _ProjectAllTaskScreenState();
 }
 
-class _SupervisorAllTaskScreenState extends State<SupervisorAllTaskScreen> {
+class _ProjectAllTaskScreenState extends State<ProjectAllTaskScreen> {
 
   final ProjectTaskController projectTaskController = Get.put(ProjectTaskController());
 

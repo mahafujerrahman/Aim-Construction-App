@@ -72,19 +72,14 @@ class SignInController extends GetxController {
           Get.snackbar('Successfully', response.body['message']);
         }
       }
-      if ( response.statusCode == 401) {
-        Get.snackbar('Error', response.body['message']);
-      }
-      if (response.statusCode == 404) {
+      else if (response.statusCode! >= 401 && response.statusCode! <= 430) {
         Get.snackbar('Error', response.body['message']);
       }
     } catch (e) {
       signInLoading(false);
-      Get.snackbar('Error', 'An unexpected error occurred');
       print('Error: $e');
     } finally {
       signInLoading(false);
     }
   }
-
 }

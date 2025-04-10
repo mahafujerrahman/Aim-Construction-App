@@ -6,18 +6,18 @@ import 'package:aim_construction_app/utils/app_icons.dart';
 import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get.dart';
 
-class ManagerProjectToolsScreen extends StatefulWidget {
-  const ManagerProjectToolsScreen({super.key});
+
+
+ class SupervisorProjectToolScreen extends StatefulWidget {
+  const SupervisorProjectToolScreen({super.key});
 
   @override
-  State<ManagerProjectToolsScreen> createState() => _ManagerProjectToolsScreenState();
-}
+  State<SupervisorProjectToolScreen> createState() => _SupervisorProjectToolScreenState();
+ }
 
-class _ManagerProjectToolsScreenState extends State<ManagerProjectToolsScreen> {
+class _SupervisorProjectToolScreenState extends State<SupervisorProjectToolScreen> {
   final ProjectController projectController = Get.put(ProjectController());
 
   var parameter = Get.parameters;
@@ -26,7 +26,6 @@ class _ManagerProjectToolsScreenState extends State<ManagerProjectToolsScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_){
-      //projectController.getAllProjectDetails(id: parameter['projectId']);
     });
 
   }
@@ -53,6 +52,7 @@ class _ManagerProjectToolsScreenState extends State<ManagerProjectToolsScreen> {
                   color: AppColors.color323B4A, fontWeight: FontWeight.w700),
             ),
             SizedBox(height: 16.h),
+            // Wrap the GridView.builder with Expanded or Flexible
             Expanded(
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -60,7 +60,7 @@ class _ManagerProjectToolsScreenState extends State<ManagerProjectToolsScreen> {
                   crossAxisSpacing: 0.w,
                   mainAxisSpacing: 30.h,
                 ),
-                itemCount: 5,
+                itemCount: 5, // The total number of tools
                 itemBuilder: (context, index) {
                   if (index == 0) {
                     return Padding(
@@ -106,17 +106,6 @@ class _ManagerProjectToolsScreenState extends State<ManagerProjectToolsScreen> {
                         },
                       ),
                     );
-                  } else {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.w),
-                      child: ToolsCard(
-                        title: 'Contract',
-                        icon: AppIcons.contractIcon,
-                        onTap: () {
-                          Get.toNamed(AppRoutes.managerContactScreen);
-                        },
-                      ),
-                    );
                   }
                 },
               ),
@@ -127,4 +116,3 @@ class _ManagerProjectToolsScreenState extends State<ManagerProjectToolsScreen> {
     );
   }
 }
-

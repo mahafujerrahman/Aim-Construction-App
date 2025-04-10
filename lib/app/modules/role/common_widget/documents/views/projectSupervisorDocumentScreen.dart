@@ -108,7 +108,7 @@ class _ProjectSupervisorDoumentScreenState extends State<ProjectSupervisorDoumen
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: group.attachments?.length ?? 0,
                                 itemBuilder: (context, index) {
-                                  final imageUrl = group.attachments?[index].attachment ?? '';
+                                  final fileUrl = group.attachments?[index].attachment ?? '';
                                   return Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
@@ -116,9 +116,9 @@ class _ProjectSupervisorDoumentScreenState extends State<ProjectSupervisorDoumen
                                         padding: EdgeInsets.all(8.r),
                                         child: Row(
                                           children: [
-                                            getFileIcon(imageUrl), // Pass correct imageUrl
+                                            getFileIcon(fileUrl), // Pass correct imageUrl
                                             SizedBox(width: 8.w),
-                                            getFileName(imageUrl),
+                                            getFileName(fileUrl),
                                           ],
                                         ),
                                       ),

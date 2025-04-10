@@ -63,7 +63,6 @@ class DailyLogNoteScreen extends StatelessWidget {
         backgroundColor: AppColors.primaryColor,
         child: const Icon(Icons.add),
       ),
-
     );
   }
 

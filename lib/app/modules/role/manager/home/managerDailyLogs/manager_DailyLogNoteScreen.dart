@@ -52,14 +52,6 @@ class _ManagerDailyLogNoteScreenState extends State<ManagerDailyLogNoteScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.toNamed(AppRoutes.addNewNoteScreen);
-        },
-        backgroundColor: AppColors.primaryColor,
-        child: const Icon(Icons.add),
-      ),
-
     );
   }
 }

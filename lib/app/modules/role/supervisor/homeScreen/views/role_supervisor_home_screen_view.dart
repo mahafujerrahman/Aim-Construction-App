@@ -87,20 +87,21 @@ class _SupervisorHomeScreenViewState extends State<SupervisorHomeScreenView> {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: projectController.projectDetailsModel.value
-                        .length,
+                    itemCount: projectController.projectDetailsModel.value.length,
                     itemBuilder: (context, index) {
-                      final projectDetails = projectController
-                          .projectDetailsModel.value[index];
+                      final projectDetails = projectController.projectDetailsModel.value[index];
                       return Column(
                         children: [
                           ProjectCard(
-                            onTap: () {
-                              Get.toNamed(AppRoutes.managerProjectToolsScreen);
+                            onTap: () async  {
+                              await PrefsHelper.setString(AppConstants.projectID, projectDetails.projectId);
+                              Get.toNamed(AppRoutes.supervisorProjectTools,
+                                  parameters: {
+                                    "projectName": projectDetails.projectName ?? '',
+                                  }
+                              );
                             },
-                            imageUrl: "${ApiConstants
-                                .imageBaseUrl}${projectDetails.projectLogo ??
-                                ''}",
+                            imageUrl: "${projectDetails.projectLogo ?? ''}",
                             title: '${projectDetails.projectName}',
                             projectID: '${projectDetails.projectId}',
                           ),

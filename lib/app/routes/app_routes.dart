@@ -12,7 +12,7 @@ abstract class AppRoutes {
   static const resetPasswordScreen = _Paths.resetPasswordScreen;
   static const ROLE_SUPERVISOR_HOME_SCREEN = _Paths.ROLE_SUPERVISOR_HOME_SCREEN;
   static const ROLE_SUPERVISOR_MORE = _Paths.ROLE_SUPERVISOR_MORE;
-  static const ROLE_SUPERVISOR_PROJECT_TOOL = _Paths.ROLE_SUPERVISOR_PROJECT_TOOL;
+  static const supervisorProjectTools = _Paths.supervisorProjectTools;
   static const personalInformationScreen = _Paths.personalInformationScreen;
   static const ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION = _Paths.ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION;
   static const settingScreen = _Paths.settingScreen;
@@ -23,8 +23,8 @@ abstract class AppRoutes {
   static const aboutUsScreen = _Paths.aboutUsScreen;
   static const ROLE_SUPERVISOR_ACTIVITY_SCREEN = _Paths.ROLE_SUPERVISOR_ACTIVITY_SCREEN;
   static const ROLE_SUPERVISOR_DAILY_LOG = _Paths.ROLE_SUPERVISOR_DAILY_LOG;
-  static const ROLE_SUPERVISOR_TASK = _Paths.TASK_VIEW_SCREEN;
-  static const ROLE_SUPERVISOR_IMAGES = _Paths.Project_Images_View;
+  static const taskViewScreen = _Paths.taskViewScreen;
+  static const projectImagers = _Paths.Project_Images_View;
   static const supervisorDocuments = _Paths.supervisorDocuments;
   static const taskStatusScreen = _Paths.taskStatusScreen;
   static const dailyNoteDetailsScreen = _Paths.dailyNoteDetailsScreen;
@@ -63,13 +63,13 @@ abstract class _Paths {
 
   static const ROLE_SUPERVISOR_HOME_SCREEN = '/home-screen';
   static const ROLE_SUPERVISOR_MORE = '/more';
-  static const ROLE_SUPERVISOR_PROJECT_TOOL = '/project-tool';
+  static const supervisorProjectTools = '/supervisor_project-tool';
   static const personalInformationScreen = '/personal-information-screen';
   static const ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION = '/edit-personal-information';
 
   static const ROLE_SUPERVISOR_ACTIVITY_SCREEN = '/activity-screen';
   static const ROLE_SUPERVISOR_DAILY_LOG = '/daily-log';
-  static const TASK_VIEW_SCREEN = '/task';
+  static const taskViewScreen = '/all_task_screen';
   static const Project_Images_View = '/images';
   static const supervisorDocuments = '/documents';
   static const taskStatusScreen = '/taskStatusScreen';
