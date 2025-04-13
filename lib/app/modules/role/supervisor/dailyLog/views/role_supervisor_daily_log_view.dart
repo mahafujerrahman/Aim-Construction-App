@@ -4,9 +4,10 @@ import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/
 import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/innerWidget/calender_widget.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
 
 class RoleSupervisorDailyLogView extends StatefulWidget {
   const RoleSupervisorDailyLogView({super.key});
@@ -23,12 +24,13 @@ class _RoleSupervisorDailyLogViewState extends State<RoleSupervisorDailyLogView>
    'Image',
    'Document',
   ];
+  var parameter = Get.parameters;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Project Name'),
+        title: Text("${parameter['projectName']}"),
         centerTitle: true,
       ),
       body:  Column(

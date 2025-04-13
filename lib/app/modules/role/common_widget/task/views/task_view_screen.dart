@@ -152,7 +152,7 @@ class _TaskViewScreenState
               controller: _tabController,
               children:  [
                 ProjectOpenTaskScreen(),
-                ProjectrCompletedTaskScreen(),
+                ProjectCompletedTaskScreen(),
                 ProjectAllTaskScreen(),
               ],
             ),

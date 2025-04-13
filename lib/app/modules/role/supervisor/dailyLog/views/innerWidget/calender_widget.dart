@@ -15,7 +15,7 @@ class CalendarWithDropdown extends StatefulWidget {
 class _CalendarWithDropdownState extends State<CalendarWithDropdown> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  CalendarFormat _calendarFormat = CalendarFormat.month;
+  CalendarFormat _calendarFormat = CalendarFormat.week;
 
   List<String> _months = [
     'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'

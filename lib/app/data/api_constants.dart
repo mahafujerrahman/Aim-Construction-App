@@ -33,6 +33,7 @@ static const String baseUrl = "https://api.carrentpro.com/api/v1";
   static const String getAllImageAndDocumentEndPoint = "/project/getAllImagesOfAllNotesOfAProjectId/";
   static const String managerContarctCreateEndPoint = "/contract/create";
   static const String getManagerContarctEndPoint = "/contract/paginate";
+  static const String supervisorAddNewNoteEndPoint = "/note/create";
 
 
 }

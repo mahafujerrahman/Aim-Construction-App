@@ -22,7 +22,7 @@ abstract class AppRoutes {
   static const termsandConditionsScreen = _Paths.termsandConditionsScreen;
   static const aboutUsScreen = _Paths.aboutUsScreen;
   static const ROLE_SUPERVISOR_ACTIVITY_SCREEN = _Paths.ROLE_SUPERVISOR_ACTIVITY_SCREEN;
-  static const ROLE_SUPERVISOR_DAILY_LOG = _Paths.ROLE_SUPERVISOR_DAILY_LOG;
+  static const supervisor_dailyLog_screen = _Paths.ROLE_SUPERVISOR_DAILY_LOG;
   static const taskViewScreen = _Paths.taskViewScreen;
   static const projectImagers = _Paths.Project_Images_View;
   static const supervisorDocuments = _Paths.supervisorDocuments;

@@ -69,7 +69,13 @@ class _SupervisorProjectToolScreenState extends State<SupervisorProjectToolScree
                         title: 'Daily Logs',
                         icon: AppIcons.daliyLogs,
                         onTap: () {
-                          Get.toNamed(AppRoutes.managerDailyLogScreen);
+                          Get.toNamed(AppRoutes.supervisor_dailyLog_screen,
+                              parameters: {
+                                "projectName": parameter['projectName'] ?? '',
+                              }
+
+                          );
+
                         },
                       ),
                     );
@@ -107,6 +113,7 @@ class _SupervisorProjectToolScreenState extends State<SupervisorProjectToolScree
                       ),
                     );
                   }
+                  return null;
                 },
               ),
             ),

@@ -5,7 +5,7 @@ import 'package:aim_construction_app/app/modules/resetPassword/views/reset_passw
 import 'package:aim_construction_app/app/modules/role/common_widget/documents/views/role_supervisor_documents_view.dart';
 import 'package:aim_construction_app/app/modules/role/common_widget/task/views/task_view_screen.dart';
 import 'package:aim_construction_app/app/modules/role/manager/home/createProject/projectCreateScreen.dart';
-import 'package:aim_construction_app/app/modules/role/manager/home/createTask/managerTaskCreate.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/task/views/createTask/managerTaskCreate.dart';
 import 'package:aim_construction_app/app/modules/role/manager/home/managerContarctScreen.dart';
 import 'package:aim_construction_app/app/modules/role/manager/home/managerDailyLogs/managerDailyLogNoteDetailsScreen.dart';
 import 'package:aim_construction_app/app/modules/role/manager/home/managerDailyLogs/managerDailyLogScreen.dart';

@@ -1,18 +1,38 @@
+import 'dart:io';
+
+import 'package:aim_construction_app/app/controller/projectNote_controller.dart';
+import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
+import 'package:aim_construction_app/service/fileName.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
+import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
+import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart' as path;
 
-class AddNewNoteScreen extends StatelessWidget {
+class AddNewNoteScreen extends StatefulWidget {
   AddNewNoteScreen({super.key});
 
-  final TextEditingController noteNameController =
-  TextEditingController(text: "This is sample note");
-  final TextEditingController descriptionController =
-  TextEditingController(text: "Lorem ipsum dolor sit amet consectetur. Arcu magna nisl faucibus eu non.");
+  @override
+  State<AddNewNoteScreen> createState() => _AddNewNoteScreenState();
+}
 
+class _AddNewNoteScreenState extends State<AddNewNoteScreen> {
+  final ProjectNoteController projectNoteController = Get.put(ProjectNoteController());
+  String projectId = '';
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      projectId = await PrefsHelper.getString(AppConstants.projectID);
+      setState(() {});
+      print("Project Id : $projectId");
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,52 +56,34 @@ class AddNewNoteScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildLabelWithAddButton("Add note name"),
+            // Note Name Section
+            Text('Add note name', style: AppStyles.fontSize16(color: AppColors.color323B4A)),
             TextField(
-              controller: noteNameController,
+              controller: projectNoteController.noteName,
               decoration: const InputDecoration(border: InputBorder.none),
             ),
             SizedBox(height: 16.h),
 
-            _buildLabelWithAddButton("Add description"),
+            // Description Section
+            Text('Add Description', style: AppStyles.fontSize16(color: AppColors.color323B4A)),
             TextField(
-              controller: descriptionController,
+              controller: projectNoteController.noteDescription,
               maxLines: 3,
               decoration: const InputDecoration(border: InputBorder.none),
             ),
             SizedBox(height: 16.h),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Attachment', style: TextStyle(fontSize: 16.sp)),
-                InkWell(
-                  onTap: () {
-                    _showTakeDocumentDialog(context);
-                  },
-                  child: SvgPicture.asset(AppIcons.attachmentIcon, height: 20.h),
-                )
-              ],
-            ),
-            Row(
-              children: [
-                SvgPicture.asset(AppIcons.attachmentIcon, height: 18.h),
-                SizedBox(width: 4.w),
-                const Text("2"),
-                SizedBox(width: 16.w),
-                SvgPicture.asset(AppIcons.imageIcon, height: 16.h, color: AppColors.color323B4A),
-                SizedBox(width: 4.w),
-                const Text("2"),
-              ],
-            ),
+            // File Attachments Section
+            _buildFileAttachments(),
+
             const Spacer(),
 
-            // Save Button
+            // Save Button Section
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Save functionality
+                 projectNoteController.supervisorNewNoteCreate(projectId: projectId);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
@@ -102,43 +104,151 @@ class AddNewNoteScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLabelWithAddButton(String label) {
+  // File Attachments Section
+  Widget _buildFileAttachments() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
+      padding: EdgeInsets.symmetric(vertical: 8.h),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Add Attachment', style: AppStyles.fontSize16(color: AppColors.color323B4A)),
+              InkWell(
+                onTap: _showTakeFileDialog,
+                child: SvgPicture.asset(AppIcons.attachmentIcon, height: 35.h),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              SvgPicture.asset(AppIcons.attachmentIcon, height: 18.h),
+              SizedBox(width: 4.w),
+              Obx(() => Text("${projectNoteController.file.length}", style: AppStyles.fontSize16(color: AppColors.color323B4A))),
+              SizedBox(width: 16.w),
+              SvgPicture.asset(AppIcons.imageIcon, height: 16.h, color: AppColors.color323B4A),
+              SizedBox(width: 4.w),
+              Obx(() => Text("${projectNoteController.images.length}", style: AppStyles.fontSize16(color: AppColors.color323B4A))),
+            ],
+          ),
+          Obx(() => projectNoteController.file.isNotEmpty
+              ? ListView.builder(
+            itemCount: projectNoteController.file.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              final fileName = path.basename(projectNoteController.file[index]);
+              return Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
+                child: Row(
+                  children: [
+                    FileUtils.getFileIcon(projectNoteController.file[index]),
+                    SizedBox(width: 8),
+                    Text(fileName, style: AppStyles.fontSize16(color: AppColors.color323B4A)),
+                    GestureDetector(
+                      onTap: () {
+                        projectNoteController.removeFile(index);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: CircleAvatar(
+                          radius: 12,
+                          backgroundColor: AppColors.primaryColor,
+                          child: Icon(Icons.close, color: AppColors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          )
+              : SizedBox()),
+          SizedBox(height: 8.h),
+          Obx(() => projectNoteController.images.isNotEmpty
+              ? Container(
+            height: 130.h,
+            child: ListView.builder(
+              itemCount: projectNoteController.images.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 10.w),
+                      child: Container(
+                        height: 73.h,
+                        width: 73.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8).r,
+                          image: DecorationImage(image: FileImage(File(projectNoteController.images[index])), fit: BoxFit.cover),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        projectNoteController.removeImage(index);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8, right: 5),
+                        child: CircleAvatar(
+                          radius: 12,
+                          backgroundColor: AppColors.primaryColor,
+                          child: Icon(Icons.close, color: AppColors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          )
+              : SizedBox()),
+        ],
+      ),
     );
   }
 
-  void _showTakeDocumentDialog(BuildContext context) {
+  // Show dialog to select files
+  void _showTakeFileDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           child: Padding(
             padding: EdgeInsets.all(20.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Add an attachment",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
+                Text("Add attachment", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 SizedBox(height: 20.h),
-                TextButton(
-                  onPressed: () {
-                    // Add functionality
-                  },
-                  child: Text("Select file"),
-                ),
-                SizedBox(height: 8.h),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("Cancel"),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () async {
+                      Navigator.of(context).pop();
+                      projectNoteController.pickFileFromDevice();
+                    },
+                    borderRadius: BorderRadius.circular(8.r),
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset(AppIcons.imageIcon, height: 20, color: Colors.white),
+                          SizedBox(width: 8),
+                          Text("Select Attachment", style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
