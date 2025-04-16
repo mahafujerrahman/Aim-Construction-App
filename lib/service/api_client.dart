@@ -510,8 +510,7 @@ class ApiClient extends GetxService {
       response0 = const Response(statusCode: 0, statusText: noInternetMessage);
     }
 
-    debugPrint(
-        '====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
+    debugPrint('====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
     return response0;
   }
 }

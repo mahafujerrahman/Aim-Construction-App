@@ -16,4 +16,15 @@ class FileUtils {
       return SvgPicture.asset(AppIcons.documentsIcon, height: 20.h, color: Colors.black87);
     }
   }
+
+
+
+  static Widget getFileName(String url) {
+    final uri = Uri.parse(url);  // 'this' refers to the String instance
+    final fileName = uri.pathSegments.isNotEmpty ? uri.pathSegments.last : '';
+    final shortFileName = fileName.length > 30 ? fileName.substring(0, 30) + '...' : fileName;
+    return Text(shortFileName);
+  }
 }
+
+

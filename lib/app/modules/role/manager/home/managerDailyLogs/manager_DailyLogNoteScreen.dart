@@ -38,8 +38,8 @@ class _ManagerDailyLogNoteScreenState extends State<ManagerDailyLogNoteScreen> {
                           title: "Name of notes",
                           description:
                           "This note structure ensures clear communication of the day's events.",
-                          notesCount: 2,
-                          attachmentsCount: 2,
+                          documentCount: 2,
+                          imageCount: 2,
                         ),
                       ),
                       SizedBox(height: 16.h),

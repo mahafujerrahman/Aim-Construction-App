@@ -1,3 +1,4 @@
+import 'package:aim_construction_app/app/controller/supervisor_dailyLog_controller.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/dailylog_document_screen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/dailylog_image_screen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/dailylog_note_screen.dart';
@@ -18,6 +19,7 @@ class RoleSupervisorDailyLogView extends StatefulWidget {
 
 class _RoleSupervisorDailyLogViewState extends State<RoleSupervisorDailyLogView> {
   int _selectedIndex = 0;
+  final SupervisorDailyLogController supervisorDailyLogController = Get.put(SupervisorDailyLogController());
 
   final List<String> _tabs = [
    'Notes',
@@ -25,6 +27,15 @@ class _RoleSupervisorDailyLogViewState extends State<RoleSupervisorDailyLogView>
    'Document',
   ];
   var parameter = Get.parameters;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      supervisorDailyLogController.selectedDate;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,17 +88,18 @@ class _RoleSupervisorDailyLogViewState extends State<RoleSupervisorDailyLogView>
                               : Colors.transparent,
                         ),
                         child: Center(
-                          child: Text(
-                           '${_tabs[index]}(100)',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: _selectedIndex == index
-                                    ? Colors.white
-                                    : AppColors.blackColor,
+                          child: Obx(() {
+                            return Text(
+                              '${_tabs[index]} (${_getTabCount(index) ?? '0'})',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: _selectedIndex == index ? Colors.white : AppColors.blackColor,
                                 fontSize: 12.sp,
-                                fontWeight: FontWeight.w500
-                            ),
-                          ),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            );
+                          }),
+
                         ),
                       ),
                     ),
@@ -106,6 +118,20 @@ class _RoleSupervisorDailyLogViewState extends State<RoleSupervisorDailyLogView>
       ),
     );
   }
+
+  String _getTabCount(int index) {
+    switch (index) {
+      case 0:
+        return '${supervisorDailyLogController.noteCount}';
+      case 1:
+        return '${supervisorDailyLogController.imageCount}';
+      case 2:
+        return '${supervisorDailyLogController.documentCount}';
+      default:
+        return '0';
+    }
+  }
+
 
   Widget? _buildTabContent() {
     switch (_selectedIndex) {

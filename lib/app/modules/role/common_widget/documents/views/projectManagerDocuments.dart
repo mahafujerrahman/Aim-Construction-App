@@ -1,5 +1,6 @@
 import 'package:aim_construction_app/app/controller/image_and_document_controller.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
+import 'package:aim_construction_app/service/fileName.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
@@ -34,19 +35,7 @@ class _ProjectManagerDoumentScreenState extends State<ProjectManagerDoumentScree
     });
   }
 
-  Widget getFileIcon(String fileName) {
-    if (fileName.endsWith('.pdf')) {
-      return SvgPicture.asset(AppIcons.pdfIcon);
-    } else if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
-      return SvgPicture.asset(AppIcons.excelFileIcon,height: 20.h);
-    }
-    else if (fileName.endsWith('.doc') || fileName.endsWith('.docx')) {
-      return SvgPicture.asset(AppIcons.documentsIcon,height: 20.h,color: Colors.black87);
-    }
-    else {
-      return SvgPicture.asset(AppIcons.documentsIcon,height: 20.h,color: Colors.black87);
-    }
-  }
+
 
   Widget getFileName(String imageUrl) {
 
@@ -115,7 +104,7 @@ class _ProjectManagerDoumentScreenState extends State<ProjectManagerDoumentScree
                                       padding: EdgeInsets.all(8.r),
                                       child: Row(
                                         children: [
-                                          getFileIcon(imageUrl), // Pass correct imageUrl
+                                          FileUtils.getFileIcon(imageUrl), // Pass correct imageUrl
                                           SizedBox(width: 8.w),
                                           getFileName(imageUrl),
                                         ],

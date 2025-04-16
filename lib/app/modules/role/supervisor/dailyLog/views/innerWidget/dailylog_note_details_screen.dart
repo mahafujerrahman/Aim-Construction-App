@@ -1,3 +1,4 @@
+import 'package:aim_construction_app/app/controller/projectNote_controller.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
 import 'package:aim_construction_app/utils/style.dart';
@@ -12,6 +13,10 @@ class DailyNoteDetailsScreen extends StatefulWidget {
 }
 
 class _DailyNoteDetailsScreenState extends State<DailyNoteDetailsScreen> {
+  final ProjectNoteController projectNoteController = Get.put(ProjectNoteController());
+
+  var parameter = Get.parameters;
+
   List<Map<String, dynamic>> groupedFiles = [
     {
       'date': 'Sunday, February 14, 2025',
@@ -39,9 +44,19 @@ class _DailyNoteDetailsScreenState extends State<DailyNoteDetailsScreen> {
     },
   ];
 
+  void initState()  {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      String noteId = '${parameter['noteId']}';
+      print('Fetching note details for ID: $noteId');
+      projectNoteController.getNoteDetailsByID(noteId);
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var group = groupedFiles[0]; // Ensuring valid group reference
+    var group = groupedFiles[0];
 
     return Scaffold(
       appBar: AppBar(
@@ -88,8 +103,6 @@ class _DailyNoteDetailsScreenState extends State<DailyNoteDetailsScreen> {
 
             // Attachments Section
             Text('Attachments', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            SizedBox(height: 5),
-            Text('Thursday, February 18, 2025', style: TextStyle(color: Colors.grey)),
             SizedBox(height: 10),
 
             // Image Grid Section

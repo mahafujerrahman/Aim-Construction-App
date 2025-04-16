@@ -28,9 +28,7 @@ class ProjectController extends GetxController {
   File? selectedProjectImage;
   RxString selectedSupervisor = ''.obs;
   RxString selectedTampelet = ''.obs;
-  List<String> tampelet = [
-    'Default',
-  ];
+  List<String> tampelet = ['Default'];
 
   projectCreate() async {
     String formattedStartDate = DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse(startDateController.text));
@@ -122,7 +120,6 @@ class ProjectController extends GetxController {
       update();
     }
   }
-
 }
 
 

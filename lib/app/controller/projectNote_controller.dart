@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:aim_construction_app/app/data/api_constants.dart';
+import 'package:aim_construction_app/app/model/getNoteDetailById_model.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/service/api_checker.dart';
 import 'package:aim_construction_app/service/api_client.dart';
@@ -149,5 +150,30 @@ class ProjectNoteController extends GetxController {
   }
   void clearFile(){
     file.clear();
+  }
+
+  //============================>> Note Details by ID <<==============================
+  Rx<GetNoteDetailByIdModel> getNoteDetailByIdModel = GetNoteDetailByIdModel().obs;
+  RxBool isLoadingBooking=false.obs;
+
+  getNoteDetailsByID(String noteID)async{
+    isLoadingBooking.value=true;
+    var response = await ApiClient.getData(
+      "${ApiConstants.noteDetailsEndPoint}/noteID",);
+    if (response.statusCode == 200) {
+      getNoteDetailByIdModel.value = GetNoteDetailByIdModel.fromJson(response.body['data']['attributes']);
+      isLoadingBooking.value=false;
+
+
+      update();
+
+    }else {
+      isLoadingBooking.value=false;
+      ApiChecker.checkApi(response);
+      update();
+
+    }
+
+
   }
 }

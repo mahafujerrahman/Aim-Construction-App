@@ -9,15 +9,15 @@ class NoteCard extends StatelessWidget {
   final String title;
   final String description;
   final String? status;
-  final int notesCount;
-  final int attachmentsCount;
+  final int documentCount;
+  final int imageCount;
 
   NoteCard({
     required this.title,
     required this.description,
     this.status,
-    required this.notesCount,
-    required this.attachmentsCount,
+    required this.documentCount,
+    required this.imageCount,
   });
 
   @override
@@ -95,7 +95,7 @@ class NoteCard extends StatelessWidget {
                   children: [
                     SvgPicture.asset(AppIcons.attachmentIcon, height: 20.h),
                     SizedBox(width: 4),
-                    Text('$attachmentsCount', style: TextStyle(fontSize: 12)),
+                    Text('$imageCount', style: TextStyle(fontSize: 12)),
                   ],
                 ),
                 SizedBox(width: 16),
@@ -103,7 +103,7 @@ class NoteCard extends StatelessWidget {
                   children: [
                     SvgPicture.asset(AppIcons.imageIcon, height: 16.h, color: AppColors.color323B4A),
                     SizedBox(width: 4),
-                    Text('$notesCount', style: TextStyle(fontSize: 12)),
+                    Text('$documentCount', style: TextStyle(fontSize: 12)),
                   ],
                 ),
               ],
