@@ -1,36 +1,55 @@
-import 'package:aim_construction_app/app/controller/image_and_document_controller.dart';
+import 'package:aim_construction_app/app/controller/supervisor_dailyLog_controller.dart';
+import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_constant.dart';
-import 'package:aim_construction_app/utils/app_icons.dart';
+import 'package:aim_construction_app/utils/app_images.dart';
+import 'package:aim_construction_app/utils/style.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class ProjectManagerImageScreen extends StatefulWidget {
-  const ProjectManagerImageScreen({super.key});
+class ManagerDailyLogImageScreen extends StatefulWidget {
+  const ManagerDailyLogImageScreen({super.key});
 
   @override
-  State<ProjectManagerImageScreen> createState() => _ProjectManagerImageScreenState();
+  State<ManagerDailyLogImageScreen> createState() => _ManagerDailyLogImageScreenState();
 }
 
-class _ProjectManagerImageScreenState extends State<ProjectManagerImageScreen> {
-  final ProjectImageAndDocumentController projectImageAndDocumentController = Get.put(ProjectImageAndDocumentController());
+class _ManagerDailyLogImageScreenState extends State<ManagerDailyLogImageScreen> {
+  final SupervisorDailyLogController supervisorDailyLogController = Get.put(SupervisorDailyLogController());
+
+  String projectId = '';
+  String selectDate = '';
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      var projectId = await PrefsHelper.getString(AppConstants.projectID);
-      projectImageAndDocumentController.getAllImageAndDocument(
-        projectId: projectId,
-        imageOrDocument: 'image',
-        uploaderRole: 'projectManager',
-      );
+    _loadData();
+  }
+
+  // Loading projectId and image data
+  void _loadData() async {
+    projectId = await PrefsHelper.getString(AppConstants.projectID);
+    setState(() {
+      selectDate = supervisorDailyLogController.selectedDate.value;
     });
+    _fetchData();
+    ever(supervisorDailyLogController.selectedDate, (callback) {
+      _fetchData();
+    });
+  }
+
+  void _fetchData() {
+    supervisorDailyLogController.getAllImageOrDocumentUnderNote(
+      projectId: projectId,
+      date: selectDate,
+      noteOrTaskOrProject: 'note',
+      imageOrDocument: 'image',
+      uploaderRole: 'projectSupervisor',
+    );
   }
 
   @override
@@ -44,7 +63,7 @@ class _ProjectManagerImageScreenState extends State<ProjectManagerImageScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Obx(() {
-                if (projectImageAndDocumentController.isLoading.value) {
+                if (supervisorDailyLogController.isLoading.value) {
                   return Center(
                     child: CupertinoActivityIndicator(
                       radius: 32.r,
@@ -53,22 +72,28 @@ class _ProjectManagerImageScreenState extends State<ProjectManagerImageScreen> {
                   );
                 }
 
-                // Show content when loading is complete
-                if (projectImageAndDocumentController.getAllImageAndDocumentModel.isEmpty) {
+                if (supervisorDailyLogController.getAllImageOrDocumentUnderNoteModel.isEmpty) {
                   return Center(
-                    child: Text(
-                      'No Image available',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.color323B4A,
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(AppImage.noData, height: 200.h),
+                        Padding(
+                          padding: EdgeInsets.all(12.r),
+                          child: Text(
+                            'No project note available now.',
+                            style: AppStyles.fontSize20(
+                                color: AppColors.hintColor),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 } else {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: projectImageAndDocumentController.getAllImageAndDocumentModel.map((group) {
+                    children: supervisorDailyLogController.getAllImageOrDocumentUnderNoteModel.map((group) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -91,11 +116,11 @@ class _ProjectManagerImageScreenState extends State<ProjectManagerImageScreen> {
                             itemBuilder: (context, index) {
                               final imageUrl = group.attachments?[index].attachment;
                               return GestureDetector(
-                                onTap: () => _showImagePreview(imageUrl.toString()),
+                                onTap: () => _showImagePreview(imageUrl ?? ''),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
                                   child: CachedNetworkImage(
-                                    imageUrl: imageUrl.toString(),
+                                    imageUrl: imageUrl ?? '',
                                     fit: BoxFit.cover,
                                     errorWidget: (context, url, error) => Icon(Icons.error),
                                   ),
@@ -116,10 +141,8 @@ class _ProjectManagerImageScreenState extends State<ProjectManagerImageScreen> {
     );
   }
 
-  // Function to handle image click (show preview dialog)
-  void _showImagePreview(String? image) {
-    if (image == null) return;
-
+  // Show Image Preview Dialog
+  void _showImagePreview(String image) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -145,7 +168,7 @@ class _ProjectManagerImageScreenState extends State<ProjectManagerImageScreen> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          Get.back();
+                          Navigator.of(context).pop();
                         },
                         style: TextButton.styleFrom(
                           foregroundColor: AppColors.redColor,
@@ -161,15 +184,18 @@ class _ProjectManagerImageScreenState extends State<ProjectManagerImageScreen> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          _deleteImage(image);
                           Navigator.of(context).pop();
                         },
                         style: TextButton.styleFrom(
                           foregroundColor: AppColors.redColor,
                         ),
-                        child: SvgPicture.asset(AppIcons.deletedIcon,color: Colors.white),
+                        child: Icon(
+                          Icons.delete,
+                          size: 30.sp,
+                          color: AppColors.color323B4A,
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
@@ -178,12 +204,5 @@ class _ProjectManagerImageScreenState extends State<ProjectManagerImageScreen> {
         );
       },
     );
-  }
-
-  // Function to delete the selected image
-  void _deleteImage(String image) {
-    projectImageAndDocumentController.getAllImageAndDocumentModel.forEach((group) {
-      group.attachments?.remove(image);
-    });
   }
 }

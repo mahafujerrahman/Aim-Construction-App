@@ -1,11 +1,12 @@
+import 'package:aim_construction_app/app/controller/supervisor_dailyLog_controller.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 
 class CalendarWithDropdown extends StatefulWidget {
   @override
@@ -13,22 +14,35 @@ class CalendarWithDropdown extends StatefulWidget {
 }
 
 class _CalendarWithDropdownState extends State<CalendarWithDropdown> {
+  final SupervisorDailyLogController supervisorDailyLogController =
+  Get.put(SupervisorDailyLogController());
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  CalendarFormat _calendarFormat = CalendarFormat.month;
+  CalendarFormat _calendarFormat = CalendarFormat.week;
 
   List<String> _months = [
     'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  String _selectedMonth = DateFormat('MMMM yyyy').format(DateTime.now());
+  String selectedMonth = DateFormat('MMMM yyyy').format(DateTime.now());
+  String selectedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
 
   final Map<DateTime, List<String>> appointmentDate = {
-    DateTime.utc(2025, 2, 16): ['Meeting with team', 'Doctor appointment'],
-    DateTime.utc(2025, 2, 18): ['Project deadline'],
-    DateTime.utc(2025, 2, 20): ['Lunch with client', 'Gym session'],
-    DateTime.utc(2025, 2, 22): ['Webinar'],
+    DateTime.utc(2025, 4, 16): ['Meeting with team', 'Doctor appointment'],
+    DateTime.utc(2025, 4, 18): ['Project deadline'],
+    DateTime.utc(2025, 4, 20): ['Lunch with client', 'Gym session'],
+    DateTime.utc(2025, 4, 22): ['Webinar'],
   };
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      supervisorDailyLogController.selectedDate.value = selectedDate;
+      print('From page - $selectedDate');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +55,16 @@ class _CalendarWithDropdownState extends State<CalendarWithDropdown> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               DropdownButton<String>(
-                value: _selectedMonth,
+                value: selectedMonth,
                 onChanged: (String? newValue) {
                   if (newValue != null) {
                     setState(() {
                       int monthIndex = _months.indexOf(newValue.split(' ')[0]) + 1;
                       int year = int.parse(newValue.split(' ')[1]);
-                      _selectedMonth = newValue;
+                      selectedMonth = newValue;
                       _focusedDay = DateTime(year, monthIndex);
                       _selectedDay = DateTime(year, monthIndex, _selectedDay?.day ?? 1);
+
                     });
                   }
                 },
@@ -85,14 +100,24 @@ class _CalendarWithDropdownState extends State<CalendarWithDropdown> {
           onPageChanged: (focusedDay) {
             setState(() {
               _focusedDay = focusedDay;
-              _selectedMonth = "${_months[focusedDay.month - 1]} ${focusedDay.year}";
+              selectedDate = "${_months[focusedDay.month - 1]} ${focusedDay.year}";
               _selectedDay = DateTime(focusedDay.year, focusedDay.month, _selectedDay?.day ?? 1);
+
+              // Update the selectedDate in the controller
+              supervisorDailyLogController.selectedDate.value = DateFormat('yyyy-MM-dd').format(focusedDay);
             });
           },
           onDaySelected: (selectedDay, focusedDay) {
             setState(() {
               _selectedDay = selectedDay;
               _focusedDay = focusedDay;
+
+              // Print the selected date in YYYY-MM-DD format
+              String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDay);
+              print("From Page ======================= -${formattedDate}");
+
+              // Update the selectedDate in the controller with the formatted date
+              supervisorDailyLogController.selectedDate.value = formattedDate;
             });
           },
           headerVisible: false,

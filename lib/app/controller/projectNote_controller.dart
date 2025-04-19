@@ -1,61 +1,20 @@
 import 'dart:io';
 
 import 'package:aim_construction_app/app/data/api_constants.dart';
-import 'package:aim_construction_app/app/model/projectTask_details_model.dart';
-import 'package:aim_construction_app/app/model/project_model.dart';
+import 'package:aim_construction_app/app/model/getNoteDetailById_model.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/service/api_checker.dart';
 import 'package:aim_construction_app/service/api_client.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:image_picker/image_picker.dart';
 
+class ProjectNoteController extends GetxController {
 
-class ProjectTaskController extends GetxController {
-
-//======================== Project Task Details ==========================
-  RxList<ProjectTaskDetailsModel> projectTaskDetailsModel = <ProjectTaskDetailsModel>[].obs;
-  var isLoading = false.obs;
-
-  getAllProjectTaskDetails(
-      {
-        String? title,
-        String? id,
-        String? project,
-        String? task_status,
-        String? projectId}) async {
-    isLoading(true);
-    List<String> queryParams = [];
-    if (title != null) queryParams.add('title=$title');
-    if (id != null) queryParams.add('_id=$id');
-    if (project != null) queryParams.add('project=$project');
-    if (task_status != null) queryParams.add('task_status=$task_status');
-    if (projectId != null) queryParams.add('projectStatus=$projectId');
-
-    var url = ApiConstants.projectTaskDetailsEndPoint;
-
-    if (queryParams.isNotEmpty) {
-      url +='?${queryParams.join('&')}';
-    }
-
-
-    var response = await ApiClient.getData(url);
-
-    // Handle response
-    if (response.statusCode == 200) {
-      projectTaskDetailsModel.value = List.from(response.body['data']['attributes'].map((x) => ProjectTaskDetailsModel.fromJson(x)));
-      isLoading(false);
-      update();
-    } else {
-      ApiChecker.checkApi(response);
-      isLoading(false);
-      update();
-    }
-  }
 
 //================= pickFileFromDevice
   ImagePicker picker = ImagePicker();
@@ -65,7 +24,8 @@ class ProjectTaskController extends GetxController {
   Future<void> pickFileFromDevice() async {
     try {
       // Pick multiple images or files (assuming you are using an image picker that supports multiple media)
-      final List<XFile>? returnFiles = await picker.pickMultipleMedia();  // This needs the correct package
+      final List<XFile>? returnFiles = await picker
+          .pickMultipleMedia(); // This needs the correct package
 
       // Check if no files were selected
       if (returnFiles == null || returnFiles.isEmpty) {
@@ -81,20 +41,27 @@ class ProjectTaskController extends GetxController {
 
       // Iterate through each selected file
       for (var img in returnFiles) {
-        final fileExtension = img.path.split('.').last.toLowerCase();
+        final fileExtension = img.path
+            .split('.')
+            .last
+            .toLowerCase();
 
-        if (fileExtension == 'jpg' || fileExtension == 'jpeg' || fileExtension == 'png') {
+        if (fileExtension == 'jpg' || fileExtension == 'jpeg' ||
+            fileExtension == 'png') {
           images.value.add(img.path);
         }
         // If it's a file (PDF, DOCX, XLSX), add it to the file list
-        else if (fileExtension == 'pdf' || fileExtension == 'docx' || fileExtension == 'doc' || fileExtension == 'xls' || fileExtension == 'xlsx') {
+        else if (fileExtension == 'pdf' || fileExtension == 'docx' ||
+            fileExtension == 'doc' || fileExtension == 'xls' ||
+            fileExtension == 'xlsx') {
           file.value.add(img.path);
         } else {
           // Handle invalid file formats
           print("Invalid file format: $fileExtension for file ${img.path}");
           Get.snackbar(
             "Invalid File Format",
-            "File '${img.name}' is not a valid format. Allowed formats: JPG, PNG, PDF, DOCX, XLSX.",
+            "File '${img
+                .name}' is not a valid format. Allowed formats: JPG, PNG, PDF, DOCX, XLSX.",
             colorText: Colors.white,
             backgroundColor: Colors.red,
           );
@@ -125,14 +92,12 @@ class ProjectTaskController extends GetxController {
     refresh();
   }
 
-  RxString assignToSupervisor = ''.obs;
-  DateTime? selectedDate;
+  //================= Add new note ================================
+  TextEditingController noteName = TextEditingController();
+  TextEditingController noteDescription = TextEditingController();
 
-  TextEditingController taskTitelCTRl = TextEditingController();
-  TextEditingController taskDescriptionCTRl = TextEditingController();
-  //====================>> Manger Task Create
 
-  managerTaskCreate({required String projectId}) async{
+  supervisorNewNoteCreate({required String projectId}) async{
 
     List<MultipartBody> multipartAttachments = [];
 
@@ -150,23 +115,21 @@ class ProjectTaskController extends GetxController {
 
     Map<String, String> body = {
       "projectId": projectId,
-      "title": taskTitelCTRl.text.trim(),
-      "description": taskDescriptionCTRl.text.trim(),
-      "assignedTo": assignToSupervisor.value,
-      "dueDate": selectedDate.toString(),
+      "title": noteName.text.trim(),
+      "description": noteDescription.text.trim(),
     };
 
     var response = await ApiClient.postMultipartFileData(
-      ApiConstants.projectTaskCreateEndPoint,
+      ApiConstants.supervisorAddNewNoteEndPoint,
       body,
       multipartBody: multipartAttachments,
     );
     // Handle response
     if (response.statusCode == 200 || response.statusCode == 201) {
-      Get.snackbar('Successfully','Task created successfully');
+      Get.snackbar('Successfully','Note created successfully');
       update();
       clearTaskData();
-      Get.toNamed(AppRoutes.managerHomeScreen);
+      Get.toNamed(AppRoutes.supervisorProjectTools);
     } else {
       ApiChecker.checkApi(response);
       update();
@@ -176,10 +139,8 @@ class ProjectTaskController extends GetxController {
   }
 
   void clearTaskData(){
-    taskTitelCTRl.clear();
-    taskDescriptionCTRl.clear();
-    assignToSupervisor.value = '';
-    selectedDate;
+    noteName.clear();
+    noteDescription.clear();
     clearImage();
     clearFile();
   }
@@ -190,6 +151,62 @@ class ProjectTaskController extends GetxController {
   void clearFile(){
     file.clear();
   }
+
+  //============================>> Note Details by ID <<==============================
+
+  Rx<GetNoteDetailByIdModel> getNoteDetailByIdModel = GetNoteDetailByIdModel().obs;
+  var noteTitle = ''.obs;
+  var descriptionOfNote = ''.obs;
+  var noteDate = ''.obs;
+  var isAccepted = ''.obs;
+  var createdAt = ''.obs;
+
+
+  RxBool isLoading=false.obs;
+
+  getNoteDetailsByID(String noteID)async{
+    isLoading.value=true;
+    var response = await ApiClient.getData(
+      "${ApiConstants.noteDetailsEndPoint}/$noteID",);
+    if (response.statusCode == 200) {
+      getNoteDetailByIdModel.value = GetNoteDetailByIdModel.fromJson(response.body['data']['attributes']);
+
+
+      noteTitle.value= response.body['data']['attributes']['title'];
+      descriptionOfNote.value= response.body['data']['attributes']['description'];
+      isAccepted.value= response.body['data']['attributes']['isAccepted'];
+      createdAt.value= response.body['data']['attributes']['createdAt'];
+
+      isLoading.value=false;
+
+
+      update();
+
+    }else {
+      isLoading.value=false;
+      ApiChecker.checkApi(response);
+      update();
+
+    }
+  }
+
+  //============================= Note Status Change ======================
+  RxBool loading=false.obs;
+  noteStatusChnage(String noteID) async {
+  loading.value = true;
+    var response = await ApiClient.getData("${ApiConstants.noteStatusChnangeEndPoint}/$noteID",);
+    if (response.statusCode == 200) {
+      Get.snackbar('Successfully', response.body['message']);
+      loading.value=false;
+
+
+      update();
+
+    }else {
+      isLoading.value=false;
+      ApiChecker.checkApi(response);
+      update();
+
+    }
+  }
 }
-
-

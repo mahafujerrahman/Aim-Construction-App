@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:aim_construction_app/app/data/api_constants.dart';
 import 'package:aim_construction_app/app/modules/role/manager/more/model/getAllSupervisorbyManagerModel.dart';
 import 'package:aim_construction_app/app/modules/role/manager/more/model/useProfileDetailsModel.dart';
+import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
 import 'package:aim_construction_app/service/api_checker.dart';
 import 'package:aim_construction_app/service/api_client.dart';
 import 'package:aim_construction_app/utils/app_constant.dart';
+import 'package:aim_construction_app/utils/app_string.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
@@ -55,6 +59,63 @@ class ProfileMoreController extends GetxController {
       ApiChecker.checkApi(response);
       update();
       isLoading (false);
+    }
+  }
+
+  //===================>>> Edit Profile <<====================
+  Future<void> editProfile({
+    File? profileImage,
+    required String fname,
+    required String lname,
+    required String phoneNumber,
+    required String address,
+  }) async {
+
+    List<MultipartBody> multipartBody = [];
+
+    if (profileImage != null) {
+      multipartBody.add(MultipartBody("profileImage", profileImage));
+    }
+
+
+    var bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
+    var headers = {
+      'Authorization': 'Bearer $bearerToken',
+    };
+
+    Map<String, String> body = {
+      "fname": fname,
+      "lname": lname,
+      "address": address,
+      "phoneNumber": phoneNumber,
+
+    };
+
+    var response = await ApiClient.patchMultipartData(
+      ApiConstants.updateProfileEndPoint,
+      body,
+      headers: headers,
+      multipartBody: multipartBody,
+    );
+
+    print("===========response body : ${response.body} \nand status code : ${response.statusCode}");
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      userProfileDetailsModel.value = UserProfileDetailsModel.fromJson(response.body['data']['attributes']);
+      userProfileDetailsModel.refresh();
+      var role = await PrefsHelper.getString(AppConstants.role);
+
+      if (role == Role.projectManager.name) {
+        Get.offAllNamed(AppRoutes.managerMoreScreen);
+      } else if (role == Role.projectSupervisor.name) {
+        Get.offAllNamed(AppRoutes.supervisorMoreScreen);
+      }
+
+      // Show success snackbar
+      Get.snackbar('Successfully', 'Updated');
+    } else {
+      Get.snackbar('Error', 'Wrong');
+      ApiChecker.checkApi(response);
     }
   }
 

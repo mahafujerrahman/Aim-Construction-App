@@ -1,5 +1,5 @@
 import 'package:aim_construction_app/app/data/api_constants.dart';
-import 'package:aim_construction_app/app/modules/role/manager/more/controller/profile_more_controller.dart';
+import 'package:aim_construction_app/app/controller/profile_more_controller.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/style.dart';
@@ -109,7 +109,7 @@ class _MySupervisorListScreenState extends State<MySupervisorListScreen> {
                                   borderRadius: BorderRadius.circular(10.r),
                                   child: CachedNetworkImage(
                                     imageUrl:
-                                    "${ApiConstants.imageBaseUrl}${supervisor.profileImage?.imageUrl}",
+                                    "${supervisor.profileImage?.imageUrl}",
                                     fit: BoxFit.cover,
                                   ),
                                 ),

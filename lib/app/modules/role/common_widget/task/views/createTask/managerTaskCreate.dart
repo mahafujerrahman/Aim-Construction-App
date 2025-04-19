@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'package:aim_construction_app/app/controller/projectTask_controller.dart';
-import 'package:aim_construction_app/app/modules/role/manager/more/controller/profile_more_controller.dart';
+import 'package:aim_construction_app/app/controller/profile_more_controller.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
+import 'package:aim_construction_app/service/fileName.dart';
 import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:intl/intl.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
@@ -38,19 +39,6 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
     });
   }
 
-  Widget getFileIcon(String fileName) {
-    if (fileName.endsWith('.pdf')) {
-      return SvgPicture.asset(AppIcons.pdfIcon);
-    } else if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
-      return SvgPicture.asset(AppIcons.excelFileIcon,height: 20.h);
-    }
-    else if (fileName.endsWith('.docx') || fileName.endsWith('.doc')) {
-      return SvgPicture.asset(AppIcons.documentsIcon,height: 20.h,color: Colors.black87);
-    }
-    else {
-      return SvgPicture.asset(AppIcons.documentsIcon,height: 20.h,color: Colors.black87);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +207,7 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
                 padding: EdgeInsets.only(bottom: 8.0),
                 child: Row(
                   children: [
-                    getFileIcon(projectTaskController.file[index]),
+                    FileUtils.getFileIcon(projectTaskController.file[index]),
                     SizedBox(width: 8),
                     Text(fileName, style: AppStyles.fontSize16(color: AppColors.color323B4A)),
                     GestureDetector(

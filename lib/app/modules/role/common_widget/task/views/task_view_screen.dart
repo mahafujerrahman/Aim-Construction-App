@@ -12,15 +12,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 
-class RoleTaskView extends StatefulWidget {
-  const RoleTaskView({super.key});
+class TaskViewScreen extends StatefulWidget {
+  const TaskViewScreen({super.key});
 
   @override
-  _RoleTaskViewState createState() => _RoleTaskViewState();
+  _TaskViewScreenState createState() => _TaskViewScreenState();
 }
 
-class _RoleTaskViewState
-    extends State<RoleTaskView> with SingleTickerProviderStateMixin {
+class _TaskViewScreenState
+    extends State<TaskViewScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final  TextEditingController textEditingController = TextEditingController();
   String role = '';
@@ -58,7 +58,7 @@ class _RoleTaskViewState
       backgroundColor: AppColors.white,
       appBar: AppBar(
         title: Text(
-          'Project Name',
+          'Task',
           style: AppStyles.fontSize18(fontWeight: FontWeight.w600,color: AppColors.color323B4A),
         ),
         centerTitle: true,
@@ -66,10 +66,6 @@ class _RoleTaskViewState
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Task'),
-          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: CustomTextField(
@@ -155,9 +151,9 @@ class _RoleTaskViewState
             child: TabBarView(
               controller: _tabController,
               children:  [
-                SupervisorOpenTaskScreen(),
-                SupervisorCompletedTaskScreen(),
-                SupervisorAllTaskScreen(),
+                ProjectOpenTaskScreen(),
+                ProjectCompletedTaskScreen(),
+                ProjectAllTaskScreen(),
               ],
             ),
           ),

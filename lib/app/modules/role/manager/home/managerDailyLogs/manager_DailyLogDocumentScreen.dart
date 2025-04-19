@@ -1,4 +1,4 @@
-import 'package:aim_construction_app/app/controller/image_and_document_controller.dart';
+import 'package:aim_construction_app/app/controller/supervisor_dailyLog_controller.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
 import 'package:aim_construction_app/service/fileName.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
@@ -8,33 +8,59 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
-
-class ProjectSupervisorDoumentScreen extends StatefulWidget {
-  const ProjectSupervisorDoumentScreen({super.key});
+class ManagerDailyLogDocumentScreen extends StatefulWidget {
+  ManagerDailyLogDocumentScreen({super.key});
 
   @override
-  State<ProjectSupervisorDoumentScreen> createState() => _ProjectSupervisorDoumentScreenState();
+  State<ManagerDailyLogDocumentScreen> createState() => _ManagerDailyLogDocumentScreenState();
 }
 
-class _ProjectSupervisorDoumentScreenState extends State<ProjectSupervisorDoumentScreen> {
-  final ProjectImageAndDocumentController projectImageAndDocumentController = Get.put(ProjectImageAndDocumentController());
+class _ManagerDailyLogDocumentScreenState extends State<ManagerDailyLogDocumentScreen> {
+  final SupervisorDailyLogController supervisorDailyLogController = Get.put(SupervisorDailyLogController());
+
+  String projectId = '';
+  String selectDate = '';
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      var projectId = await PrefsHelper.getString(AppConstants.projectID);
-      projectImageAndDocumentController.getAllImageAndDocument(
-        projectId: projectId,
-        imageOrDocument: 'document',
-        uploaderRole: 'projectSupervisor',
-      );
-    });
+    _loadData();
   }
+
+  // Loading projectId and image data
+  void _loadData() async {
+    projectId = await PrefsHelper.getString(AppConstants.projectID);
+    setState(() {
+      selectDate = supervisorDailyLogController.selectedDate.value;
+    });
+    _fetchData();
+  }
+
+  void _fetchData() {
+    supervisorDailyLogController.getAllImageOrDocumentUnderNote(
+      projectId: projectId,
+      date: selectDate,
+      noteOrTaskOrProject: 'note',
+      imageOrDocument: 'document',
+      uploaderRole: 'projectSupervisor',
+    );
+  }
+
+  // Function to get the appropriate icon based on file extension
+  Widget getFileIcon(String fileName) {
+    if (fileName.endsWith('.pdf')) {
+      return SvgPicture.asset(AppIcons.pdfIcon);
+    } else if (fileName.endsWith('.xlsx')) {
+      return SvgPicture.asset(AppIcons.excelFileIcon);
+    } else {
+      return SvgPicture.asset(AppIcons.documentsIcon);
+    }
+  }
+
 
 
   @override
@@ -47,7 +73,7 @@ class _ProjectSupervisorDoumentScreenState extends State<ProjectSupervisorDoumen
           child: Column(
               children:[
                 Obx(() {
-                  if (projectImageAndDocumentController.isLoading.value) {
+                  if (supervisorDailyLogController.isLoading.value) {
                     return Center(
                       child: CupertinoActivityIndicator(
                         radius: 32.r,
@@ -57,7 +83,7 @@ class _ProjectSupervisorDoumentScreenState extends State<ProjectSupervisorDoumen
                   }
 
                   // Show content when loading is complete
-                  if (projectImageAndDocumentController.getAllImageAndDocumentModel.isEmpty) {
+                  if (supervisorDailyLogController.getAllImageOrDocumentUnderNoteModel.isEmpty) {
                     return Center(
                       child: Text(
                         'No Document available',
@@ -71,7 +97,7 @@ class _ProjectSupervisorDoumentScreenState extends State<ProjectSupervisorDoumen
                   } else {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: projectImageAndDocumentController.getAllImageAndDocumentModel.map((group) {
+                      children: supervisorDailyLogController.getAllImageOrDocumentUnderNoteModel.map((group) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
                           child: Column(
@@ -97,7 +123,7 @@ class _ProjectSupervisorDoumentScreenState extends State<ProjectSupervisorDoumen
                                         padding: EdgeInsets.all(8.r),
                                         child: Row(
                                           children: [
-                                            FileUtils.getFileIcon(fileUrl), 
+                                            FileUtils.getFileIcon(fileUrl), // Pass correct imageUrl
                                             SizedBox(width: 8.w),
                                             FileUtils.getFileName(fileUrl),
                                           ],
@@ -125,5 +151,42 @@ class _ProjectSupervisorDoumentScreenState extends State<ProjectSupervisorDoumen
       ),
     );
   }
+  void _showTakeDocumentDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Add a attachment",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20.h),
+                TextButton(
+                  onPressed: () {
+                    // //Navigator.of(context).pop();
+                  },
+                  child: Text("Select file"),
+                ),
+                SizedBox(height: 8.h),
+                TextButton(
+                  onPressed: () {
+                    //    Navigator.of(context).pop();
+                  },
+                  child: Text("Cancel"),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
-

@@ -28,9 +28,7 @@ class ProjectController extends GetxController {
   File? selectedProjectImage;
   RxString selectedSupervisor = ''.obs;
   RxString selectedTampelet = ''.obs;
-  List<String> tampelet = [
-    'Default',
-  ];
+  List<String> tampelet = ['Default'];
 
   projectCreate() async {
     String formattedStartDate = DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse(startDateController.text));
@@ -96,10 +94,9 @@ class ProjectController extends GetxController {
     List<String> queryParams = [];
     if (projectName != null) queryParams.add('projectName=$projectName');
     if (id != null) queryParams.add('id=$id');
-    if (projectSuperVisorId != null)
-      queryParams.add('projectSuperVisorId=$projectSuperVisorId');
-    if (projectManager != null)
-      queryParams.add('projectManager=$projectManager');
+    if (projectSuperVisorId != null) queryParams.add('projectSuperVisorId=$projectSuperVisorId');
+
+    if (projectManager != null) queryParams.add('projectManager=$projectManager');
     if (projectStatus != null) queryParams.add('projectStatus=$projectStatus');
 
     var url = ApiConstants.projectDetailsEndPoint;
@@ -122,7 +119,6 @@ class ProjectController extends GetxController {
       update();
     }
   }
-
 }
 
 

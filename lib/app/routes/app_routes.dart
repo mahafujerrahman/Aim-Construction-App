@@ -11,10 +11,10 @@ abstract class AppRoutes {
   static const VERIFY_EMAIL = _Paths.VERIFY_EMAIL;
   static const resetPasswordScreen = _Paths.resetPasswordScreen;
   static const ROLE_SUPERVISOR_HOME_SCREEN = _Paths.ROLE_SUPERVISOR_HOME_SCREEN;
-  static const ROLE_SUPERVISOR_MORE = _Paths.ROLE_SUPERVISOR_MORE;
-  static const ROLE_SUPERVISOR_PROJECT_TOOL = _Paths.ROLE_SUPERVISOR_PROJECT_TOOL;
+  static const supervisorMoreScreen = _Paths.supervisorMoreScreen;
+  static const supervisorProjectTools = _Paths.supervisorProjectTools;
   static const personalInformationScreen = _Paths.personalInformationScreen;
-  static const ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION = _Paths.ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION;
+  static const editPersonalInformation = _Paths.editPersonalInformation;
   static const settingScreen = _Paths.settingScreen;
   static const changePasswordScreen = _Paths.changePasswordScreen;
   static const contactUsScreen = _Paths.contactUsScreen;
@@ -22,9 +22,9 @@ abstract class AppRoutes {
   static const termsandConditionsScreen = _Paths.termsandConditionsScreen;
   static const aboutUsScreen = _Paths.aboutUsScreen;
   static const ROLE_SUPERVISOR_ACTIVITY_SCREEN = _Paths.ROLE_SUPERVISOR_ACTIVITY_SCREEN;
-  static const ROLE_SUPERVISOR_DAILY_LOG = _Paths.ROLE_SUPERVISOR_DAILY_LOG;
-  static const ROLE_SUPERVISOR_TASK = _Paths.TASK_VIEW_SCREEN;
-  static const ROLE_SUPERVISOR_IMAGES = _Paths.Project_Images_View;
+  static const supervisor_dailyLog_screen = _Paths.ROLE_SUPERVISOR_DAILY_LOG;
+  static const taskViewScreen = _Paths.taskViewScreen;
+  static const projectImagers = _Paths.Project_Images_View;
   static const supervisorDocuments = _Paths.supervisorDocuments;
   static const taskStatusScreen = _Paths.taskStatusScreen;
   static const dailyNoteDetailsScreen = _Paths.dailyNoteDetailsScreen;
@@ -39,7 +39,7 @@ abstract class AppRoutes {
   static const managerProjectToolsScreen = _Paths.managerProjectToolsScreen;
   static const managerContactScreen = _Paths.managerContactScreen;
   static const managerDailyLogScreen = _Paths.managerDailyLogScreen;
-  static const projectReportDetailsScreen = _Paths.projectReportDetailsScreen;
+  static const managerNoteAcceptScreen = _Paths.managerNoteAcceptScreen;
   static const projectCreateScreen = _Paths.projectCreateScreen;
   static const managerTaskCreate = _Paths.managerTaskCreate;
 }
@@ -62,14 +62,14 @@ abstract class _Paths {
   static const aboutUsScreen = '/aboutUsScreen';
 
   static const ROLE_SUPERVISOR_HOME_SCREEN = '/home-screen';
-  static const ROLE_SUPERVISOR_MORE = '/more';
-  static const ROLE_SUPERVISOR_PROJECT_TOOL = '/project-tool';
+  static const supervisorMoreScreen = '/superVieror_more';
+  static const supervisorProjectTools = '/supervisor_project-tool';
   static const personalInformationScreen = '/personal-information-screen';
-  static const ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION = '/edit-personal-information';
+  static const editPersonalInformation = '/edit-personal-information';
 
   static const ROLE_SUPERVISOR_ACTIVITY_SCREEN = '/activity-screen';
   static const ROLE_SUPERVISOR_DAILY_LOG = '/daily-log';
-  static const TASK_VIEW_SCREEN = '/task';
+  static const taskViewScreen = '/all_task_screen';
   static const Project_Images_View = '/images';
   static const supervisorDocuments = '/documents';
   static const taskStatusScreen = '/taskStatusScreen';
@@ -88,7 +88,7 @@ abstract class _Paths {
   static const managerProjectToolsScreen = '/managerProjectToolsScreen';
   static const managerContactScreen = '/managerContactScreen';
   static const managerDailyLogScreen = '/managerDailyLogScreen';
-  static const projectReportDetailsScreen = '/projectReportDetailsScreen';
+  static const managerNoteAcceptScreen = '/managerNoteAcceptScreen';
   static const projectCreateScreen = '/projectCreateScreen';
   static const managerTaskCreate = '/managerTaskCreate';
 

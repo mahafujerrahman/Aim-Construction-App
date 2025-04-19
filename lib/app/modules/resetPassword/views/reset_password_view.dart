@@ -1,4 +1,5 @@
 
+import 'package:aim_construction_app/app/modules/resetPassword/controllers/reset_password_controller.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
@@ -6,6 +7,9 @@ import 'package:aim_construction_app/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -15,10 +19,18 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
-  final TextEditingController _passCTRl = TextEditingController();
-  final TextEditingController _confirmPassCTRl = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final ResetPasswordController resetPasswordController = Get.put(ResetPasswordController());
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  var parameter = Get.parameters;
+
+  @override
+  void initState() {
+    super.initState();
+    // Print screen type when the screen initializes
+    print('Screen Email Type: ${parameter['email']}');
+    print('Screen Otp Type: ${parameter['otp']}');
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +55,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     //=======================> Password Text Field <======================
                     CustomTextField(
                       filColor: AppColors.fillUpColor,
-                      controller: _passCTRl,
+                      controller: resetPasswordController.setNewPasswordCTRl,
                       hintText: "Password",
                       isPassword: true,
                       prefixIcon: Padding(
@@ -56,7 +68,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     //=======================> Confirm Password Text Field <======================
                     CustomTextField(
                       filColor: AppColors.fillUpColor,
-                      controller: _confirmPassCTRl,
+                      controller: resetPasswordController.setConfirmNewPasswordCTRl,
                       hintText: "Confirm Password",
                       isPassword: true,
                       prefixIcon: Padding(
@@ -64,12 +76,25 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             horizontal: 20.w, vertical: 12.h),
                         child: SvgPicture.asset(AppIcons.lockIcon,color: AppColors.primaryColor),
                       ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter Confirm password";
+                          }
+                          else if (resetPasswordController.setNewPasswordCTRl.text !=
+                              resetPasswordController.setConfirmNewPasswordCTRl.text) {
+                            return 'Passwords do not match';
+                          }
+                          return null;
+                        }
                     ),
                     //====================> Continue Button <=============================
                     SizedBox(height: 425.h),
                     CustomButton(
                       onTap: () {
-                        // Your functionality for setting a new password
+                       resetPasswordController.setNewPassword(
+                           email:"${parameter['email']}",
+                           otp: "${parameter['otp']}",
+                       );
                       },
                       text: "Set New Password",
                     ),

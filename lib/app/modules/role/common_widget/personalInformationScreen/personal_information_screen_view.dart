@@ -1,6 +1,6 @@
 import 'package:aim_construction_app/app/data/api_constants.dart';
 import 'package:aim_construction_app/app/modules/bottom_menu/supervisor_bottom_menu..dart';
-import 'package:aim_construction_app/app/modules/role/manager/more/controller/profile_more_controller.dart';
+import 'package:aim_construction_app/app/controller/profile_more_controller.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
@@ -82,7 +82,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                                   borderRadius: BorderRadius.all(Radius.circular(8.r)),
                                 ),
                                 child: CachedNetworkImage(
-                                  imageUrl: "${ApiConstants.imageBaseUrl}${profileData.profileImage?.imageUrl ?? ''}",
+                                  imageUrl: "${profileData.profileImage?.imageUrl}",
                                   fit: BoxFit.cover,
                                   errorWidget: (context, url, error) => Image.network('http://www.clker.com/cliparts/Z/J/g/U/V/b/avatar-male-silhouette-md.png',
                                       fit: BoxFit.cover),
@@ -102,7 +102,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                             ),
                             InkWell(
                               onTap: (){
-                                Get.toNamed(AppRoutes.ROLE_SUPERVISOR_EDIT_PERSONAL_INFORMATION);
+                                Get.toNamed(AppRoutes.editPersonalInformation);
                               },
                               child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -134,16 +134,16 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                         title:"${profileData.email}",
                         prefixIcon: SvgPicture.asset(AppIcons.phoneIcon,color: AppColors.primaryColor,height: 20.h,width: 20.w),
                       ),
-                      SizedBox(height: 8.h),
+                  /*    SizedBox(height: 8.h),
                       //============================> Birth day List Tile <=================
                       CustomListTile(
                         title:'12 July 1998',
                         prefixIcon: SvgPicture.asset(AppIcons.birthday,color : AppColors.primaryColor,height: 20.h,width: 20.w),
-                      ),
+                      ),*/
                       SizedBox(height: 8.h),
                       //============================> Address List Tile <=================
                       CustomListTile(
-                        title:'Dhaka Bangladesh',
+                        title:"${profileData.address}",
                         prefixIcon: SvgPicture.asset(AppIcons.location,color : AppColors.primaryColor,height: 20.h,width: 20.w),
                       )
                     ]

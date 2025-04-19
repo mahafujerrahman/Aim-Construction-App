@@ -17,7 +17,7 @@ class VerifyEmailController extends GetxController {
   verifyCode({
     required String email,
     required String otp,
-    //required String type,
+    required String type,
   }) async {
     var verificationToken = await PrefsHelper.getString(AppConstants.verificationToken);
     verifyOTPLoading(true);
@@ -35,7 +35,19 @@ class VerifyEmailController extends GetxController {
       print("============> Response Body ${response.body} and ==> ${response.statusCode}");
       if (response.statusCode == 200 || response.statusCode == 201) {
         Get.snackbar('Done', response.body['message']);
+
+
+        if (type == "signupScreen") {
           Get.offAllNamed(AppRoutes.successfullScreen);
+        } else if(type == "forgetPasswordScreen") {
+          Get.offAllNamed(AppRoutes.resetPasswordScreen,
+            parameters: {
+              "email": email,
+              "otp": otp,
+            },
+
+          );
+        }
 
       } else if (response.statusCode == 400 || response.statusCode == 401) {
         Get.snackbar('Error', response.body['message']);

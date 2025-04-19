@@ -35,7 +35,7 @@ class _ManagerActivityScreenState extends State<ManagerActivityScreen> {
     return Scaffold(
       bottomNavigationBar: const ManagerBottomMenu(1),
       appBar: AppBar(
-        title: const Text('Sample project'),
+        title: const Text('Activity'),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
@@ -44,17 +44,14 @@ class _ManagerActivityScreenState extends State<ManagerActivityScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Activity Log
-            Text(
-              'Activity',
-              style: AppStyles.fontSize20(fontWeight: FontWeight.w700, color: AppColors.color323B4A),
-            ),
+
+
             SizedBox(height: 16),
             // Search bar
-            CustomTextField(
+          /*  CustomTextField(
               controller: notificationController.textEditingController,
               hintText: "Search",
-            ),
+            ),*/
             SizedBox(height: 16),
             // Activity List
             Expanded(

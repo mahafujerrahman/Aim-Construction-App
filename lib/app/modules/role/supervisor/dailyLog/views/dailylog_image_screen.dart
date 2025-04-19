@@ -1,36 +1,57 @@
+import 'dart:io';
+import 'package:aim_construction_app/app/controller/supervisor_dailyLog_controller.dart';
+import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
+import 'package:aim_construction_app/common/widgets/custom_button.dart';
+import 'package:aim_construction_app/service/fileName.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
-import 'package:aim_construction_app/utils/app_icons.dart';
+import 'package:aim_construction_app/utils/app_constant.dart';
+import 'package:aim_construction_app/utils/app_images.dart';
+import 'package:aim_construction_app/utils/style.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart' as path;
+
 
 class DailyLogImageScreen extends StatefulWidget {
-  DailyLogImageScreen({super.key});
+  const DailyLogImageScreen({super.key});
 
   @override
   State<DailyLogImageScreen> createState() => _DailyLogImageScreenState();
 }
 
 class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
-  List<Map<String, dynamic>> groupedFiles = [
-    {
-      'date': 'Sunday, February 14, 2025',
-      'images': [
-        'assets/image/workImage.jpg',
-        'assets/image/work1.jpg',
-        'assets/image/work2.jpg',
-        'assets/image/work3.jpg',
-        'assets/image/workImage.jpg',
-        'assets/image/workImage.jpg',
-        'assets/image/work4.jpg',
-      ],
-    },
-  ];
+  final SupervisorDailyLogController supervisorDailyLogController = Get.put(SupervisorDailyLogController());
+  String projectId = '';
+  String selectDate = '';
 
   @override
   void initState() {
     super.initState();
+    _loadData();
+  }
+
+  void _loadData() async {
+    projectId = await PrefsHelper.getString(AppConstants.projectID);
+    setState(() {
+      selectDate = supervisorDailyLogController.selectedDate.value;
+    });
+    _fetchData();
+    ever(supervisorDailyLogController.selectedDate, (callback) {
+      _fetchData();
+    });
+  }
+
+  void _fetchData() {
+    supervisorDailyLogController.getAllImageOrDocumentUnderNote(
+      projectId: projectId,
+      date: selectDate,
+      noteOrTaskOrProject: 'note',
+      imageOrDocument: 'image',
+      uploaderRole: 'projectSupervisor',
+    );
   }
 
   @override
@@ -42,58 +63,94 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: groupedFiles.map((group) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        '${group['date']}',
-                        style: TextStyle(fontWeight: FontWeight.w600, color: AppColors.color323B4A),
-                      ),
+            children: [
+              Obx(() {
+                if (supervisorDailyLogController.isLoading.value) {
+                  return Center(
+                    child: CupertinoActivityIndicator(
+                      radius: 32.r,
+                      color: AppColors.primaryColor,
                     ),
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        crossAxisSpacing: 8.0,
-                        mainAxisSpacing: 8.0,
-                      ),
-                      itemCount: group['images'].length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () => _showImagePreview(group['images'][index]),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              group['images'][index],
-                              fit: BoxFit.cover,
+                  );
+                }
+
+                if (supervisorDailyLogController.getAllImageOrDocumentUnderNoteModel.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(AppImage.noData, height: 200.h),
+                        Padding(
+                          padding: EdgeInsets.all(12.r),
+                          child: Text(
+                            'No project note available now.',
+                            style: AppStyles.fontSize20(color: AppColors.hintColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: supervisorDailyLogController.getAllImageOrDocumentUnderNoteModel.map((group) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              group.date ?? '',
+                              style: TextStyle(fontWeight: FontWeight.w600, color: AppColors.color323B4A),
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 4,
+                              crossAxisSpacing: 8.0,
+                              mainAxisSpacing: 8.0,
+                            ),
+                            itemCount: group.attachments?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              final imageUrl = group.attachments?[index].attachment;
+                              return GestureDetector(
+                                onTap: () => _showImagePreview(imageUrl ?? ''),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: CachedNetworkImage(
+                                    imageUrl: imageUrl ?? '',
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    }).toList(),
+                  );
+                }
+              }),
+            ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showTakePhotoDialog,
+        onPressed: () {
+          _showTakeFileDialog();
+        },
         backgroundColor: AppColors.primaryColor,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
 
-  // Function to show Take Photo dialog
-  void _showTakePhotoDialog() {
+  // Show dialog to select files
+  void _showTakeFileDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -105,27 +162,92 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
             padding: EdgeInsets.all(20.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Select an Option",
+                  "Add New Image",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20.h),
-                TextButton(
-                  onPressed: () {
-                    // Add functionality to take a photo using device camera
-                    // You can integrate camera plugin here
-                    Navigator.of(context).pop();
+                InkWell(
+                  onTap: () async {
+                    supervisorDailyLogController.pickImageFromDevice();
                   },
-                  child: Text("Take Photo"),
+
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor,
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Select Image",
+                          style: TextStyle(color: Colors.white),
+                        ),
+
+                      ],
+                    ),
+                  ),
                 ),
                 SizedBox(height: 8.h),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
+
+                Obx(() => supervisorDailyLogController.images.isNotEmpty
+                    ? ListView.builder(
+                  itemCount: supervisorDailyLogController.images.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final fileName = path.basename(supervisorDailyLogController.images[index]);
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 8.0),
+                      child: Row(
+                        children: [
+                          FileUtils.getFileIcon(supervisorDailyLogController.images[index]),
+                          SizedBox(width: 8),
+                          Text(fileName, style: AppStyles.fontSize16(color: AppColors.color323B4A)),
+                          GestureDetector(
+                            onTap: () {
+                              supervisorDailyLogController.removeImage(index);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: CircleAvatar(
+                                radius: 12,
+                                backgroundColor: AppColors.primaryColor,
+                                child: Icon(Icons.close, color: AppColors.white),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
                   },
-                  child: Text("Cancel"),
-                ),
+                )
+                    : SizedBox()),
+                Row(
+                  children: [
+                    Expanded(child: CustomButton(
+                        color: AppColors.orange,
+                        onTap: (){
+                          Get.back();
+                        }, text: 'Cancel')),
+
+                    SizedBox(width: 8.w),
+                    Expanded(
+                      child: CustomButton(
+                        onTap: () async {
+                          await supervisorDailyLogController.addNewImage(projectId: projectId);
+                        },
+                        text: 'Upload',
+                      ),
+                    )
+
+                  ],
+                )
               ],
             ),
           ),
@@ -134,22 +256,20 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
     );
   }
 
-  // Function to handle image click (show preview dialog)
+  // Show Image Preview Dialog
   void _showImagePreview(String image) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.zero,
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           child: Padding(
             padding: EdgeInsets.all(20.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(
+                Image.network(
                   image,
                   width: 350.w,
                   height: 500.h,
@@ -161,7 +281,7 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          Get.back();
+                          Navigator.of(context).pop();
                         },
                         style: TextButton.styleFrom(
                           foregroundColor: AppColors.redColor,
@@ -177,15 +297,18 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          _deleteImage(image);
                           Navigator.of(context).pop();
                         },
                         style: TextButton.styleFrom(
                           foregroundColor: AppColors.redColor,
                         ),
-                        child: SvgPicture.asset(AppIcons.deletedIcon),
+                        child: Icon(
+                          Icons.delete,
+                          size: 30.sp,
+                          color: AppColors.color323B4A,
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
@@ -194,14 +317,5 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
         );
       },
     );
-  }
-
-  // Function to delete the selected image
-  void _deleteImage(String image) {
-    setState(() {
-      groupedFiles.forEach((group) {
-        group['images'].remove(image); // Remove image from the group
-      });
-    });
   }
 }

@@ -1,12 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:aim_construction_app/app/data/api_constants.dart';
-import 'package:aim_construction_app/app/model/projectTask_details_model.dart';
-import 'package:aim_construction_app/app/model/project_model.dart';
-import 'package:aim_construction_app/app/routes/app_pages.dart';
+import 'package:aim_construction_app/app/model/managerContract_model.dart';
 import 'package:aim_construction_app/service/api_checker.dart';
 import 'package:aim_construction_app/service/api_client.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -15,28 +12,23 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:image_picker/image_picker.dart';
 
 
-class ProjectTaskController extends GetxController {
+class ManagerContarctController extends GetxController {
 
 //======================== Project Task Details ==========================
-  RxList<ProjectTaskDetailsModel> projectTaskDetailsModel = <ProjectTaskDetailsModel>[].obs;
+  RxList<GetAllManagerContractModel> getAllManagerContractModel = <GetAllManagerContractModel>[].obs;
   var isLoading = false.obs;
 
-  getAllProjectTaskDetails(
+  getAllManagerContractDetails(
       {
-        String? title,
+        String? projectName,
         String? id,
-        String? project,
-        String? task_status,
-        String? projectId}) async {
+        }) async {
     isLoading(true);
     List<String> queryParams = [];
-    if (title != null) queryParams.add('title=$title');
+    if (projectName != null) queryParams.add('projectName=$projectName');
     if (id != null) queryParams.add('_id=$id');
-    if (project != null) queryParams.add('project=$project');
-    if (task_status != null) queryParams.add('task_status=$task_status');
-    if (projectId != null) queryParams.add('projectStatus=$projectId');
 
-    var url = ApiConstants.projectTaskDetailsEndPoint;
+    var url = ApiConstants.getManagerContarctEndPoint;
 
     if (queryParams.isNotEmpty) {
       url +='?${queryParams.join('&')}';
@@ -47,7 +39,7 @@ class ProjectTaskController extends GetxController {
 
     // Handle response
     if (response.statusCode == 200) {
-      projectTaskDetailsModel.value = List.from(response.body['data']['attributes'].map((x) => ProjectTaskDetailsModel.fromJson(x)));
+      getAllManagerContractModel.value = List.from(response.body['data']['attributes'].map((x) => GetAllManagerContractModel.fromJson(x)));
       isLoading(false);
       update();
     } else {
@@ -59,13 +51,11 @@ class ProjectTaskController extends GetxController {
 
 //================= pickFileFromDevice
   ImagePicker picker = ImagePicker();
-  RxList<String> images = <String>[].obs;
   RxList<String> file = <String>[].obs;
 
-  Future<void> pickFileFromDevice() async {
+  Future<void> pickAttachemtFromDevice() async {
     try {
-      // Pick multiple images or files (assuming you are using an image picker that supports multiple media)
-      final List<XFile>? returnFiles = await picker.pickMultipleMedia();  // This needs the correct package
+      final List<XFile>? returnFiles = await picker.pickMultipleMedia();
 
       // Check if no files were selected
       if (returnFiles == null || returnFiles.isEmpty) {
@@ -83,14 +73,10 @@ class ProjectTaskController extends GetxController {
       for (var img in returnFiles) {
         final fileExtension = img.path.split('.').last.toLowerCase();
 
-        if (fileExtension == 'jpg' || fileExtension == 'jpeg' || fileExtension == 'png') {
-          images.value.add(img.path);
-        }
         // If it's a file (PDF, DOCX, XLSX), add it to the file list
-        else if (fileExtension == 'pdf' || fileExtension == 'docx' || fileExtension == 'doc' || fileExtension == 'xls' || fileExtension == 'xlsx') {
+      if (fileExtension == 'pdf' || fileExtension == 'docx' || fileExtension == 'doc' || fileExtension == 'xls' || fileExtension == 'xlsx') {
           file.value.add(img.path);
         } else {
-          // Handle invalid file formats
           print("Invalid file format: $fileExtension for file ${img.path}");
           Get.snackbar(
             "Invalid File Format",
@@ -101,10 +87,9 @@ class ProjectTaskController extends GetxController {
         }
       }
 
-      images.refresh();
       file.refresh();
     } catch (e) {
-      // Handle unexpected errors gracefully
+
       print("Error while picking files: $e");
       Get.snackbar(
         "Error",
@@ -115,32 +100,18 @@ class ProjectTaskController extends GetxController {
     }
   }
 
-  removeImage(int index) {
-    images.removeAt(index);
-    refresh();
-  }
 
   removeFile(int index) {
     file.removeAt(index);
     refresh();
   }
 
-  RxString assignToSupervisor = ''.obs;
-  DateTime? selectedDate;
 
-  TextEditingController taskTitelCTRl = TextEditingController();
-  TextEditingController taskDescriptionCTRl = TextEditingController();
   //====================>> Manger Task Create
 
-  managerTaskCreate({required String projectId}) async{
+  managerContractCreate({required String projectId}) async{
 
     List<MultipartBody> multipartAttachments = [];
-
-
-    // Add multiple images to multipartList
-    for (String imagePath in images) {
-      multipartAttachments.add(MultipartBody("attachments", File(imagePath)));
-    }
 
     // Add multiple files (PDF, DOCX, XLSX) to multipartList
     for (String filePath in file) {
@@ -150,43 +121,30 @@ class ProjectTaskController extends GetxController {
 
     Map<String, String> body = {
       "projectId": projectId,
-      "title": taskTitelCTRl.text.trim(),
-      "description": taskDescriptionCTRl.text.trim(),
-      "assignedTo": assignToSupervisor.value,
-      "dueDate": selectedDate.toString(),
     };
 
     var response = await ApiClient.postMultipartFileData(
-      ApiConstants.projectTaskCreateEndPoint,
-      body,
+      ApiConstants.managerContarctCreateEndPoint, body,
       multipartBody: multipartAttachments,
     );
     // Handle response
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      Get.snackbar('Successfully','Task created successfully');
+    if (response.statusCode == 200) {
+      Get.back();
+      Get.snackbar('Successfully', 'Contract Create Done');
       update();
-      clearTaskData();
-      Get.toNamed(AppRoutes.managerHomeScreen);
-    } else {
+      clearFile();
+    }  if (response.statusCode == 400) {
+      Get.snackbar('Error', 'Attachment is required.');
+
+    }
+    else {
       ApiChecker.checkApi(response);
       update();
-
     }
 
   }
 
-  void clearTaskData(){
-    taskTitelCTRl.clear();
-    taskDescriptionCTRl.clear();
-    assignToSupervisor.value = '';
-    selectedDate;
-    clearImage();
-    clearFile();
-  }
 
-  void clearImage(){
-    images.clear();
-  }
   void clearFile(){
     file.clear();
   }
