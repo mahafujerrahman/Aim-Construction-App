@@ -1,5 +1,5 @@
 import 'package:aim_construction_app/app/data/api_constants.dart';
-import 'package:aim_construction_app/app/modules/role/manager/more/controller/profile_more_controller.dart';
+import 'package:aim_construction_app/app/controller/profile_more_controller.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:aim_construction_app/common/widgets/custom_listTile.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';

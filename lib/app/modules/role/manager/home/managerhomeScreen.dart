@@ -29,9 +29,16 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async{
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       var userId = await PrefsHelper.getString(AppConstants.userId);
       projectController.getAllProjectDetails(projectManager: userId);
+    });
+
+
+    textEditingController.addListener(() {
+      projectController.getAllProjectDetails(
+        projectName: textEditingController.text,
+      );
     });
   }
 
@@ -60,15 +67,16 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
 
                 if (projectController.isLoading.value)
                   Center(
-                    child: CupertinoActivityIndicator(radius: 32.r, color: AppColors.primaryColor),)
-                 else if (projectController.projectDetailsModel.value.isEmpty)
-                // Show message when no projects are available
+                    child: CupertinoActivityIndicator(radius: 32.r, color: AppColors.primaryColor),
+                  )
+                else if (projectController.projectDetailsModel.value.isEmpty)
+                // Show message when no projects are available or match the search
                   Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset(AppImage.noData,height: 200.h),
+                        Image.asset(AppImage.noData, height: 200.h),
                         Padding(
                           padding: EdgeInsets.all(12.r),
                           child: Text(
@@ -90,13 +98,12 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
                       return Column(
                         children: [
                           ProjectCard(
-                            onTap: () async  {
-                             await PrefsHelper.setString(AppConstants.projectID, projectDetails.projectId);
+                            onTap: () async {
+                              await PrefsHelper.setString(AppConstants.projectID, projectDetails.projectId);
                               Get.toNamed(AppRoutes.managerProjectToolsScreen,
-                              parameters: {
-                                "projectName": projectDetails.projectName ?? '',
-                              }
-                              );
+                                  parameters: {
+                                    "projectName": projectDetails.projectName ?? '',
+                                  });
                             },
                             imageUrl: "${projectDetails.projectLogo ?? ''}",
                             title: '${projectDetails.projectName}',
@@ -122,4 +129,5 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
     );
   }
 }
+
 

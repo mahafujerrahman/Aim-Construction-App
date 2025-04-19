@@ -170,7 +170,7 @@ class _ProjectSupervisorImageScreenState extends State<ProjectSupervisorImageScr
                         style: TextButton.styleFrom(
                           foregroundColor: AppColors.redColor,
                         ),
-                        child: SvgPicture.asset(AppIcons.deletedIcon),
+                        child: SvgPicture.asset(AppIcons.deletedIcon,color: Colors.white),
                       ),
                     )
                   ],

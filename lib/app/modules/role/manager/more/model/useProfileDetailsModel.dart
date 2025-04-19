@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class UserProfileDetailsModel {
   final String? fname;
   final String? lname;
@@ -5,7 +7,7 @@ class UserProfileDetailsModel {
   final ProfileImage? profileImage;
   final String? fcmToken;
   final String? role;
-  final dynamic superVisorsManagerId;
+  final String? superVisorsManagerId;
   final bool? isEmailVerified;
   final bool? isDeleted;
   final bool? isResetPassword;
@@ -13,6 +15,8 @@ class UserProfileDetailsModel {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final int? v;
+  final String? address;
+  final String? phoneNumber;
   final String? userId;
 
   UserProfileDetailsModel({
@@ -30,8 +34,14 @@ class UserProfileDetailsModel {
     this.createdAt,
     this.updatedAt,
     this.v,
+    this.address,
+    this.phoneNumber,
     this.userId,
   });
+
+  factory UserProfileDetailsModel.fromRawJson(String str) => UserProfileDetailsModel.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory UserProfileDetailsModel.fromJson(Map<String, dynamic> json) => UserProfileDetailsModel(
     fname: json["fname"],
@@ -48,6 +58,8 @@ class UserProfileDetailsModel {
     createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
     updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
     v: json["__v"],
+    address: json["address"],
+    phoneNumber: json["phoneNumber"],
     userId: json["_userId"],
   );
 
@@ -66,6 +78,8 @@ class UserProfileDetailsModel {
     "createdAt": createdAt?.toIso8601String(),
     "updatedAt": updatedAt?.toIso8601String(),
     "__v": v,
+    "address": address,
+    "phoneNumber": phoneNumber,
     "_userId": userId,
   };
 }
@@ -78,6 +92,10 @@ class ProfileImage {
     this.imageUrl,
     this.id,
   });
+
+  factory ProfileImage.fromRawJson(String str) => ProfileImage.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory ProfileImage.fromJson(Map<String, dynamic> json) => ProfileImage(
     imageUrl: json["imageUrl"],

@@ -21,6 +21,8 @@ static const String baseUrl = "https://api.carrentpro.com/api/v1";
   static const String signUpEndPoint = "/auth/register";
   static const String signInEndPoint = "/auth/login";
   static const String forgotPasswordEndPoint = "/auth/forgot-password";
+  static const String setNewPasswordEndPoint = "/auth/reset-password";
+
   static const String getAllManagerEndPoint = "/user/getAllManager";
   static const String verifyCodeEndPoint = "/auth/verify-email";
   static const String userprofileDetailsEndPoint = "/user";
@@ -37,6 +39,10 @@ static const String baseUrl = "https://api.carrentpro.com/api/v1";
   static const String supervisorNoteByDateEndPoint = "/note/getAllByDateAndProjectId/";
   static const String getAllImagesOfAllNotesEndPoint = "/note/getAllImagesOfAllNotesOfADateAndProjectId/";
   static const String noteDetailsEndPoint = "/note";
+  static const String daliyLogImageOrDocumentUploadEndPoint = "/note/uploadImagesOrDocuments";
+  static const String updateProfileEndPoint = "/user/update-profile";
+  static const String noteStatusChnangeEndPoint = "/note/changeStatus";
+
 
 
 }

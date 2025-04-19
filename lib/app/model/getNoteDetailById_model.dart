@@ -5,7 +5,7 @@ class GetNoteDetailByIdModel {
   final String? description;
   final List<Attachment>? attachments;
   final CreatedBy? createdBy;
-  final String? projectId;
+  final ProjectId? projectId;
   final String? isAccepted;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -32,7 +32,7 @@ class GetNoteDetailByIdModel {
     description: json["description"],
     attachments: json["attachments"] == null ? [] : List<Attachment>.from(json["attachments"]!.map((x) => Attachment.fromJson(x))),
     createdBy: json["createdBy"] == null ? null : CreatedBy.fromJson(json["createdBy"]),
-    projectId: json["projectId"],
+    projectId: json["projectId"] == null ? null : ProjectId.fromJson(json["projectId"]),
     isAccepted: json["isAccepted"],
     createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
     updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
@@ -44,7 +44,7 @@ class GetNoteDetailByIdModel {
     "description": description,
     "attachments": attachments == null ? [] : List<dynamic>.from(attachments!.map((x) => x.toJson())),
     "createdBy": createdBy?.toJson(),
-    "projectId": projectId,
+    "projectId": projectId?.toJson(),
     "isAccepted": isAccepted,
     "createdAt": createdAt?.toIso8601String(),
     "updatedAt": updatedAt?.toIso8601String(),
@@ -55,12 +55,14 @@ class GetNoteDetailByIdModel {
 class Attachment {
   final String? attachment;
   final String? attachmentType;
+  final String? projectId;
   final DateTime? createdAt;
   final String? attachmentId;
 
   Attachment({
     this.attachment,
     this.attachmentType,
+    this.projectId,
     this.createdAt,
     this.attachmentId,
   });
@@ -72,6 +74,7 @@ class Attachment {
   factory Attachment.fromJson(Map<String, dynamic> json) => Attachment(
     attachment: json["attachment"],
     attachmentType: json["attachmentType"],
+    projectId: json["projectId"],
     createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
     attachmentId: json["_attachmentId"],
   );
@@ -79,6 +82,7 @@ class Attachment {
   Map<String, dynamic> toJson() => {
     "attachment": attachment,
     "attachmentType": attachmentType,
+    "projectId": projectId,
     "createdAt": createdAt?.toIso8601String(),
     "_attachmentId": attachmentId,
   };
@@ -88,12 +92,14 @@ class CreatedBy {
   final String? fcmToken;
   final String? role;
   final String? superVisorsManagerId;
+  final String? phoneNumber;
   final String? userId;
 
   CreatedBy({
     this.fcmToken,
     this.role,
     this.superVisorsManagerId,
+    this.phoneNumber,
     this.userId,
   });
 
@@ -105,6 +111,7 @@ class CreatedBy {
     fcmToken: json["fcmToken"],
     role: json["role"],
     superVisorsManagerId: json["superVisorsManagerId"],
+    phoneNumber: json["phoneNumber"],
     userId: json["_userId"],
   );
 
@@ -112,6 +119,47 @@ class CreatedBy {
     "fcmToken": fcmToken,
     "role": role,
     "superVisorsManagerId": superVisorsManagerId,
+    "phoneNumber": phoneNumber,
     "_userId": userId,
+  };
+}
+
+class ProjectId {
+  final String? projectName;
+  final String? streetAddress;
+  final String? city;
+  final String? zipCode;
+  final String? country;
+  final String? projectId;
+
+  ProjectId({
+    this.projectName,
+    this.streetAddress,
+    this.city,
+    this.zipCode,
+    this.country,
+    this.projectId,
+  });
+
+  factory ProjectId.fromRawJson(String str) => ProjectId.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory ProjectId.fromJson(Map<String, dynamic> json) => ProjectId(
+    projectName: json["projectName"],
+    streetAddress: json["streetAddress"],
+    city: json["city"],
+    zipCode: json["zipCode"],
+    country: json["country"],
+    projectId: json["_projectId"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "projectName": projectName,
+    "streetAddress": streetAddress,
+    "city": city,
+    "zipCode": zipCode,
+    "country": country,
+    "_projectId": projectId,
   };
 }

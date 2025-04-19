@@ -36,14 +36,6 @@ class _ProjectManagerDoumentScreenState extends State<ProjectManagerDoumentScree
   }
 
 
-
-  Widget getFileName(String imageUrl) {
-
-    final uri = Uri.parse(imageUrl);
-    final fileName = uri.pathSegments.isNotEmpty ? uri.pathSegments.last : '';
-    return Text(fileName);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +88,7 @@ class _ProjectManagerDoumentScreenState extends State<ProjectManagerDoumentScree
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: group.attachments?.length ?? 0,
                               itemBuilder: (context, index) {
-                                final imageUrl = group.attachments?[index].attachment ?? '';
+                                final fileUrl = group.attachments?[index].attachment ?? '';
                                 return Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -104,13 +96,17 @@ class _ProjectManagerDoumentScreenState extends State<ProjectManagerDoumentScree
                                       padding: EdgeInsets.all(8.r),
                                       child: Row(
                                         children: [
-                                          FileUtils.getFileIcon(imageUrl), // Pass correct imageUrl
+                                          FileUtils.getFileIcon(fileUrl),
                                           SizedBox(width: 8.w),
-                                          getFileName(imageUrl),
+                                          FileUtils.getFileName(fileUrl),
                                         ],
                                       ),
                                     ),
-                                    SvgPicture.asset(AppIcons.downloadIcon),
+                                    TextButton(
+                                        onPressed: ()  {
+                                          FileUtils.downloadFile(fileUrl);
+                                        },
+                                        child: SvgPicture.asset(AppIcons.downloadIcon)),
                                   ],
                                 );
                               },

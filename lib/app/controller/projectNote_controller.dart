@@ -153,27 +153,60 @@ class ProjectNoteController extends GetxController {
   }
 
   //============================>> Note Details by ID <<==============================
+
   Rx<GetNoteDetailByIdModel> getNoteDetailByIdModel = GetNoteDetailByIdModel().obs;
-  RxBool isLoadingBooking=false.obs;
+  var noteTitle = ''.obs;
+  var descriptionOfNote = ''.obs;
+  var noteDate = ''.obs;
+  var isAccepted = ''.obs;
+  var createdAt = ''.obs;
+
+
+  RxBool isLoading=false.obs;
 
   getNoteDetailsByID(String noteID)async{
-    isLoadingBooking.value=true;
+    isLoading.value=true;
     var response = await ApiClient.getData(
-      "${ApiConstants.noteDetailsEndPoint}/noteID",);
+      "${ApiConstants.noteDetailsEndPoint}/$noteID",);
     if (response.statusCode == 200) {
       getNoteDetailByIdModel.value = GetNoteDetailByIdModel.fromJson(response.body['data']['attributes']);
-      isLoadingBooking.value=false;
+
+
+      noteTitle.value= response.body['data']['attributes']['title'];
+      descriptionOfNote.value= response.body['data']['attributes']['description'];
+      isAccepted.value= response.body['data']['attributes']['isAccepted'];
+      createdAt.value= response.body['data']['attributes']['createdAt'];
+
+      isLoading.value=false;
 
 
       update();
 
     }else {
-      isLoadingBooking.value=false;
+      isLoading.value=false;
       ApiChecker.checkApi(response);
       update();
 
     }
+  }
+
+  //============================= Note Status Change ======================
+  RxBool loading=false.obs;
+  noteStatusChnage(String noteID) async {
+  loading.value = true;
+    var response = await ApiClient.getData("${ApiConstants.noteStatusChnangeEndPoint}/$noteID",);
+    if (response.statusCode == 200) {
+      Get.snackbar('Successfully', response.body['message']);
+      loading.value=false;
 
 
+      update();
+
+    }else {
+      isLoading.value=false;
+      ApiChecker.checkApi(response);
+      update();
+
+    }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:aim_construction_app/app/data/api_constants.dart';
 import 'package:aim_construction_app/app/modules/bottom_menu/manager_bottom_menu..dart';
-import 'package:aim_construction_app/app/modules/role/manager/more/controller/profile_more_controller.dart';
+import 'package:aim_construction_app/app/controller/profile_more_controller.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:aim_construction_app/common/widgets/custom_listTile.dart';
@@ -80,17 +80,17 @@ class _ManagerMoreScreenState extends State<ManagerMoreScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding:  EdgeInsets.all(8.0.r),
+                              padding:  EdgeInsets.all(8.r),
                               child:  Container(
-                                width: 80,
+                                width: 80.w,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)), // Removed .r for simplicity
+                                  borderRadius: BorderRadius.all(Radius.circular(8.r)),
                                 ),
                                 child: CachedNetworkImage(
-                                  imageUrl: "${ApiConstants.imageBaseUrl}${profileData.profileImage?.imageUrl ?? ''}",
+                                  imageUrl: "${profileData.profileImage?.imageUrl}",
                                   fit: BoxFit.cover,
                                   errorWidget: (context, url, error) => Image.network('http://www.clker.com/cliparts/Z/J/g/U/V/b/avatar-male-silhouette-md.png',
-                                    fit: BoxFit.cover),
+                                      fit: BoxFit.cover),
                                 ),
                               ),
                             ),

@@ -45,6 +45,8 @@ class AppColors{
   static const Color dividerColor =  Color(0xFF555555);
   static const Color shadowColor =  Color(0xFF2B2A2A);
   static const Color bottomBarColor =  Color(0xFF343434);
+  static const Color pendingStatusColor = Color(0xFFE39CEA);
+  static const Color greenColor = Color(0xFF008000);
 
   static BoxShadow shadow=BoxShadow(
     blurRadius: 4,

@@ -69,7 +69,11 @@ class _ManagerProjectToolsScreenState extends State<ManagerProjectToolsScreen> {
                         title: 'Daily Logs',
                         icon: AppIcons.daliyLogs,
                         onTap: () {
-                          Get.toNamed(AppRoutes.managerDailyLogScreen);
+                          Get.toNamed(AppRoutes.managerDailyLogScreen,
+                              parameters: {
+                                "projectName": parameter['projectName'] ?? '',
+                              }
+                          );
                         },
                       ),
                     );

@@ -25,9 +25,9 @@ class NoteCard extends StatelessWidget {
     Color? statusColor;
     if (status != null) {
       if (status!.toLowerCase() == 'pending') {
-        statusColor = Color(0xFFE39CEA);
+        statusColor = AppColors.pendingStatusColor;
       } else if (status!.toLowerCase() == 'accepted') {
-        statusColor = Colors.green;
+        statusColor = AppColors.greenColor;
       } else {
         statusColor = Colors.grey;
       }
@@ -95,7 +95,7 @@ class NoteCard extends StatelessWidget {
                   children: [
                     SvgPicture.asset(AppIcons.attachmentIcon, height: 20.h),
                     SizedBox(width: 4),
-                    Text('$imageCount', style: TextStyle(fontSize: 12)),
+                    Text('$documentCount', style: TextStyle(fontSize: 12)),
                   ],
                 ),
                 SizedBox(width: 16),
@@ -103,7 +103,7 @@ class NoteCard extends StatelessWidget {
                   children: [
                     SvgPicture.asset(AppIcons.imageIcon, height: 16.h, color: AppColors.color323B4A),
                     SizedBox(width: 4),
-                    Text('$documentCount', style: TextStyle(fontSize: 12)),
+                    Text('$imageCount', style: TextStyle(fontSize: 12)),
                   ],
                 ),
               ],

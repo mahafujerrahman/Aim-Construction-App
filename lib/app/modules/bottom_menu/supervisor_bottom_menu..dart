@@ -52,7 +52,7 @@ class SupervisorBottomMenu extends StatelessWidget {
                 Get.offAndToNamed(AppRoutes.ROLE_SUPERVISOR_ACTIVITY_SCREEN);
                 break;
               case 2:
-                Get.offAndToNamed(AppRoutes.ROLE_SUPERVISOR_MORE);
+                Get.offAndToNamed(AppRoutes.supervisorMoreScreen);
                 break;
 
             }

@@ -2,6 +2,7 @@ import 'package:aim_construction_app/app/controller/manager_contarct_controller.
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
+import 'package:aim_construction_app/service/fileName.dart';
 import 'package:aim_construction_app/service/filePicker_service.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_constant.dart';
@@ -41,25 +42,6 @@ class _ManagerContactScreenState extends State<ManagerContactScreen> {
     });
   }
 
-  Widget getFileIcon(String fileName) {
-    if (fileName.endsWith('.pdf')) {
-      return SvgPicture.asset(AppIcons.pdfIcon);
-    } else if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
-      return SvgPicture.asset(AppIcons.excelFileIcon,height: 20.h);
-    }
-    else if (fileName.endsWith('.docx') || fileName.endsWith('.doc')) {
-      return SvgPicture.asset(AppIcons.documentsIcon,height: 20.h,color: Colors.black87);
-    }
-    else {
-      return SvgPicture.asset(AppIcons.documentsIcon,height: 20.h,color: Colors.black87);
-    }
-  }
-  Widget getFileName(String imageUrl) {
-
-    final uri = Uri.parse(imageUrl);
-    final fileName = uri.pathSegments.isNotEmpty ? uri.pathSegments.last : '';
-    return Text(fileName);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,9 +120,9 @@ class _ManagerContactScreenState extends State<ManagerContactScreen> {
                                           padding: EdgeInsets.all(8.r),
                                           child: Row(
                                             children: [
-                                              getFileIcon(fileUrl!),
+                                              FileUtils.getFileIcon(fileUrl!),
                                               SizedBox(width: 8.w),
-                                              getFileName(fileUrl!)
+                                              FileUtils.getFileName(fileUrl!)
                                             ],
                                           ),
                                         ),
@@ -230,7 +212,7 @@ class _ManagerContactScreenState extends State<ManagerContactScreen> {
                       padding: EdgeInsets.only(bottom: 8.0),
                       child: Row(
                         children: [
-                          getFileIcon(managerContarctController.file[index]),
+                          FileUtils.getFileIcon(managerContarctController.file[index]),
                           SizedBox(width: 8),
                           Text(fileName, style: AppStyles.fontSize16(color: AppColors.color323B4A)),
                           GestureDetector(
@@ -274,7 +256,6 @@ class _ManagerContactScreenState extends State<ManagerContactScreen> {
                       child: CustomButton(
                         onTap: () async {
                           await managerContarctController.managerContractCreate(projectId: projectId);
-                          Get.back();
                         },
                         text: 'Save',
                       ),

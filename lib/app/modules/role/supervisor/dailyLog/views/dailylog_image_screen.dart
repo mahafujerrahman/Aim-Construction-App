@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:aim_construction_app/app/controller/supervisor_dailyLog_controller.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
+import 'package:aim_construction_app/common/widgets/custom_button.dart';
+import 'package:aim_construction_app/service/fileName.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:aim_construction_app/utils/app_images.dart';
@@ -9,6 +12,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart' as path;
+
 
 class DailyLogImageScreen extends StatefulWidget {
   const DailyLogImageScreen({super.key});
@@ -19,7 +24,6 @@ class DailyLogImageScreen extends StatefulWidget {
 
 class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
   final SupervisorDailyLogController supervisorDailyLogController = Get.put(SupervisorDailyLogController());
-
   String projectId = '';
   String selectDate = '';
 
@@ -29,7 +33,6 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
     _loadData();
   }
 
-  // Loading projectId and image data
   void _loadData() async {
     projectId = await PrefsHelper.getString(AppConstants.projectID);
     setState(() {
@@ -71,8 +74,7 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
                   );
                 }
 
-                if (supervisorDailyLogController
-                    .getAllImageOrDocumentUnderNoteModel.isEmpty) {
+                if (supervisorDailyLogController.getAllImageOrDocumentUnderNoteModel.isEmpty) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -83,8 +85,7 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
                           padding: EdgeInsets.all(12.r),
                           child: Text(
                             'No project note available now.',
-                            style: AppStyles.fontSize20(
-                                color: AppColors.hintColor),
+                            style: AppStyles.fontSize20(color: AppColors.hintColor),
                           ),
                         ),
                       ],
@@ -93,9 +94,7 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
                 } else {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: supervisorDailyLogController
-                        .getAllImageOrDocumentUnderNoteModel
-                        .map((group) {
+                    children: supervisorDailyLogController.getAllImageOrDocumentUnderNoteModel.map((group) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -103,24 +102,20 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               group.date ?? '',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.color323B4A),
+                              style: TextStyle(fontWeight: FontWeight.w600, color: AppColors.color323B4A),
                             ),
                           ),
                           GridView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 4,
                               crossAxisSpacing: 8.0,
                               mainAxisSpacing: 8.0,
                             ),
                             itemCount: group.attachments?.length ?? 0,
                             itemBuilder: (context, index) {
-                              final imageUrl =
-                                  group.attachments?[index].attachment;
+                              final imageUrl = group.attachments?[index].attachment;
                               return GestureDetector(
                                 onTap: () => _showImagePreview(imageUrl ?? ''),
                                 child: ClipRRect(
@@ -128,8 +123,7 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
                                   child: CachedNetworkImage(
                                     imageUrl: imageUrl ?? '',
                                     fit: BoxFit.cover,
-                                    errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
                                   ),
                                 ),
                               );
@@ -145,6 +139,120 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _showTakeFileDialog();
+        },
+        backgroundColor: AppColors.primaryColor,
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+
+  // Show dialog to select files
+  void _showTakeFileDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Add New Image",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20.h),
+                InkWell(
+                  onTap: () async {
+                    supervisorDailyLogController.pickImageFromDevice();
+                  },
+
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor,
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Select Image",
+                          style: TextStyle(color: Colors.white),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8.h),
+
+                Obx(() => supervisorDailyLogController.images.isNotEmpty
+                    ? ListView.builder(
+                  itemCount: supervisorDailyLogController.images.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final fileName = path.basename(supervisorDailyLogController.images[index]);
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 8.0),
+                      child: Row(
+                        children: [
+                          FileUtils.getFileIcon(supervisorDailyLogController.images[index]),
+                          SizedBox(width: 8),
+                          Text(fileName, style: AppStyles.fontSize16(color: AppColors.color323B4A)),
+                          GestureDetector(
+                            onTap: () {
+                              supervisorDailyLogController.removeImage(index);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: CircleAvatar(
+                                radius: 12,
+                                backgroundColor: AppColors.primaryColor,
+                                child: Icon(Icons.close, color: AppColors.white),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                )
+                    : SizedBox()),
+                Row(
+                  children: [
+                    Expanded(child: CustomButton(
+                        color: AppColors.orange,
+                        onTap: (){
+                          Get.back();
+                        }, text: 'Cancel')),
+
+                    SizedBox(width: 8.w),
+                    Expanded(
+                      child: CustomButton(
+                        onTap: () async {
+                          await supervisorDailyLogController.addNewImage(projectId: projectId);
+                        },
+                        text: 'Upload',
+                      ),
+                    )
+
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -154,9 +262,7 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.zero,
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           child: Padding(
             padding: EdgeInsets.all(20.0),
             child: Column(

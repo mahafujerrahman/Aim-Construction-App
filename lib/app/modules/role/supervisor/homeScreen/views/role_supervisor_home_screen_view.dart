@@ -1,7 +1,5 @@
 import 'package:aim_construction_app/app/controller/project_controller.dart';
-import 'package:aim_construction_app/app/data/api_constants.dart';
 import 'package:aim_construction_app/app/modules/bottom_menu/supervisor_bottom_menu..dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/homeScreen/controllers/role_supervisor_home_screen_controller.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/homeScreen/views/widget/projectCard.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
@@ -23,8 +21,8 @@ class SupervisorHomeScreenView extends StatefulWidget {
 }
 
 class _SupervisorHomeScreenViewState extends State<SupervisorHomeScreenView> {
-  final RoleSupervisorHomeScreenController roleSupervisorHomeScreenController = Get.put(RoleSupervisorHomeScreenController());
   final ProjectController projectController = Get.put(ProjectController());
+  TextEditingController textEditingController = TextEditingController();
 
   @override
   void initState() {
@@ -32,6 +30,12 @@ class _SupervisorHomeScreenViewState extends State<SupervisorHomeScreenView> {
     WidgetsBinding.instance.addPostFrameCallback((_) async{
       var userId = await PrefsHelper.getString(AppConstants.userId);
       projectController.getAllProjectDetails(projectManager: userId);
+    });
+
+    textEditingController.addListener(() {
+      projectController.getAllProjectDetails(
+        projectName: textEditingController.text,
+      );
     });
   }
   @override
@@ -53,7 +57,7 @@ class _SupervisorHomeScreenViewState extends State<SupervisorHomeScreenView> {
             children: [
               // Always display the search field
               CustomTextField(
-                controller: roleSupervisorHomeScreenController.textEditingController,
+                controller: textEditingController,
                 hintText: "Search Project",
               ),
               SizedBox(height: 16.h),

@@ -94,10 +94,9 @@ class ProjectController extends GetxController {
     List<String> queryParams = [];
     if (projectName != null) queryParams.add('projectName=$projectName');
     if (id != null) queryParams.add('id=$id');
-    if (projectSuperVisorId != null)
-      queryParams.add('projectSuperVisorId=$projectSuperVisorId');
-    if (projectManager != null)
-      queryParams.add('projectManager=$projectManager');
+    if (projectSuperVisorId != null) queryParams.add('projectSuperVisorId=$projectSuperVisorId');
+
+    if (projectManager != null) queryParams.add('projectManager=$projectManager');
     if (projectStatus != null) queryParams.add('projectStatus=$projectStatus');
 
     var url = ApiConstants.projectDetailsEndPoint;

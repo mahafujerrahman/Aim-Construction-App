@@ -19,15 +19,14 @@ class VerifyCodeScreen extends StatefulWidget {
 
 class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
   final VerifyEmailController verifyEmailController = Get.put(VerifyEmailController());
-  late final String? email;
+  var parameter = Get.parameters;
 
   @override
   void initState() {
     super.initState();
-    email = Get.parameters['email'];
+    // Print screen type when the screen initializes
+    print('Screen Type: ${parameter['screenType']}');
   }
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -80,8 +79,10 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
               loading: verifyEmailController.verifyOTPLoading.value,
               onTap: () {
                 verifyEmailController.verifyCode(
-                email: email ?? "",
-                otp: verifyEmailController.verifyCodeCtrl.text);
+                email:"${parameter['email']}",
+                otp: verifyEmailController.verifyCodeCtrl.text,
+                type:"${parameter['screenType']}");
+
               },
               text: AppString.verifyEmail.tr,
             ),
