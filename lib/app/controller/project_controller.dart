@@ -29,8 +29,10 @@ class ProjectController extends GetxController {
   RxString selectedSupervisor = ''.obs;
   RxString selectedTampelet = ''.obs;
   List<String> tampelet = ['Default'];
+  var isLoading = false.obs;
 
   projectCreate() async {
+    isLoading(true);
     String formattedStartDate = DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse(startDateController.text));
     String formattedEndDate = DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse(endDateController.text));
 
@@ -58,12 +60,14 @@ class ProjectController extends GetxController {
 
     // Handle response
     if (response.statusCode == 200 || response.statusCode == 201) {
+      isLoading(false);
       Get.snackbar('Successfully', 'Project created successfully');
       update();
       clearFromData();
       Get.toNamed(AppRoutes.managerHomeScreen);
     } else {
       ApiChecker.checkApi(response);
+      isLoading(false);
       update();
     }
   }
@@ -82,13 +86,13 @@ class ProjectController extends GetxController {
 
 //======================== Project Details ==========================
   RxList<ProjectDetailsModel> projectDetailsModel = <ProjectDetailsModel>[].obs;
-  var isLoading = false.obs;
+
 
   getAllProjectDetails(
       {String? projectName,
       String? id,
       String? projectSuperVisorId,
-      String? projectManager,
+      String? projectManagerId,
       String? projectStatus}) async {
     isLoading(true);
     List<String> queryParams = [];
@@ -96,7 +100,7 @@ class ProjectController extends GetxController {
     if (id != null) queryParams.add('id=$id');
     if (projectSuperVisorId != null) queryParams.add('projectSuperVisorId=$projectSuperVisorId');
 
-    if (projectManager != null) queryParams.add('projectManager=$projectManager');
+    if (projectManagerId != null) queryParams.add('projectManagerId=$projectManagerId');
     if (projectStatus != null) queryParams.add('projectStatus=$projectStatus');
 
     var url = ApiConstants.projectDetailsEndPoint;

@@ -215,7 +215,7 @@ class _ManagerMoreScreenState extends State<ManagerMoreScreen> {
                         await PrefsHelper.remove(AppConstants.bearerToken);
                         await PrefsHelper.remove(AppConstants.role);
                         //await PrefsHelper.remove(AppConstants.fcmToken);
-                        Get.offAllNamed(AppRoutes.SIGN_IN);
+                        Get.offAllNamed(AppRoutes.signIn_screen);
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity, 58),

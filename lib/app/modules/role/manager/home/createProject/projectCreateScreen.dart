@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:aim_construction_app/app/controller/project_controller.dart';
 import 'package:aim_construction_app/app/controller/profile_more_controller.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
+import 'package:aim_construction_app/utils/app_images.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -72,26 +73,32 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
                         ),
                       ),
                     )
-                        : Container(
-                      height: 200.h,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/image/work1.jpg'),
-                          fit: BoxFit.cover,
+                        :
+                    InkWell(
+                      onTap: (){
+                        showImagePickerOption(context);
+                      },
+                      child: Container(
+                        height: 200.h,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(AppImage.noData),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
                     Positioned(
                       bottom: 30,
-                      right: 180,
+                      right: 130,
                       child: GestureDetector(
                         onTap: () {
                           showImagePickerOption(context);
                         },
                         child: Icon(
                           Icons.image_outlined,
-                          size: 25,
-                          color: AppColors.white,
+                          size: 50,
+                          color: AppColors.primaryColor,
                         ),
                       ),
                     ),
@@ -135,30 +142,92 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        child: CustomTextField(
-                          readOnly: true,
-                          controller: projectController.startDateController,
-                          hintText: 'Start Date',
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              _calenderDatePicker(controller: projectController.startDateController, isEndDate: false);
-                            }, icon: SvgPicture.asset(AppIcons.calender,color: AppColors.primaryColor,height: 18.h))
-                        )
+                        child: InkWell(
+                          onTap: () {
+                            _calenderDatePicker(controller: projectController.startDateController, isEndDate: false);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8.h),
+                            decoration: BoxDecoration(
+                              color: AppColors.fillColor,
+                              border: Border.all(color: AppColors.primaryColor),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    projectController.startDateController.text.isEmpty
+                                        ? 'Start Date'
+                                        : projectController.startDateController.text,
+                                    style: TextStyle(
+                                      color: projectController.startDateController.text.isEmpty
+                                          ? Colors.grey
+                                          : Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    _calenderDatePicker(controller: projectController.startDateController, isEndDate: false);
+                                  },
+                                  icon: SvgPicture.asset(
+                                    AppIcons.calender,
+                                    color: AppColors.primaryColor,
+                                    height: 18.h,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(width: 4.w),
                       Expanded(
-                        child: CustomTextField(
-                          readOnly: true,
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                _calenderDatePicker(controller: projectController.endDateController, isEndDate: true);
-                                Logger logger = Logger();
-                                logger.d('====> Selected End Date: ${projectController.endDateController.text}');
-                              }, icon: SvgPicture.asset(AppIcons.calender,color: AppColors.primaryColor,height: 18.h)),
-                          controller: projectController.endDateController,
-                          hintText: 'End Date',
+                        child: InkWell(
+                          onTap: () {
+                            _calenderDatePicker(controller: projectController.endDateController, isEndDate: true);
+                            Logger logger = Logger();
+                            logger.d('====> Selected End Date: ${projectController.endDateController.text}');
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8.h),
+                            decoration: BoxDecoration(
+                              color: AppColors.fillColor,
+                              border: Border.all(color: AppColors.primaryColor),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    projectController.endDateController.text.isEmpty ? 'End Date'
+                                        : projectController.endDateController.text,
+                                    style: TextStyle(
+                                      color: projectController.endDateController.text.isEmpty
+                                          ? Colors.grey
+                                          : Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    _calenderDatePicker(controller: projectController.endDateController, isEndDate: true);
+                                    Logger logger = Logger();
+                                    logger.d('====> Selected End Date: ${projectController.endDateController.text}');
+                                  },
+                                  icon: SvgPicture.asset(
+                                    AppIcons.calender,
+                                    color: AppColors.primaryColor,
+                                    height: 18.h,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
+                      )
+
                     ],
                   ),
                   SizedBox(height: 16.h),
@@ -277,12 +346,17 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
                     ),
                   ),
                   SizedBox(height: 20.h),
-                  CustomButton(
-                    onTap: () {
-                      projectController.projectCreate();
-                    },
-                    text: 'Create Project',
-                  ),
+                  Obx((){
+
+                    return CustomButton(
+                      loading: projectController.isLoading.value,
+                      onTap: () {
+                        projectController.projectCreate();
+                      },
+                      text: 'Create Project',
+                    );
+                  })
+
                 ],
               ),
             ],

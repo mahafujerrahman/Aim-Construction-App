@@ -29,7 +29,7 @@ class ForgetPasswordController extends GetxController {
       PrefsHelper.setString(AppConstants.verificationToken, response.body['data']['attributes']['resetPasswordToken']);
 
 
-      Get.toNamed(AppRoutes.VERIFY_EMAIL, parameters: {
+      Get.toNamed(AppRoutes.verify_email_screen, parameters: {
         "email": forgetEmailTextCtrl.text.trim(),
         "screenType": "forgetPasswordScreen",
       });

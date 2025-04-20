@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:aim_construction_app/app/controller/projectNote_controller.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
+import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/service/fileName.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_constant.dart';
@@ -77,27 +78,17 @@ class _AddNewNoteScreenState extends State<AddNewNoteScreen> {
             _buildFileAttachments(),
 
             const Spacer(),
+            Obx((){
+              return CustomButton(
+                loading: projectNoteController.isLoading.value,
+                  onTap: () {
+                    projectNoteController.supervisorNewNoteCreate(projectId: projectId);
+              }, text: 'Save');
+            }
+
+            ),
 
             // Save Button Section
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                 projectNoteController.supervisorNewNoteCreate(projectId: projectId);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  padding: EdgeInsets.symmetric(vertical: 14.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: const Text(
-                  "Save",
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
           ],
         ),
       ),

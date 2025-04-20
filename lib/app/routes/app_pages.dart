@@ -19,7 +19,7 @@ import 'package:aim_construction_app/app/modules/role/manager/more/managerMoreSc
 import 'package:aim_construction_app/app/modules/role/manager/more/mysupervisorListScreen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/activityScreen/views/role_supervisor_activity_screen_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/dailylog_note_details_screen.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/innerWidget/noteAddDetailsScreen.dart';
+import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/noteAddDetailsScreen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/role_supervisor_daily_log_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/homeScreen/views/role_supervisor_home_screen_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/more/views/role_supervisor_more_view.dart';
@@ -47,7 +47,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = AppRoutes.SIGN_IN;
+  static const INITIAL = AppRoutes.signIn_screen;
 
   static final routes = [
     GetPage(name: _Paths.splashScreen, page: () => const SplashScreen()),

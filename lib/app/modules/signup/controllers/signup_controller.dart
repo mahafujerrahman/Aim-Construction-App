@@ -34,11 +34,10 @@ class SignupController extends GetxController {
     Map<String, dynamic> body = {
       "fname": signUpFirstNameCtrl.text.trim(),
       "lname": signUpLastNameCtrl.text.trim(),
-      "password": signUpPassCtrl.text,
+      "password": signUpPassCtrl.text.trim(),
       "email": signUpEmailCtrl.text.trim(),
       "role": selectedRole.value,
       "superVisorsManagerId": selectedManagerRole.value,
-
       "fcmToken": fcmToken,
     };
 
@@ -54,7 +53,7 @@ class SignupController extends GetxController {
     if(response.statusCode==200 || response.statusCode==201){
       PrefsHelper.setString(AppConstants.verificationToken, response.body['data']['attributes']['verificationToken']);
       print('Hera is your fcmToken : $fcmToken');
-      Get.toNamed(AppRoutes.VERIFY_EMAIL, parameters: {
+      Get.toNamed(AppRoutes.verify_email_screen, parameters: {
         "email": signUpEmailCtrl.text.trim(),
         "screenType": "signupScreen",
       },

@@ -2,13 +2,13 @@ part of 'app_pages.dart';
 
 abstract class AppRoutes {
   AppRoutes._();
-  static const SIGN_IN = _Paths.SIGN_IN;
+  static const signIn_screen = _Paths.SIGN_IN;
   static const SIGNUP = _Paths.SIGNUP;
   static const splashScreen = _Paths.splashScreen;
   static const onboardingScreen = _Paths.onboardingScreen;
   static const successfullScreen = _Paths.successfullScreen;
   static const FORGET_PASSWORD = _Paths.FORGET_PASSWORD;
-  static const VERIFY_EMAIL = _Paths.VERIFY_EMAIL;
+  static const verify_email_screen = _Paths.VERIFY_EMAIL;
   static const resetPasswordScreen = _Paths.resetPasswordScreen;
   static const ROLE_SUPERVISOR_HOME_SCREEN = _Paths.ROLE_SUPERVISOR_HOME_SCREEN;
   static const supervisorMoreScreen = _Paths.supervisorMoreScreen;

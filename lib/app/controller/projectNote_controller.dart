@@ -95,10 +95,10 @@ class ProjectNoteController extends GetxController {
   //================= Add new note ================================
   TextEditingController noteName = TextEditingController();
   TextEditingController noteDescription = TextEditingController();
-
+  RxBool isLoading=false.obs;
 
   supervisorNewNoteCreate({required String projectId}) async{
-
+    isLoading(true);
     List<MultipartBody> multipartAttachments = [];
 
 
@@ -126,12 +126,14 @@ class ProjectNoteController extends GetxController {
     );
     // Handle response
     if (response.statusCode == 200 || response.statusCode == 201) {
+      isLoading(false);
       Get.snackbar('Successfully','Note created successfully');
       update();
       clearTaskData();
       Get.toNamed(AppRoutes.supervisorProjectTools);
     } else {
       ApiChecker.checkApi(response);
+      isLoading(false);
       update();
 
     }
@@ -162,7 +164,7 @@ class ProjectNoteController extends GetxController {
   var createdAt = ''.obs;
 
 
-  RxBool isLoading=false.obs;
+
 
   getNoteDetailsByID(String noteID)async{
     isLoading.value=true;

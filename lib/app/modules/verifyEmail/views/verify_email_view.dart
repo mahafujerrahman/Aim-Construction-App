@@ -75,16 +75,19 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
               ],
             ),
             SizedBox(height: 100.h),
-            CustomButton(
-              loading: verifyEmailController.verifyOTPLoading.value,
-              onTap: () {
-                verifyEmailController.verifyCode(
-                email:"${parameter['email']}",
-                otp: verifyEmailController.verifyCodeCtrl.text,
-                type:"${parameter['screenType']}");
+            Obx((){
+              return  CustomButton(
+                loading: verifyEmailController.verifyOTPLoading.value,
+                onTap: () {
+                  verifyEmailController.verifyCode(
+                      email:"${parameter['email']}",
+                      otp: verifyEmailController.verifyCodeCtrl.text,
+                      type:"${parameter['screenType']}");
 
-              },
-              text: AppString.verifyEmail.tr,
+                },
+                text: AppString.verifyEmail.tr,
+              );
+            }
             ),
 
             SizedBox(height: 30.h),

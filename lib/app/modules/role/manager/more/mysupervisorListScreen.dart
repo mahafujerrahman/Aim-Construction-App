@@ -108,10 +108,11 @@ class _MySupervisorListScreenState extends State<MySupervisorListScreen> {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(10.r),
                                   child: CachedNetworkImage(
-                                    imageUrl:
-                                    "${supervisor.profileImage?.imageUrl}",
+                                    imageUrl: "${supervisor.profileImage?.imageUrl}",
                                     fit: BoxFit.cover,
+                                    errorWidget: (context, url, error) => Image.network('http://www.clker.com/cliparts/Z/J/g/U/V/b/avatar-male-silhouette-md.png', fit: BoxFit.cover),
                                   ),
+
                                 ),
                                 SizedBox(width: 15.w),
 
