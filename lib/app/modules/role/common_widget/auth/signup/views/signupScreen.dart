@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:aim_construction_app/app/modules/signup/controllers/signup_controller.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/auth/signup/controllers/signup_controller.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';

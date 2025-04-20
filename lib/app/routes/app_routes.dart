@@ -26,7 +26,7 @@ abstract class AppRoutes {
   static const taskViewScreen = _Paths.taskViewScreen;
   static const projectImagers = _Paths.Project_Images_View;
   static const supervisorDocuments = _Paths.supervisorDocuments;
-  static const taskStatusScreen = _Paths.taskStatusScreen;
+
   static const dailyNoteDetailsScreen = _Paths.dailyNoteDetailsScreen;
   static const addNewNoteScreen = _Paths.addNewNoteScreen;
 
@@ -42,6 +42,8 @@ abstract class AppRoutes {
   static const managerNoteAcceptScreen = _Paths.managerNoteAcceptScreen;
   static const projectCreateScreen = _Paths.projectCreateScreen;
   static const managerTaskCreate = _Paths.managerTaskCreate;
+  static const supervisorTaskDetailsScreen = _Paths.supervisorTaskDetailsScreen;
+  static const managerTaskDetailsScreen = _Paths.managerTaskDetailsScreen;
 }
 
 abstract class _Paths {
@@ -72,9 +74,10 @@ abstract class _Paths {
   static const taskViewScreen = '/all_task_screen';
   static const Project_Images_View = '/images';
   static const supervisorDocuments = '/documents';
-  static const taskStatusScreen = '/taskStatusScreen';
+
   static const dailyNoteDetailsScreen = '/dailyNoteDetailsScreen';
   static const addNewNoteScreen = '/addNewNoteScreen';
+  static const supervisorTaskDetailsScreen = '/supervisorTaskDetailsScreen';
 
 
 
@@ -91,5 +94,6 @@ abstract class _Paths {
   static const managerNoteAcceptScreen = '/managerNoteAcceptScreen';
   static const projectCreateScreen = '/projectCreateScreen';
   static const managerTaskCreate = '/managerTaskCreate';
+  static const managerTaskDetailsScreen = '/managerTaskDetailsScreen';
 
 }

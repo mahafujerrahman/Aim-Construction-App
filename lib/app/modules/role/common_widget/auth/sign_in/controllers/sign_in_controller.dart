@@ -1,12 +1,10 @@
 import 'package:aim_construction_app/app/data/api_constants.dart';
+import 'package:aim_construction_app/app/routes/app_pages.dart';
+import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
+import 'package:aim_construction_app/service/api_client.dart';
+import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../common/prefs_helper/prefs_helpers.dart' show PrefsHelper;
-import '../../../../service/api_checker.dart' show ApiChecker;
-import '../../../../service/api_client.dart' show ApiClient;
-import '../../../../utils/app_constant.dart' show AppConstants, Role;
-import '../../../routes/app_pages.dart' show AppRoutes;
 
 class SignInController extends GetxController {
   TextEditingController emailCtrl = TextEditingController();
@@ -41,7 +39,7 @@ class SignInController extends GetxController {
 
       print("============> Response Body: ${response.body}, Status Code: ${response.statusCode}");
       if (response.statusCode == 200 || response.statusCode == 201) {
-
+        signInLoading(false);
         PrefsHelper.setString(AppConstants.fcmToken, response.body['data']['fcmToken']);
         PrefsHelper.setString(AppConstants.bearerToken, response.body['data']['attributes']['tokens']['accessToken']);
         print('===================>> Check error');

@@ -1,4 +1,4 @@
-import 'package:aim_construction_app/app/modules/sign_in/controllers/sign_in_controller.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/auth/sign_in/controllers/sign_in_controller.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
@@ -10,6 +10,7 @@ import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -80,12 +81,16 @@ class _SignInScreenState extends State<SignInScreen> {
 
               SizedBox(height: 20.h),
               /// Sing In Button
-              CustomButton(
-                onTap: () {
-                  signInController.signInMethod();
-                },
-                text: AppString.signInText.tr,
-              ),
+              Obx((){
+                return CustomButton(
+                  loading: signInController.signInLoading.value,
+                  onTap: () {
+                    signInController.signInMethod();
+                  },
+                  text: AppString.signInText.tr,
+                );
+              }),
+
               ///==================>> Don't have and Account <===================
               SizedBox(height: 10.h),
               Row(

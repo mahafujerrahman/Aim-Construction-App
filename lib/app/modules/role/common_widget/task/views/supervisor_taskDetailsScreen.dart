@@ -1,5 +1,6 @@
-import 'package:aim_construction_app/app/controller/projectNote_controller.dart';
+import 'package:aim_construction_app/app/controller/projectTask_controller.dart';
 import 'package:aim_construction_app/common/helper/time_formate.dart';
+import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/service/fileName.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
@@ -10,40 +11,51 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+class SupervisorTaskDetailsScreen extends StatefulWidget {
+  const SupervisorTaskDetailsScreen({super.key});
 
-class DailyNoteDetailsScreen extends StatefulWidget {
   @override
-  State<DailyNoteDetailsScreen> createState() => _DailyNoteDetailsScreenState();
+  _SupervisorTaskDetailsScreenState createState() => _SupervisorTaskDetailsScreenState();
 }
 
-class _DailyNoteDetailsScreenState extends State<DailyNoteDetailsScreen> {
-  final ProjectNoteController projectNoteController = Get.put(ProjectNoteController());
+class _SupervisorTaskDetailsScreenState extends State<SupervisorTaskDetailsScreen> {
+  final ProjectTaskController projectTaskController = Get.put(ProjectTaskController());
   var parameter = Get.parameters;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      String noteId = '${parameter['noteId']}';
-      print('Fetching note details for ID: $noteId');
-      projectNoteController.getNoteDetailsByID(noteId);
+      String taskID = '${parameter['taskID']}';
+      print('Fetching Task details for ID: $taskID');
+      projectTaskController.getTaskDetailsByID(taskID);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.white,
       appBar: AppBar(
-        title: Text('Note Details'),
+        title: Text(
+          'Task Details',
+          style: AppStyles.fontSize18(fontWeight: FontWeight.w600, color: AppColors.color323B4A),
+        ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              Get.back();
+            }
+          },
         ),
       ),
       body: Obx(() {
-        var displayData = projectNoteController.getNoteDetailByIdModel.value;
-        if (projectNoteController.isLoading.value) {
+        var displayData = projectTaskController.getTaskDetailByIdModel.value;
+        if (projectTaskController.isLoading.value) {
           return Center(
             child: CupertinoActivityIndicator(
               radius: 32.r,
@@ -53,41 +65,58 @@ class _DailyNoteDetailsScreenState extends State<DailyNoteDetailsScreen> {
         }
 
         return SingleChildScrollView(
-          padding: EdgeInsets.all(16.sp),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Note Section
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.orange.shade100,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Task Status: ${displayData.taskStatus?.toUpperCase()}', style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text('Assign to: ${displayData.assignedTo?.fname} ${displayData.assignedTo?.lname}', style: TextStyle(fontWeight: FontWeight.bold)),
+
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 20.h),
+              Text('Due Date: ',style: AppStyles.fontSize16(fontWeight: FontWeight.w600)),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 4.w),
-                    decoration: BoxDecoration(
-                      color: displayData.isAccepted == 'pending'
-                          ? AppColors.pendingStatusColor
-                          : AppColors.greenColor,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      '${displayData.isAccepted?.toUpperCase()}',
-                      style: AppStyles.fontSize14(color: AppColors.white),
-                    ),
-                  ),
+                  Icon(Icons.calendar_month,size: 20.sp),
+                  SizedBox(width: 8.w),
+                  Text('${TimeFormatHelper.formatDateWithDay((DateTime.parse(displayData.dueDate.toString())))}'),
                 ],
               ),
-              SizedBox(height: 10.h),
-              Text(TimeFormatHelper.formatDateWithDay(DateTime.parse(displayData.createdAt.toString())), style: TextStyle(color: Colors.grey),),
-              SizedBox(height: 10.h),
-              Text('${displayData.title ?? 'N/A'}', style: TextStyle(fontWeight: FontWeight.bold),),
-              SizedBox(height: 5.h),
-              Text('${displayData.description ?? 'N/A'}', style: TextStyle(fontSize: 14.sp),),
               SizedBox(height: 20.h),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.h),
+                child: Column(
+                  children: [
+                    Text('Titel',style: AppStyles.fontSize16(fontWeight: FontWeight.w600)),
+                  ],
+                ),
+              ),
+              Text('${displayData.title}',style:  AppStyles.fontSize18()),
+              SizedBox(height: 20.h),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.h),
+                child: Column(
+                  children: [
+                    Text('Description',style: AppStyles.fontSize16(fontWeight: FontWeight.w600)),
+                  ],
+                ),
+              ),
+              Text('${displayData.description}', style:  AppStyles.fontSize18()),
 
-              // Attachments Section
-              Text('Attachments', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              SizedBox(height: 10.h),
-
+              SizedBox(height: 20.h),
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -96,9 +125,9 @@ class _DailyNoteDetailsScreenState extends State<DailyNoteDetailsScreen> {
                   crossAxisSpacing: 8.0,
                   mainAxisSpacing: 8.0, // Spacing between rows
                 ),
-                itemCount: displayData.attachments?.where((attachment) => attachment.attachmentType == 'image').length ?? 0, // Only count image attachments
+                itemCount: displayData.attachments?.where((attachment) => attachment?.attachmentType == 'image').length ?? 0, // Only count image attachments
                 itemBuilder: (context, index) {
-                  final imageAttachments = displayData.attachments?.where((attachment) => attachment.attachmentType == 'image').toList();
+                  final imageAttachments = displayData.attachments?.where((attachment) => attachment?.attachmentType == 'image').toList();
                   if (imageAttachments != null && imageAttachments.isNotEmpty) {
                     final fileUrl = imageAttachments[index].attachment ?? '';
                     return Padding(
@@ -107,9 +136,9 @@ class _DailyNoteDetailsScreenState extends State<DailyNoteDetailsScreen> {
                         onTap: () => showImagePreview(fileUrl ?? ''),
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: Colors.transparent,
-                            border: Border.all(color: AppColors.primaryColor)),
+                              borderRadius: BorderRadius.circular(8.r),
+                              color: Colors.transparent,
+                              border: Border.all(color: AppColors.primaryColor)),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.r),
                             child: Image.network(
@@ -130,7 +159,6 @@ class _DailyNoteDetailsScreenState extends State<DailyNoteDetailsScreen> {
                 },
               ),
 
-
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -144,9 +172,10 @@ class _DailyNoteDetailsScreenState extends State<DailyNoteDetailsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 2.h),
+                          padding: EdgeInsets.all(8.r),
                           child: Row(
                             children: [
+                              // Display PDF icon for documents
                               FileUtils.getFileIcon(fileUrl),
                               SizedBox(width: 8.w),
                               FileUtils.getFileName(fileUrl),
@@ -158,22 +187,38 @@ class _DailyNoteDetailsScreenState extends State<DailyNoteDetailsScreen> {
                               FileUtils.downloadFile(fileUrl);
                             },
                             child: SvgPicture.asset(AppIcons.downloadIcon)),
-
-                  ],
+                      ],
                     );
                   }
 
                   return SizedBox.shrink();
                 },
               ),
+
+              SizedBox(height: 16),
+
+              // Button at the bottom
+              CustomButton(
+                loading: projectTaskController.loading.value,
+                onTap: () async {
+                  await projectTaskController.taskStatusChnage('${parameter['taskID']}');
+                  String taskId = '${parameter['taskID']}';
+                  await projectTaskController.getTaskDetailsByID(taskId);
+
+                  setState(() {});
+                },
+                text: displayData.taskStatus == 'open' ? 'Make It Complete' : 'Completed',
+                color: displayData.taskStatus == 'open' ? AppColors.primaryColor : AppColors.greenColor,
+
+              ),
+
+
             ],
           ),
         );
       }),
     );
   }
-
-  // Function to handle image click (show preview dialog)
   void showImagePreview(String image) {
     showDialog(
       context: context,
@@ -221,7 +266,7 @@ class _DailyNoteDetailsScreenState extends State<DailyNoteDetailsScreen> {
                         style: TextButton.styleFrom(
                           foregroundColor: AppColors.redColor,
                         ),
-                        child: SvgPicture.asset(AppIcons.deletedIcon,color: Colors.white),
+                        child: SvgPicture.asset(AppIcons.deletedIcon),
                       ),
                     ),
                   ],
@@ -233,6 +278,4 @@ class _DailyNoteDetailsScreenState extends State<DailyNoteDetailsScreen> {
       },
     );
   }
-
-
 }

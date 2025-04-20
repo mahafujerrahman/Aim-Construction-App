@@ -1,10 +1,25 @@
-import 'package:aim_construction_app/app/modules/forgetPassword/bindings/forget_password_binding.dart';
-import 'package:aim_construction_app/app/modules/forgetPassword/views/forget_password_view.dart';
 import 'package:aim_construction_app/app/modules/resetPassword/bindings/reset_password_binding.dart';
 import 'package:aim_construction_app/app/modules/resetPassword/views/reset_password_view.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/auth/forgetPassword/bindings/forget_password_binding.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/auth/forgetPassword/views/forget_password_view.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/auth/sign_in/bindings/sign_in_binding.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/auth/sign_in/views/signInScreen.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/auth/signup/bindings/signup_binding.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/auth/signup/views/signupScreen.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/auth/verifyEmail/bindings/verify_email_binding.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/auth/verifyEmail/views/successfull_screen.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/auth/verifyEmail/views/verify_email_view.dart';
 import 'package:aim_construction_app/app/modules/role/common_widget/documents/views/role_supervisor_documents_view.dart';
 import 'package:aim_construction_app/app/modules/role/common_widget/personalInformationScreen/edit_personal_information_view.dart';
 import 'package:aim_construction_app/app/modules/role/common_widget/personalInformationScreen/personal_information_screen_view.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/settings/aboutus/aboutUs_screen.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/settings/chnagePassword/changePassword_screen.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/settings/contactUs/contactUs_screen.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/settings/privacyPolicy/privacy_policy_screen.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/settings/settings_screen.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/settings/termsConditions/terms_condition_screen.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/task/views/managerTaskDetailsScreen.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/task/views/supervisor_taskDetailsScreen.dart';
 import 'package:aim_construction_app/app/modules/role/common_widget/task/views/task_view_screen.dart';
 import 'package:aim_construction_app/app/modules/role/manager/home/createProject/projectCreateScreen.dart';
 import 'package:aim_construction_app/app/modules/role/common_widget/task/views/createTask/managerTaskCreate.dart';
@@ -23,25 +38,12 @@ import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/
 import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/role_supervisor_daily_log_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/homeScreen/views/role_supervisor_home_screen_view.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/more/views/role_supervisor_more_view.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/more/views/settings/aboutus/aboutUs_screen.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/more/views/settings/chnagePassword/changePassword_screen.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/more/views/settings/contactUs/contactUs_screen.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/more/views/settings/privacyPolicy/privacy_policy_screen.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/more/views/settings/settings_screen.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/more/views/settings/termsConditions/terms_condition_screen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/projectTool/views/supervisor_project_tool_view.dart';
-import 'package:aim_construction_app/app/modules/signup/bindings/signup_binding.dart';
-import 'package:aim_construction_app/app/modules/signup/views/signupScreen.dart';
-import 'package:aim_construction_app/app/modules/verifyEmail/bindings/verify_email_binding.dart';
-import 'package:aim_construction_app/app/modules/verifyEmail/views/successfull_screen.dart';
-import 'package:aim_construction_app/app/modules/verifyEmail/views/verify_email_view.dart';
 import 'package:aim_construction_app/onboarding_screen.dart';
 import 'package:aim_construction_app/splash_screen.dart';
 import 'package:get/get.dart';
 import '../modules/role/common_widget/images/views/images_view_screen.dart';
-import '../modules/role/common_widget/task/views/taskStatusScreen.dart';
-import '../modules/sign_in/bindings/sign_in_binding.dart';
-import '../modules/sign_in/views/signInScreen.dart';
+
 part 'app_routes.dart';
 
 class AppPages {
@@ -77,9 +79,9 @@ class AppPages {
     GetPage(name: _Paths.ROLE_SUPERVISOR_DAILY_LOG, page: () =>  RoleSupervisorDailyLogView(),transition: Transition.noTransition),
     GetPage(name: _Paths.taskViewScreen, page: () =>  TaskViewScreen(),transition: Transition.noTransition),
     GetPage(name: _Paths.supervisorDocuments, page: () =>  RoleSupervisorDocumentsView(),transition: Transition.noTransition),
-    GetPage(name: _Paths.taskStatusScreen, page: () =>  TaskStatusScreen(),transition: Transition.noTransition),
     GetPage(name: _Paths.dailyNoteDetailsScreen, page: () =>  DailyNoteDetailsScreen(),transition: Transition.noTransition),
     GetPage(name: _Paths.addNewNoteScreen, page: () =>  AddNewNoteScreen(),transition: Transition.noTransition),
+    GetPage(name: _Paths.supervisorTaskDetailsScreen, page: () =>  SupervisorTaskDetailsScreen(),transition: Transition.noTransition),
 
     GetPage(name: _Paths.Project_Images_View, page: () =>  ProjectImagesView(),transition: Transition.noTransition),
     // Manager
@@ -94,6 +96,7 @@ class AppPages {
     GetPage(name: _Paths.managerNoteAcceptScreen, page: () =>  ManagerNoteAcceptScreen(),transition: Transition.noTransition),
     GetPage(name: _Paths.projectCreateScreen, page: () =>  ProjectCreateScreen(),transition: Transition.noTransition),
     GetPage(name: _Paths.managerTaskCreate, page: () =>  ManagerTaskCreate(),transition: Transition.noTransition),
+    GetPage(name: _Paths.managerTaskDetailsScreen, page: () =>  ManagerTaskDetailsScreen(),transition: Transition.noTransition),
 
   ];
 }

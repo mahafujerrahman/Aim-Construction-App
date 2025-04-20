@@ -1,12 +1,12 @@
+import 'package:aim_construction_app/app/data/api_constants.dart';
+import 'package:aim_construction_app/app/routes/app_pages.dart';
+import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
+import 'package:aim_construction_app/service/api_checker.dart';
+import 'package:aim_construction_app/service/api_client.dart';
+import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:flutter/cupertino.dart' show TextEditingController;
 import 'package:get/get.dart';
 
-import '../../../../common/prefs_helper/prefs_helpers.dart' show PrefsHelper;
-import '../../../../service/api_checker.dart' show ApiChecker;
-import '../../../../service/api_client.dart' show ApiClient;
-import '../../../../utils/app_constant.dart';
-import '../../../data/api_constants.dart' show ApiConstants;
-import '../../../routes/app_pages.dart' show AppRoutes;
 
 class VerifyEmailController extends GetxController {
 
@@ -34,6 +34,7 @@ class VerifyEmailController extends GetxController {
 
       print("============> Response Body ${response.body} and ==> ${response.statusCode}");
       if (response.statusCode == 200 || response.statusCode == 201) {
+        verifyOTPLoading(false);
         Get.snackbar('Done', response.body['message']);
 
 
@@ -50,13 +51,37 @@ class VerifyEmailController extends GetxController {
         }
 
       } else if (response.statusCode == 400 || response.statusCode == 401) {
+        verifyOTPLoading(false);
         Get.snackbar('Error', response.body['message']);
       } else {
         ApiChecker.checkApi(response);
+        verifyOTPLoading(false);
       }
     } catch (e) {
       print("===> error : $e");
     }
     verifyOTPLoading(false);
+  }
+
+
+  /// ==========================>> Resend otp   <<================
+  var resendOtpLoading = false.obs;
+  resendOtp(String email) async {
+    resendOtpLoading(true);
+    var body = {
+      "email": email,
+    };
+    Map<String, String> header = {'Content-Type': 'application/json'};
+    var response = await ApiClient.postData(
+        ApiConstants.resendOTPEndPoint, body,
+        headers: header);
+    print("===> ${response.body}");
+    if (response.statusCode == 200) {
+      PrefsHelper.setString(AppConstants.verificationToken, response.body['data']['attributes']['resetPasswordToken']);
+      Get.snackbar('Successful',  response.body['message']);
+    } else {
+      Get.snackbar('Error', response.body['message']);
+    }
+    resendOtpLoading(false);
   }
 }

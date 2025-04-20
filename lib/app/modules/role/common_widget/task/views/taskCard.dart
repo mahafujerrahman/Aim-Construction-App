@@ -6,7 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class TaskCard extends StatelessWidget {
-  final String noteText;
+  final String noteTitel;
+  final String noteDiscreiption;
   final int doumentCount;
   final int imageCount;
   final String authorName;
@@ -15,7 +16,8 @@ class TaskCard extends StatelessWidget {
 
   const TaskCard({
     Key? key,
-    required this.noteText,
+    required this.noteTitel,
+    required this.noteDiscreiption,
     required this.doumentCount,
     required this.imageCount,
     required this.authorName,
@@ -41,36 +43,45 @@ class TaskCard extends StatelessWidget {
           children: [
             // Left side content
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    noteText,
-                    style: AppStyles.fontSize14(color: AppColors.color323B4A),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 3,
-                  ),
-                  SizedBox(height: 8.h),
-                  Row(
-                    children: [
-                      SvgPicture.asset(AppIcons.attachmentIcon, height: 14.h,width: 14.w),
-                      SizedBox(width: 4.w),
-                      Text('$doumentCount',style: AppStyles.fontSize14(color: AppColors.color323B4A)),
-                      SizedBox(width: 12.w),
-                      SvgPicture.asset(AppIcons.imageIcon, height: 14.h,width: 14.w,color: AppColors.color323B4A),
-                      SizedBox(width: 4.w),
-                      Text('$imageCount',style: AppStyles.fontSize14(color: AppColors.color323B4A)),
-                      SizedBox(width: 12.w),
-                      SvgPicture.asset(AppIcons.profileIcon, height: 14.h,width: 14.w),
-                      SizedBox(width: 4.w),
-                      Text(authorName,style: AppStyles.fontSize14(color: AppColors.color323B4A)),
-                      SizedBox(width: 12.w),
-                      SvgPicture.asset(AppIcons.calender, height: 14.h,width: 14.w),
-                      SizedBox(width: 4.w),
-                      Text(date,style: AppStyles.fontSize14(color: AppColors.color323B4A)),
-                    ],
-                  ),
-                ],
+              child: Padding(
+                padding: EdgeInsets.all(8.r),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      noteTitel,
+                      style: AppStyles.fontSize14(color: AppColors.color323B4A,fontWeight: FontWeight.w600),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                    ),
+                    SizedBox(height: 8.h),
+                    Text(
+                      noteDiscreiption,
+                      style: AppStyles.fontSize14(color: AppColors.color323B4A),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(AppIcons.attachmentIcon, height: 14.h,width: 14.w),
+                        SizedBox(width: 4.w),
+                        Text('$doumentCount',style: AppStyles.fontSize14(color: AppColors.color323B4A)),
+                        SizedBox(width: 12.w),
+                        SvgPicture.asset(AppIcons.imageIcon, height: 14.h,width: 14.w,color: AppColors.color323B4A),
+                        SizedBox(width: 4.w),
+                        Text('$imageCount',style: AppStyles.fontSize14(color: AppColors.color323B4A)),
+                        SizedBox(width: 12.w),
+                        SvgPicture.asset(AppIcons.profileIcon, height: 14.h,width: 14.w),
+                        SizedBox(width: 4.w),
+                        Text(authorName,style: AppStyles.fontSize14(color: AppColors.color323B4A)),
+                        SizedBox(width: 12.w),
+                        SvgPicture.asset(AppIcons.calender, height: 14.h,width: 14.w),
+                        SizedBox(width: 4.w),
+                        Text(date,style: AppStyles.fontSize14(color: AppColors.color323B4A)),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             // Right side arrow

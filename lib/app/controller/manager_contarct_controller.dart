@@ -110,6 +110,7 @@ class ManagerContarctController extends GetxController {
   //====================>> Manger Task Create
 
   managerContractCreate({required String projectId}) async{
+    isLoading(true);
 
     List<MultipartBody> multipartAttachments = [];
 
@@ -129,12 +130,14 @@ class ManagerContarctController extends GetxController {
     );
     // Handle response
     if (response.statusCode == 200) {
+      isLoading(false);
       Get.back();
-      Get.snackbar('Successfully', 'Contract Create Done');
+      Get.snackbar('Successfully', response.body['message']);
       update();
       clearFile();
     }  if (response.statusCode == 400) {
-      Get.snackbar('Error', 'Attachment is required.');
+      isLoading(false);
+      Get.snackbar('Error', response.body['message']);
 
     }
     else {

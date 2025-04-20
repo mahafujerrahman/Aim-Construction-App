@@ -1,4 +1,4 @@
-import 'package:aim_construction_app/app/modules/verifyEmail/controllers/verify_email_controller.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/auth/verifyEmail/controllers/verify_email_controller.dart';
 import 'package:aim_construction_app/base/pin_code_text_field.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
@@ -24,7 +24,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
   @override
   void initState() {
     super.initState();
-    // Print screen type when the screen initializes
     print('Screen Type: ${parameter['screenType']}');
   }
   @override
@@ -64,7 +63,9 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 ),
                 //=====================> Resend Text Button <=================
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    verifyEmailController.resendOtp("${parameter['email']}");
+                  },
                   child: CustomText(
                     text: AppString.resend.tr,
                     fontSize: 16.sp,

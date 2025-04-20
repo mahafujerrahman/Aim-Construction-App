@@ -157,13 +157,6 @@ class ProjectNoteController extends GetxController {
   //============================>> Note Details by ID <<==============================
 
   Rx<GetNoteDetailByIdModel> getNoteDetailByIdModel = GetNoteDetailByIdModel().obs;
-  var noteTitle = ''.obs;
-  var descriptionOfNote = ''.obs;
-  var noteDate = ''.obs;
-  var isAccepted = ''.obs;
-  var createdAt = ''.obs;
-
-
 
 
   getNoteDetailsByID(String noteID)async{
@@ -174,10 +167,6 @@ class ProjectNoteController extends GetxController {
       getNoteDetailByIdModel.value = GetNoteDetailByIdModel.fromJson(response.body['data']['attributes']);
 
 
-      noteTitle.value= response.body['data']['attributes']['title'];
-      descriptionOfNote.value= response.body['data']['attributes']['description'];
-      isAccepted.value= response.body['data']['attributes']['isAccepted'];
-      createdAt.value= response.body['data']['attributes']['createdAt'];
 
       isLoading.value=false;
 

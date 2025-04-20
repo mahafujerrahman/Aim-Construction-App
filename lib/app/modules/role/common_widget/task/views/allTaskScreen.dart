@@ -1,7 +1,11 @@
 import 'package:aim_construction_app/app/controller/projectTask_controller.dart';
 import 'package:aim_construction_app/app/modules/role/common_widget/task/views/taskCard.dart';
+import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/helper/time_formate.dart';
+import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
+import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
+import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:aim_construction_app/utils/app_images.dart';
 import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,14 +23,37 @@ class ProjectAllTaskScreen extends StatefulWidget {
 class _ProjectAllTaskScreenState extends State<ProjectAllTaskScreen> {
 
   final ProjectTaskController projectTaskController = Get.put(ProjectTaskController());
+  TextEditingController textEditingController = TextEditingController();
+  String? projectId;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async{
-      projectTaskController.getAllProjectTaskDetails();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      projectId = await PrefsHelper.getString(AppConstants.projectID);
+      if (projectId != null) {
+        projectTaskController.getAllProjectTaskDetails(projectId: projectId!);
+      }
+    });
+
+    textEditingController.addListener(() {
+      String searchText = textEditingController.text;
+      if (searchText.isEmpty) {
+        if (projectId != null) {
+          projectTaskController.getAllProjectTaskDetails(projectId: projectId!);
+        }
+      } else {
+        if (projectId != null) {
+          projectTaskController.getAllProjectTaskDetails(
+            projectId: projectId!,
+            title: searchText,
+          );
+        }
+      }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +64,13 @@ class _ProjectAllTaskScreenState extends State<ProjectAllTaskScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Padding(
+                  padding: EdgeInsets.all(4.r),
+                  child: CustomTextField(
+                    controller: textEditingController,
+                    hintText: "Search",
+                  ),
+                ),
                 SizedBox(height: 16.h),
                 if (projectTaskController.isLoading.value)
                   Center(
@@ -68,15 +102,34 @@ class _ProjectAllTaskScreenState extends State<ProjectAllTaskScreen> {
                     final projectTaskDetails = projectTaskController.projectTaskDetailsModel.value[index];
                     return Column(
                       children: [
-                        TaskCard(
-                          noteText: projectTaskDetails.title ?? '',
-                          doumentCount: projectTaskDetails.documentCount ?? 0,
-                          imageCount: projectTaskDetails.imageCount ?? 0,
-                          authorName: projectTaskDetails.assignedTo?.fname ?? '',
-                          date: '${TimeFormatHelper.formatDate(DateTime.parse(projectTaskDetails.createdAt.toString()))}',
-                          onTap: () {
-                            print('Card tapped');
+                        InkWell(
+                          onTap: () async {
+                            String userRole = await PrefsHelper.getString(AppConstants.role);
+                            if (userRole == Role.projectSupervisor.name) {
+                              Get.toNamed(AppRoutes.supervisorTaskDetailsScreen, parameters:  {
+                                "taskID": projectTaskDetails.id ?? '',
+                              }
+                              );
+                            }
+                            else if (userRole == Role.projectManager.name) {
+                              Get.toNamed(AppRoutes.managerTaskDetailsScreen,parameters:  {
+                                "taskID": projectTaskDetails.id ?? '',
+                              }
+                              );
+                            }
+                            print('User Role: $userRole');
                           },
+                          child: TaskCard(
+                            noteTitel: projectTaskDetails.title ?? 'No Title',
+                            noteDiscreiption: projectTaskDetails.description ?? 'No Description',
+                            doumentCount: projectTaskDetails.documentCount ?? 0,
+                            imageCount: projectTaskDetails.imageCount ?? 0,
+                            authorName: projectTaskDetails.assignedTo?.fname ?? 'N/A',
+                            date: '${TimeFormatHelper.formatDate(DateTime.parse(projectTaskDetails.createdAt.toString()))}',
+                            onTap: () {
+                              print('Card tapped');
+                            },
+                          ),
                         ),
                         const SizedBox(height: 16),
                       ],

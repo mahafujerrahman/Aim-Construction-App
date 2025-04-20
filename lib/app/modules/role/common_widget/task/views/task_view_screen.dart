@@ -66,13 +66,6 @@ class _TaskViewScreenState
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CustomTextField(
-              controller: textEditingController,
-              hintText: "Search",
-            ),
-          ),
           // TabBar Section
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.0.w),

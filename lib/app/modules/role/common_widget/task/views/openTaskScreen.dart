@@ -3,6 +3,7 @@ import 'package:aim_construction_app/app/modules/role/common_widget/task/views/t
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/helper/time_formate.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
+import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:aim_construction_app/utils/app_images.dart';
@@ -20,38 +21,73 @@ class ProjectOpenTaskScreen extends StatefulWidget {
 }
 
 class _ProjectOpenTaskScreenState extends State<ProjectOpenTaskScreen> {
-
   final ProjectTaskController projectTaskController = Get.put(ProjectTaskController());
+  TextEditingController textEditingController = TextEditingController();
+  String? projectId;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async{
-      projectTaskController.getAllProjectTaskDetails(task_status: 'open');
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      projectId = await PrefsHelper.getString(AppConstants.projectID);
+      if (projectId != null) {
+        projectTaskController.getAllProjectTaskDetails(task_status: 'open', projectId: projectId!);
+      }
+    });
+
+    textEditingController.addListener(() {
+      String searchText = textEditingController.text;
+      if (searchText.isEmpty) {
+        if (projectId != null) {
+          projectTaskController.getAllProjectTaskDetails(task_status: 'open', projectId: projectId!);
+        }
+      } else {
+        if (projectId != null) {
+          projectTaskController.getAllProjectTaskDetails(
+            task_status: 'open',
+            projectId: projectId!,
+            title: searchText,
+          );
+        }
+      }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx((){
-        return  SingleChildScrollView(
+      body: Obx(() {
+        return SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Padding(
+                  padding: EdgeInsets.all(4.r),
+                  child: CustomTextField(
+                    controller: textEditingController,
+                    hintText: "Search",
+                  ),
+                ),
                 SizedBox(height: 16.h),
+                // Show loading indicator if data is still loading
                 if (projectTaskController.isLoading.value)
                   Center(
-                    child: CupertinoActivityIndicator(radius: 32.r, color: AppColors.primaryColor),)
+                    child: CupertinoActivityIndicator(
+                      radius: 32.r,
+                      color: AppColors.primaryColor,
+                    ),
+                  )
+                // Show message when no tasks are available
                 else if (projectTaskController.projectTaskDetailsModel.value.isEmpty)
-                // Show message when no projects are available
                   Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset(AppImage.noData,height: 200.h),
+                        Image.asset(AppImage.noData, height: 200.h),
                         Padding(
                           padding: EdgeInsets.all(12.r),
                           child: Text(
@@ -62,6 +98,7 @@ class _ProjectOpenTaskScreenState extends State<ProjectOpenTaskScreen> {
                       ],
                     ),
                   )
+                // Display project tasks
                 else
                   ListView.builder(
                     shrinkWrap: true,
@@ -73,18 +110,28 @@ class _ProjectOpenTaskScreenState extends State<ProjectOpenTaskScreen> {
                       return Column(
                         children: [
                           InkWell(
-                            onTap : () async{
+                            onTap: () async {
                               String userRole = await PrefsHelper.getString(AppConstants.role);
                               if (userRole == Role.projectSupervisor.name) {
-                                Get.offAllNamed(AppRoutes.taskStatusScreen);
+                                Get.toNamed(AppRoutes.supervisorTaskDetailsScreen, parameters:  {
+                                    "taskID": projectTaskDetails.id ?? '',
+                                    }
+                                );
                               }
-                              print('========$userRole');
+                             else if (userRole == Role.projectManager.name) {
+                                Get.toNamed(AppRoutes.managerTaskDetailsScreen,parameters:  {
+                                    "taskID": projectTaskDetails.id ?? '',
+                                    }
+                                );
+                              }
+                              print('User Role: $userRole');
                             },
                             child: TaskCard(
-                              noteText: projectTaskDetails.title ?? '',
+                              noteTitel: projectTaskDetails.title ?? 'No Title',
+                              noteDiscreiption: projectTaskDetails.description ?? 'No Description',
                               doumentCount: projectTaskDetails.documentCount ?? 0,
                               imageCount: projectTaskDetails.imageCount ?? 0,
-                              authorName: projectTaskDetails.assignedTo?.fname ?? '',
+                              authorName: projectTaskDetails.assignedTo?.fname ?? 'N/A',
                               date: '${TimeFormatHelper.formatDate(DateTime.parse(projectTaskDetails.createdAt.toString()))}',
                               onTap: () {
                                 print('Card tapped');
@@ -100,8 +147,8 @@ class _ProjectOpenTaskScreenState extends State<ProjectOpenTaskScreen> {
             ),
           ),
         );
-      }
-      ),
+      }),
     );
   }
 }
+

@@ -13,7 +13,8 @@ class ForgetPasswordController extends GetxController {
   ///==================>>  Forgot pass word   <<<===============
   TextEditingController forgetEmailTextCtrl = TextEditingController();
 
-  var forgotLoading = false.obs;
+  RxBool forgotLoading = false.obs;
+
 
   handleForget() async {
     forgotLoading(true);
@@ -23,24 +24,25 @@ class ForgetPasswordController extends GetxController {
     var headers = {
       'Content-Type': 'application/json'
     };
-    var response = await ApiClient.postData(ApiConstants.forgotPasswordEndPoint, body,
-        headers: headers);
+    var response = await ApiClient.postData(ApiConstants.forgotPasswordEndPoint, body, headers: headers);
     if (response.statusCode == 200 || response.statusCode == 201) {
       PrefsHelper.setString(AppConstants.verificationToken, response.body['data']['attributes']['resetPasswordToken']);
-
+      forgotLoading(false);
 
       Get.toNamed(AppRoutes.verify_email_screen, parameters: {
         "email": forgetEmailTextCtrl.text.trim(),
         "screenType": "forgetPasswordScreen",
       });
-      Get.snackbar("Done", 'OTP Send your email');
+      Get.snackbar("Done", response.body['message']);
     }
     if (response.statusCode == 400 || response.statusCode == 404) {
+      forgotLoading(false);
       Get.snackbar('Error', response.body['message']);
     }
 
     else {
       ApiChecker.checkApi(response);
+      forgotLoading(false);
 
     }
     forgotLoading(false);

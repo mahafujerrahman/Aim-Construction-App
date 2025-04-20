@@ -1,3 +1,4 @@
+import 'package:aim_construction_app/app/controller/changePassword_controller.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
@@ -17,9 +18,11 @@ class ChangePasswordScreen extends StatefulWidget {
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
+    final AuthController authController = Get.put(AuthController());
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -36,44 +39,68 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 20.h),
-           CustomTextField(
+            CustomTextField(
               isPassword: true,
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: SvgPicture.asset(AppIcons.lockIcon,color: AppColors.primaryColor),
+                child: SvgPicture.asset(AppIcons.lockIcon, color: AppColors.primaryColor),
               ),
               hintText: AppString.currentPasswordText.tr,
-              controller: emailController,
-            ),
-            SizedBox(height: 20.h),
-           CustomTextField(
-              isPassword: true,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SvgPicture.asset(AppIcons.lockIcon,color: AppColors.primaryColor),
-              ),
-              hintText: AppString.newPasswordText.tr,
-              controller: emailController,
+              controller: authController.currentPasswordCTRl,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your current password';
+                }
+                return null;
+              },
             ),
             SizedBox(height: 20.h),
             CustomTextField(
               isPassword: true,
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: SvgPicture.asset(AppIcons.lockIcon,color: AppColors.primaryColor),
+                child: SvgPicture.asset(AppIcons.lockIcon, color: AppColors.primaryColor),
+              ),
+              hintText: AppString.newPasswordText.tr,
+              controller: authController.newPassCTRl,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a new password';
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: 20.h),
+            CustomTextField(
+              isPassword: true,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SvgPicture.asset(AppIcons.lockIcon, color: AppColors.primaryColor),
               ),
               hintText: AppString.confrimNewPasswordText.tr,
-              controller: emailController,
+              controller: authController.confirmPassCTRl,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please confirm your new password';
+                }
+                if (value != authController.newPassCTRl.text) {
+                  return "Passwords do not match";
+                }
+                return null;
+              },
             ),
             Spacer(),
             Align(
               alignment: Alignment.bottomCenter,
-              child: CustomButton(
-                onTap: () {
-                 // Get.toNamed(AppRoutes.verifyCodeScreen);
-                },
-                text: AppString.updatePasswordText.tr,
-              ),
+              child: Obx(() {
+                return CustomButton(
+                  loading: authController.changeLoading.value,
+                  onTap: () {
+                      authController.changePassword();
+                    },
+                  text: AppString.updatePasswordText.tr,
+                );
+              }),
             ),
             SizedBox(height: 30.h),
           ],

@@ -45,12 +45,12 @@ class _SupervisorMoreViewState extends State<SupervisorMoreView> {
           style: AppStyles.fontSize18(fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
-        leading: IconButton(
+      /*  leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.pop(context);
           },
-        ),
+        ),*/
       ),
       body:  Obx((){
         var profileData = profileMoreController.userProfileDetailsModel.value;
