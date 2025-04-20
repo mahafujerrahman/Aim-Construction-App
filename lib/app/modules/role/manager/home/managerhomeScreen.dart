@@ -31,7 +31,8 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       var userId = await PrefsHelper.getString(AppConstants.userId);
-      projectController.getAllProjectDetails(projectManager: userId);
+
+      projectController.getAllProjectDetails(projectManagerId: userId);
     });
 
 

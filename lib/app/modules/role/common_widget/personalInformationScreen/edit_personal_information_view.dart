@@ -53,7 +53,7 @@ class _EditPersonalInformationScreenState extends State<EditPersonalInformationS
       firstnameCTRl.text = profileData.fname ?? '';
       lastnameCTRl.text = profileData.lname ?? '';
 
-      phoneCTRl.text = profileData.phoneNumber ?? '';
+      phoneCTRl.text = profileData.phoneNumber ?? 'N/A';
       addressCTRl.text = profileData.address ?? 'N/A';
     });
   }
@@ -122,6 +122,7 @@ class _EditPersonalInformationScreenState extends State<EditPersonalInformationS
                                     child: CachedNetworkImage(
                                       imageUrl: "${profileData.profileImage?.imageUrl}",
                                       fit: BoxFit.cover,
+                                      errorWidget: (context, url, error) => Image.network('http://www.clker.com/cliparts/Z/J/g/U/V/b/avatar-male-silhouette-md.png', fit: BoxFit.cover),
                                     ),
                                   ),
                                 ),
@@ -197,18 +198,23 @@ class _EditPersonalInformationScreenState extends State<EditPersonalInformationS
                   SizedBox(height: 50.h),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: CustomButton(
-                      onTap: () {
-                        profileMoreController.editProfile(
-                          profileImage: selectedImage,
-                          fname: firstnameCTRl.text,
-                          lname: lastnameCTRl.text,
-                          address: addressCTRl.text,
-                          phoneNumber: phoneCTRl.text,
+                    child: Obx((){
+                      return CustomButton(
+                        loading: profileMoreController.isLoading.value,
+                        onTap: () {
+                          profileMoreController.editProfile(
+                            profileImage: selectedImage,
+                            fname: firstnameCTRl.text,
+                            lname: lastnameCTRl.text,
+                            address: addressCTRl.text,
+                            phoneNumber: phoneCTRl.text,
 
-                        );
-                      },
-                      text: AppString.updateText.tr,
+                          );
+                        },
+                        text: AppString.updateText.tr,
+                      );
+                    }
+
                     ),
                   ),
                 ]

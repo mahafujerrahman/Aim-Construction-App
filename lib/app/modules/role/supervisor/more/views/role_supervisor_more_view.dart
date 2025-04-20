@@ -45,12 +45,12 @@ class _SupervisorMoreViewState extends State<SupervisorMoreView> {
           style: AppStyles.fontSize18(fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
-        leading: IconButton(
+      /*  leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.pop(context);
           },
-        ),
+        ),*/
       ),
       body:  Obx((){
         var profileData = profileMoreController.userProfileDetailsModel.value;
@@ -83,8 +83,7 @@ class _SupervisorMoreViewState extends State<SupervisorMoreView> {
                                 child: CachedNetworkImage(
                                   imageUrl: "${profileData.profileImage?.imageUrl}",
                                   fit: BoxFit.cover,
-                                  errorWidget: (context, url, error) => Image.network('http://www.clker.com/cliparts/Z/J/g/U/V/b/avatar-male-silhouette-md.png',
-                                      fit: BoxFit.cover),
+                                  errorWidget: (context, url, error) => Image.network('http://www.clker.com/cliparts/Z/J/g/U/V/b/avatar-male-silhouette-md.png', fit: BoxFit.cover),
                                 ),
                               ),
                             ),
@@ -197,7 +196,7 @@ class _SupervisorMoreViewState extends State<SupervisorMoreView> {
                         await PrefsHelper.remove(AppConstants.bearerToken);
                         await PrefsHelper.remove(AppConstants.role);
                         //await PrefsHelper.remove(AppConstants.fcmToken);
-                        Get.offAllNamed(AppRoutes.SIGN_IN);
+                        Get.offAllNamed(AppRoutes.signIn_screen);
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity, 58),

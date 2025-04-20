@@ -2,9 +2,6 @@ import 'package:aim_construction_app/app/controller/supervisor_dailyLog_controll
 import 'package:aim_construction_app/app/modules/role/manager/home/managerDailyLogs/manager_DailyLogDocumentScreen.dart';
 import 'package:aim_construction_app/app/modules/role/manager/home/managerDailyLogs/manager_DailyLogImageScreen.dart';
 import 'package:aim_construction_app/app/modules/role/manager/home/managerDailyLogs/manager_DailyLogNoteScreen.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/dailylog_document_screen.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/dailylog_image_screen.dart';
-import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/dailylog_note_screen.dart';
 import 'package:aim_construction_app/app/modules/role/supervisor/dailyLog/views/innerWidget/calender_widget.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/style.dart';

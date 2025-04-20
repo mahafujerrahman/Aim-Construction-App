@@ -46,7 +46,7 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
       backgroundColor: AppColors.white,
       appBar: AppBar(
         title: Text(
-          'Project Name Manager',
+          'Create New Task',
           style: AppStyles.fontSize18(fontWeight: FontWeight.w600, color: AppColors.color323B4A),
         ),
         centerTitle: true,
@@ -93,6 +93,7 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
 
               // Save Button
               CustomButton(
+                loading: projectTaskController.isLoading.value,
                 onTap: () {
                   projectTaskController.managerTaskCreate(projectId: projectId);
                   print('Saving task with projectId: $projectId');

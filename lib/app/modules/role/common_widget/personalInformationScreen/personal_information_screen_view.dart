@@ -131,7 +131,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                         onTap: () {
                           //  Get.toNamed(AppRoutes.forgotPasswordScreen);
                         },
-                        title:"${profileData.email}",
+                        title: profileData.phoneNumber ?? 'N/A',
                         prefixIcon: SvgPicture.asset(AppIcons.phoneIcon,color: AppColors.primaryColor,height: 20.h,width: 20.w),
                       ),
                   /*    SizedBox(height: 8.h),
@@ -143,7 +143,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                       SizedBox(height: 8.h),
                       //============================> Address List Tile <=================
                       CustomListTile(
-                        title:"${profileData.address}",
+                        title: profileData.address ?? 'N/A',
                         prefixIcon: SvgPicture.asset(AppIcons.location,color : AppColors.primaryColor,height: 20.h,width: 20.w),
                       )
                     ]

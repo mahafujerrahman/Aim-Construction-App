@@ -254,6 +254,7 @@ class _ManagerContactScreenState extends State<ManagerContactScreen> {
                     SizedBox(width: 8.w),
                     Expanded(
                       child: CustomButton(
+                        loading: managerContarctController.isLoading.value,
                         onTap: () async {
                           await managerContarctController.managerContractCreate(projectId: projectId);
                         },

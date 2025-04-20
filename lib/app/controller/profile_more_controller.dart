@@ -70,6 +70,7 @@ class ProfileMoreController extends GetxController {
     required String phoneNumber,
     required String address,
   }) async {
+    isLoading (true);
 
     List<MultipartBody> multipartBody = [];
 
@@ -102,6 +103,7 @@ class ProfileMoreController extends GetxController {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       userProfileDetailsModel.value = UserProfileDetailsModel.fromJson(response.body['data']['attributes']);
+      isLoading (false);
       userProfileDetailsModel.refresh();
       var role = await PrefsHelper.getString(AppConstants.role);
 
@@ -112,10 +114,11 @@ class ProfileMoreController extends GetxController {
       }
 
       // Show success snackbar
-      Get.snackbar('Successfully', 'Updated');
+      Get.snackbar('Successfully', response.body['message']);
     } else {
-      Get.snackbar('Error', 'Wrong');
       ApiChecker.checkApi(response);
+      Get.snackbar('Error',  response.body['message']);
+      isLoading (false);
     }
   }
 

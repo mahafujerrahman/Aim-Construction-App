@@ -95,10 +95,10 @@ class ProjectNoteController extends GetxController {
   //================= Add new note ================================
   TextEditingController noteName = TextEditingController();
   TextEditingController noteDescription = TextEditingController();
-
+  RxBool isLoading=false.obs;
 
   supervisorNewNoteCreate({required String projectId}) async{
-
+    isLoading(true);
     List<MultipartBody> multipartAttachments = [];
 
 
@@ -126,12 +126,14 @@ class ProjectNoteController extends GetxController {
     );
     // Handle response
     if (response.statusCode == 200 || response.statusCode == 201) {
+      isLoading(false);
       Get.snackbar('Successfully','Note created successfully');
       update();
       clearTaskData();
       Get.toNamed(AppRoutes.supervisorProjectTools);
     } else {
       ApiChecker.checkApi(response);
+      isLoading(false);
       update();
 
     }
@@ -155,14 +157,7 @@ class ProjectNoteController extends GetxController {
   //============================>> Note Details by ID <<==============================
 
   Rx<GetNoteDetailByIdModel> getNoteDetailByIdModel = GetNoteDetailByIdModel().obs;
-  var noteTitle = ''.obs;
-  var descriptionOfNote = ''.obs;
-  var noteDate = ''.obs;
-  var isAccepted = ''.obs;
-  var createdAt = ''.obs;
 
-
-  RxBool isLoading=false.obs;
 
   getNoteDetailsByID(String noteID)async{
     isLoading.value=true;
@@ -172,10 +167,6 @@ class ProjectNoteController extends GetxController {
       getNoteDetailByIdModel.value = GetNoteDetailByIdModel.fromJson(response.body['data']['attributes']);
 
 
-      noteTitle.value= response.body['data']['attributes']['title'];
-      descriptionOfNote.value= response.body['data']['attributes']['description'];
-      isAccepted.value= response.body['data']['attributes']['isAccepted'];
-      createdAt.value= response.body['data']['attributes']['createdAt'];
 
       isLoading.value=false;
 

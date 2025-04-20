@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:aim_construction_app/app/data/api_constants.dart';
 import 'package:aim_construction_app/app/model/projectTask_details_model.dart';
 import 'package:aim_construction_app/app/model/project_model.dart';
+import 'package:aim_construction_app/app/model/task_detailsModel.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/service/api_checker.dart';
 import 'package:aim_construction_app/service/api_client.dart';
@@ -34,7 +35,7 @@ class ProjectTaskController extends GetxController {
     if (id != null) queryParams.add('_id=$id');
     if (project != null) queryParams.add('project=$project');
     if (task_status != null) queryParams.add('task_status=$task_status');
-    if (projectId != null) queryParams.add('projectStatus=$projectId');
+    if (projectId != null) queryParams.add('projectId=$projectId');
 
     var url = ApiConstants.projectTaskDetailsEndPoint;
 
@@ -133,7 +134,7 @@ class ProjectTaskController extends GetxController {
   //====================>> Manger Task Create
 
   managerTaskCreate({required String projectId}) async{
-
+    isLoading(true);
     List<MultipartBody> multipartAttachments = [];
 
 
@@ -163,12 +164,14 @@ class ProjectTaskController extends GetxController {
     );
     // Handle response
     if (response.statusCode == 200 || response.statusCode == 201) {
+      isLoading(false);
       Get.snackbar('Successfully','Task created successfully');
       update();
       clearTaskData();
       Get.toNamed(AppRoutes.managerHomeScreen);
     } else {
       ApiChecker.checkApi(response);
+      isLoading(false);
       update();
 
     }
@@ -189,6 +192,55 @@ class ProjectTaskController extends GetxController {
   }
   void clearFile(){
     file.clear();
+  }
+
+
+
+  //============================>> Task Details by ID <<==============================
+
+  Rx<GetTaskDetailByIdModel> getTaskDetailByIdModel = GetTaskDetailByIdModel().obs;
+
+
+  getTaskDetailsByID(String taskID)async{
+    isLoading.value=true;
+    var response = await ApiClient.getData(
+      "${ApiConstants.getTaskDetailsByIDEndPoint}/$taskID",);
+    if (response.statusCode == 200) {
+      getTaskDetailByIdModel.value = GetTaskDetailByIdModel.fromJson(response.body['data']['attributes']);
+
+
+      isLoading.value=false;
+
+
+      update();
+
+    }else {
+      isLoading.value=false;
+      ApiChecker.checkApi(response);
+      update();
+
+    }
+  }
+
+
+  //============================= Task Status Change ======================
+  RxBool loading=false.obs;
+  taskStatusChnage(String taskID) async {
+    loading.value = true;
+    var response = await ApiClient.getData("${ApiConstants.taskStatusChnangeEndPoint}/$taskID",);
+    if (response.statusCode == 200) {
+      Get.snackbar('Successfully', response.body['message']);
+      loading.value=false;
+
+
+      update();
+
+    }else {
+      isLoading.value=false;
+      ApiChecker.checkApi(response);
+      update();
+
+    }
   }
 }
 

@@ -28,13 +28,6 @@ class _CalendarWithDropdownState extends State<CalendarWithDropdown> {
   String selectedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
 
-  final Map<DateTime, List<String>> appointmentDate = {
-    DateTime.utc(2025, 4, 16): ['Meeting with team', 'Doctor appointment'],
-    DateTime.utc(2025, 4, 18): ['Project deadline'],
-    DateTime.utc(2025, 4, 20): ['Lunch with client', 'Gym session'],
-    DateTime.utc(2025, 4, 22): ['Webinar'],
-  };
-
   @override
   void initState() {
     super.initState();
@@ -137,7 +130,6 @@ class _CalendarWithDropdownState extends State<CalendarWithDropdown> {
           ),
           calendarBuilders: CalendarBuilders(
             defaultBuilder: (context, day, focusedDay) {
-              bool hasAppointments = _checkForAppointments(day);
               return Container(
                 margin: const EdgeInsets.only(bottom: 5),
                 child: Column(
@@ -158,15 +150,6 @@ class _CalendarWithDropdownState extends State<CalendarWithDropdown> {
                         ),
                       ],
                     ),
-                    if (hasAppointments)
-                      Container(
-                        height: 8.h,
-                        width: 8.w,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.amber,
-                        ),
-                      ),
                   ],
                 ),
               );
@@ -177,7 +160,4 @@ class _CalendarWithDropdownState extends State<CalendarWithDropdown> {
     );
   }
 
-  bool _checkForAppointments(DateTime day) {
-    return appointmentDate.containsKey(day);
-  }
 }
