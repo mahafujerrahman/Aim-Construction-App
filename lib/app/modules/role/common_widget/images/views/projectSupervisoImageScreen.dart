@@ -3,6 +3,8 @@ import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
+import 'package:aim_construction_app/utils/app_images.dart';
+import 'package:aim_construction_app/utils/style.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,13 +61,19 @@ class _ProjectSupervisorImageScreenState extends State<ProjectSupervisorImageScr
                 // Show content when loading is complete
                 if (projectImageAndDocumentController.getAllImageAndDocumentModel.isEmpty) {
                   return Center(
-                    child: Text(
-                      'No Image available',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.color323B4A,
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(AppImage.noData, height: 200.h),
+                        Padding(
+                          padding: EdgeInsets.all(12.r),
+                          child: Text(
+                            'No project image available now.',
+                            style: AppStyles.fontSize20(color: AppColors.hintColor),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 } else {
