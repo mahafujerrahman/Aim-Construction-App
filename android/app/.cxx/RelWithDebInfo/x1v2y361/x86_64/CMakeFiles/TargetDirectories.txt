@@ -1,0 +1,2 @@
+D:/office_project/Aim-Construction-App/android/app/.cxx/RelWithDebInfo/x1v2y361/x86_64/CMakeFiles/edit_cache.dir
+D:/office_project/Aim-Construction-App/android/app/.cxx/RelWithDebInfo/x1v2y361/x86_64/CMakeFiles/rebuild_cache.dir

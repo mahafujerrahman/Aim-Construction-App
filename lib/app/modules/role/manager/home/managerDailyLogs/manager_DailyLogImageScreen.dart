@@ -82,7 +82,7 @@ class _ManagerDailyLogImageScreenState extends State<ManagerDailyLogImageScreen>
                         Padding(
                           padding: EdgeInsets.all(12.r),
                           child: Text(
-                            'No project note available now.',
+                            'No project image available now.',
                             style: AppStyles.fontSize20(
                                 color: AppColors.hintColor),
                           ),
