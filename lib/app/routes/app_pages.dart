@@ -52,14 +52,14 @@ class AppPages {
   static const INITIAL = AppRoutes.signIn_screen;
 
   static final routes = [
-    GetPage(name: _Paths.splashScreen, page: () => const SplashScreen()),
-    GetPage(name: _Paths.onboardingScreen, page: () => const OnboardingScreen()),
+    GetPage(name: _Paths.splashScreen, page: () => const SplashScreen(),transition: Transition.noTransition),
+    GetPage(name: _Paths.onboardingScreen, page: () => const OnboardingScreen(),transition: Transition.noTransition),
 
-    GetPage(name: _Paths.SIGN_IN, page: () => const SignInScreen(), binding: SignInBinding()),
-    GetPage(name: _Paths.SIGNUP, page: () => const SignUpScreen(), binding: SignupBinding()),
+    GetPage(name: _Paths.SIGN_IN, page: () => const SignInScreen(), binding: SignInBinding(),transition: Transition.noTransition),
+    GetPage(name: _Paths.SIGNUP, page: () => const SignUpScreen(), binding: SignupBinding(),transition: Transition.noTransition),
 
-    GetPage(name: _Paths.FORGET_PASSWORD, page: () =>  ForgotPasswordScreen(),binding: ForgetPasswordBinding()),
-    GetPage(name: _Paths.VERIFY_EMAIL, page: () =>  VerifyCodeScreen(),binding: VerifyEmailBinding()),
+    GetPage(name: _Paths.FORGET_PASSWORD, page: () =>  ForgotPasswordScreen(),binding: ForgetPasswordBinding(),transition: Transition.noTransition),
+    GetPage(name: _Paths.VERIFY_EMAIL, page: () =>  VerifyCodeScreen(),binding: VerifyEmailBinding(),transition: Transition.noTransition),
     GetPage(name: _Paths.resetPasswordScreen, page: () =>  ResetPasswordScreen(),binding: ResetPasswordBinding()),
     GetPage(name: _Paths.successfullScreen, page: () =>  SuccessfullScreen(),transition: Transition.noTransition),
     GetPage(name: _Paths.settingScreen, page: () =>  SettingScreen(),transition: Transition.noTransition),
@@ -68,13 +68,13 @@ class AppPages {
     GetPage(name: _Paths.privacyPolicyScreen, page: () =>  PrivacyPolicyScreen(),transition: Transition.noTransition),
     GetPage(name: _Paths.termsandConditionsScreen, page: () =>  TermsandConditionsScreen(),transition: Transition.noTransition),
     GetPage(name: _Paths.aboutUsScreen, page: () =>  AboutUsScreen(),transition: Transition.noTransition),
-    GetPage(name: _Paths.editPersonalInformation, page: () =>  EditPersonalInformationScreen()),
+    GetPage(name: _Paths.editPersonalInformation, page: () =>  EditPersonalInformationScreen(),transition: Transition.noTransition),
 
     // ROLE_SUPERVISOR
     GetPage(name: _Paths.ROLE_SUPERVISOR_HOME_SCREEN, page: () =>  SupervisorHomeScreenView(),transition: Transition.noTransition),
-    GetPage(name: _Paths.supervisorMoreScreen, page: () =>  SupervisorMoreView()),
-    GetPage(name: _Paths.supervisorProjectTools, page: () =>  SupervisorProjectToolScreen()),
-    GetPage(name: _Paths.personalInformationScreen, page: () =>  PersonalInformationScreen()),
+    GetPage(name: _Paths.supervisorMoreScreen, page: () =>  SupervisorMoreView(),transition: Transition.noTransition),
+    GetPage(name: _Paths.supervisorProjectTools, page: () =>  SupervisorProjectToolScreen(),transition: Transition.noTransition),
+    GetPage(name: _Paths.personalInformationScreen, page: () =>  PersonalInformationScreen(),transition: Transition.noTransition),
     GetPage(name: _Paths.ROLE_SUPERVISOR_ACTIVITY_SCREEN, page: () =>  RoleSupervisorActivityScreenView(),transition: Transition.noTransition),
     GetPage(name: _Paths.ROLE_SUPERVISOR_DAILY_LOG, page: () =>  RoleSupervisorDailyLogView(),transition: Transition.noTransition),
     GetPage(name: _Paths.taskViewScreen, page: () =>  TaskViewScreen(),transition: Transition.noTransition),

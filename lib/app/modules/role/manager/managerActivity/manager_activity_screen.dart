@@ -1,5 +1,6 @@
 import 'package:aim_construction_app/app/controller/notification_controller.dart';
 import 'package:aim_construction_app/app/modules/bottom_menu/manager_bottom_menu..dart';
+import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/helper/time_formate.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
@@ -84,56 +86,66 @@ class _ManagerActivityScreenState extends State<ManagerActivityScreen> {
                       itemBuilder: (context, index) {
                         final notificationDetails = notificationController.notificationDetailsModel.value[index];
 
-                        return Container(
-                          padding: EdgeInsets.all(8),
-                          margin: const EdgeInsets.symmetric(vertical: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: AppColors.color323B4A),
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.1),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${notificationDetails.title}',
-                                style: AppStyles.fontSize16(fontWeight: FontWeight.w600, color: AppColors.color323B4A),
-                              ),
-                              SizedBox(height: 8.h),
-                              Row(
-                                children: [
-                                  SvgPicture.asset(AppIcons.submittedIcon),
-                                  SizedBox(width: 4.w),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'Submitted : ',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14.sp,
+                        return GestureDetector(
+                          onTap: (){
+                            Get.toNamed(AppRoutes.managerProjectToolsScreen,
+                                parameters: {
+                                  "projectName": notificationDetails.linkId ?? '',
+                                }
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.symmetric(vertical: 8.h),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: AppColors.color323B4A),
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.1),
+                                  spreadRadius: 2,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${notificationDetails.title}',
+                                  style: AppStyles.fontSize16(fontWeight: FontWeight.w600, color: AppColors.color323B4A),
+                                ),
+                                SizedBox(height: 8.h),
+
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(AppIcons.submittedIcon),
+                                    SizedBox(width: 4.w),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Submitted : ',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14.sp,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        '${TimeFormatHelper.formatDateWithDay(DateTime.parse(notificationDetails.createdAt.toString()))}',
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 14,
+                                        Text(
+                                          '${TimeFormatHelper.formatDateWithDay(DateTime.parse(notificationDetails.createdAt.toString()))}',
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 14,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
