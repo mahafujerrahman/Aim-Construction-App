@@ -4,6 +4,7 @@ import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/service/fileName.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
+import 'package:aim_construction_app/utils/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -103,6 +104,14 @@ class _ManagerNoteAcceptScreenState extends State<ManagerNoteAcceptScreen> {
                 ),
               ),
               SizedBox(height: 8.h),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Title: ${displayData.title}', style: AppStyles.fontSize20(fontWeight: FontWeight.w600)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Description: ${displayData.description}', style: AppStyles.fontSize20(fontWeight: FontWeight.w600)),
+              ),
             GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),

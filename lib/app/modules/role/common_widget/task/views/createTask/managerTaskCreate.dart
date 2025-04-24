@@ -92,13 +92,17 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
               SizedBox(height: 20.h),
 
               // Save Button
-              CustomButton(
-                loading: projectTaskController.isLoading.value,
-                onTap: () {
-                  projectTaskController.managerTaskCreate(projectId: projectId);
-                  print('Saving task with projectId: $projectId');
-                },
-                text: 'Save',
+              Obx((){
+                  return CustomButton(
+                    loading: projectTaskController.isLoading.value,
+                    onTap: () {
+                      projectTaskController.managerTaskCreate(projectId: projectId);
+                      print('Saving task with projectId: $projectId');
+                    },
+                    text: 'Save',
+                  );
+                }
+
               ),
             ],
           ),
@@ -115,7 +119,7 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
         decoration: InputDecoration(
           fillColor: AppColors.white,
           border: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColors.primaryColor, width: 1.w),
+            borderSide: BorderSide(color: AppColors.primaryColor),
             borderRadius: BorderRadius.circular(8.r),
           ),
           contentPadding: EdgeInsets.symmetric(horizontal: 12.w),

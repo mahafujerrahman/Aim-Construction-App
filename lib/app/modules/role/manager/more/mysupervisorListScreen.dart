@@ -68,15 +68,6 @@ class _MySupervisorListScreenState extends State<MySupervisorListScreen> {
           padding: EdgeInsets.all(10.w),
           child: Column(
             children: [
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Search",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  prefixIcon: Icon(Icons.search),
-                ),
-              ),
               SizedBox(height: 10.h),
               Expanded(
                 child: ListView.builder(

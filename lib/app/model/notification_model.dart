@@ -6,6 +6,7 @@ class NotificationDetailsModel {
   final String? receiverId;
   final String? role;
   final String? linkId;
+  final String? notificationFor;
   final bool? viewStatus;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -17,6 +18,7 @@ class NotificationDetailsModel {
     this.receiverId,
     this.role,
     this.linkId,
+    this.notificationFor,
     this.viewStatus,
     this.createdAt,
     this.updatedAt,
@@ -33,6 +35,7 @@ class NotificationDetailsModel {
     receiverId: json["receiverId"],
     role: json["role"],
     linkId: json["linkId"],
+    notificationFor: json["notificationFor"],
     viewStatus: json["viewStatus"],
     createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
     updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
@@ -45,6 +48,7 @@ class NotificationDetailsModel {
     "receiverId": receiverId,
     "role": role,
     "linkId": linkId,
+    "notificationFor": notificationFor,
     "viewStatus": viewStatus,
     "createdAt": createdAt?.toIso8601String(),
     "updatedAt": updatedAt?.toIso8601String(),

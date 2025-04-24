@@ -137,7 +137,7 @@ class _IndivitualSupervisorInfoScreenState extends State<IndivitualSupervisorInf
                       SizedBox(height: 8.h),
                       //============================> Phone List Tile <=================
                       CustomListTile(
-                        title: '${profileData.email}',
+                        title: '${profileData.phoneNumber ?? 'N/A'}',
                         prefixIcon: SvgPicture.asset(
                             AppIcons.phoneIcon, color: AppColors.primaryColor,
                             height: 20.h,

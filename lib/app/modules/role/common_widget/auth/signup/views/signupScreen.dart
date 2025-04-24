@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:aim_construction_app/app/modules/role/common_widget/auth/signup/controllers/signup_controller.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/auth/signup/views/selectedConpany.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
@@ -27,6 +28,12 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final List<Map<String, String>> companies = [
+    {'id': '1', 'name': 'Company 1'},
+    {'id': '2', 'name': 'Company 2'},
+    {'id': '3', 'name': 'Company 3'},
+  ];
+  List<Map<String, String>> filteredCompanies = [];
 
 
   Uint8List? _image;
@@ -36,13 +43,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final SignupController signupController = Get.put(SignupController());
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
 
   @override
   void initState() {
     super.initState();
     signupController.getAllManager();
+
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +106,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       controller: signupController.signUpEmailCtrl),
                 ),
 
+                //=============Company Name ==================
+                CompanySearchDropdown(),
+
+
                 //==================== Role Selection ====================
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -110,7 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: DropdownButtonHideUnderline(
                       child: Row(
                         children: [
-                          SvgPicture.asset(AppIcons.emailIcon, color: AppColors.primaryColor),
+                          SvgPicture.asset(AppIcons.profileIcon, color: AppColors.primaryColor),
                           SizedBox(width: 8.w),
                           Expanded(
                             child: Obx(() {

@@ -109,11 +109,59 @@ class _SignInScreenState extends State<SignInScreen> {
                       ))
                 ],
               ),
-              SizedBox(height: 10.h),
+              TextButton(
+                  onPressed: () {
+                    createCompany(context);
+                  },
+                  child: CustomText(
+                    text: 'Create your own company.',
+                    decoration: TextDecoration.underline,
+                    color: AppColors.primaryColor,
+                    fontWeight: FontWeight.w600,
+                  )),
             ],
           ),
         ),
       ),
+    );
+  }
+//====================== Create Company ==============
+  void createCompany(BuildContext context) {
+    final TextEditingController _companyNameController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Create New Company'),
+          content: TextFormField(
+            controller: _companyNameController,
+            decoration: const InputDecoration(
+              labelText: 'Company Name',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          actions: [
+            Row(
+              children: [
+                Expanded(
+                    child: CustomButton(
+                        onTap: (){
+                          Get.back();
+                        },
+                        text: 'Cancel',
+                      color: AppColors.subTextColor
+                    )
+                ),
+                SizedBox(width: 8.w),
+                Expanded(
+                  child: CustomButton(onTap: (){}, text: 'Add')
+                ),
+              ],
+            ),
+          ],
+        );
+      },
     );
   }
 }

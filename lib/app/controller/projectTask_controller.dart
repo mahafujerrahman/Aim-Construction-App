@@ -164,12 +164,18 @@ class ProjectTaskController extends GetxController {
     );
     // Handle response
     if (response.statusCode == 200 || response.statusCode == 201) {
-      isLoading(false);
+
       Get.snackbar('Successfully','Task created successfully');
+      isLoading(false);
       update();
       clearTaskData();
       Get.toNamed(AppRoutes.managerHomeScreen);
-    } else {
+    }
+    if (response.statusCode == 400) {
+      isLoading(false);
+      Get.snackbar('Error','All field required');
+    }
+    else {
       ApiChecker.checkApi(response);
       isLoading(false);
       update();
