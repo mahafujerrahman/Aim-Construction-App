@@ -127,15 +127,14 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 //====================== Create Company ==============
   void createCompany(BuildContext context) {
-    final TextEditingController _companyNameController = TextEditingController();
-
+    final SignInController signInController = Get.put(SignInController());
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Create New Company'),
           content: TextFormField(
-            controller: _companyNameController,
+            controller: signInController.companyName,
             decoration: const InputDecoration(
               labelText: 'Company Name',
               border: OutlineInputBorder(),
@@ -155,7 +154,13 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 SizedBox(width: 8.w),
                 Expanded(
-                  child: CustomButton(onTap: (){}, text: 'Add')
+                  child: Obx((){
+                    return CustomButton(
+                      loading: signInController.companyLoading.value,
+                        onTap: (){
+                        signInController.newCompanyCreated();
+                        }, text: 'Add');
+                  })
                 ),
               ],
             ),

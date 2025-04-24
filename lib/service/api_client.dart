@@ -72,6 +72,33 @@ class ApiClient extends GetxService {
       return const Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
+  //==========================================> Post Data <======================================
+  static Future<Response> postDatax(String uri,
+      {Map<String, String>? headers}) async {
+    bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
+
+    var mainHeaders = {
+      'Content-Type': 'application/json', // Ensure JSON content type
+      'Authorization': 'Bearer $bearerToken'
+    };
+
+    try {
+
+
+
+      http.Response response = await client.post(
+        Uri.parse(ApiConstants.baseUrl + uri),
+
+        headers: headers ?? mainHeaders,
+      ).timeout(const Duration(seconds: timeoutInSeconds));
+
+      print("==========> Response Post Method : ${response.statusCode}");
+      return handleResponse(response, uri);
+    } catch (e) {
+      print("===> Error in postData: $e");
+      return const Response(statusCode: 1, statusText: noInternetMessage);
+    }
+  }
 
 
   //==========================================> Test Post Data <======================================

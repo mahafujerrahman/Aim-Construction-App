@@ -1,6 +1,7 @@
 import 'package:aim_construction_app/app/data/api_constants.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
+import 'package:aim_construction_app/service/api_checker.dart';
 import 'package:aim_construction_app/service/api_client.dart';
 import 'package:aim_construction_app/utils/app_constant.dart';
 import 'package:flutter/material.dart';
@@ -79,5 +80,39 @@ class SignInController extends GetxController {
     } finally {
       signInLoading(false);
     }
+  }
+
+  //=======================>>>> Create Company <<=======================================
+  TextEditingController companyName = TextEditingController();
+  var companyLoading = false.obs;
+  newCompanyCreated() async{
+    companyLoading(true);
+
+    Map<String, String> body = {
+      "name": companyName.text.trim(),
+    };
+
+    var response = await ApiClient.postData(
+      ApiConstants.companyCreateEndPoint,
+      body,
+    );
+    // Handle response
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      Get.snackbar('Successfully',response.body['message']);
+      Get.toNamed(AppRoutes.SIGNUP);
+      companyName.clear();
+      companyLoading(false);
+      update();
+    }
+
+    else {
+      ApiChecker.checkApi(response);
+      Get.snackbar('Error!',response.body['message']);
+      companyLoading(false);
+      companyName.clear();
+      update();
+
+    }
+
   }
 }

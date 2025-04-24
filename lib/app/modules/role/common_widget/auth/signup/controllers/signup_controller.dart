@@ -1,4 +1,5 @@
 import 'package:aim_construction_app/app/data/api_constants.dart';
+import 'package:aim_construction_app/app/modules/role/common_widget/auth/signup/model/allCompanyGetByName_model.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/prefs_helper/prefs_helpers.dart';
 import 'package:aim_construction_app/service/api_checker.dart';
@@ -10,8 +11,6 @@ import 'package:get/get.dart';
 import '../model/all_manager_model.dart';
 
 class SignupController extends GetxController {
-
-
   ///<=============================== Sign Up Method ===========================>
   TextEditingController signUpFirstNameCtrl = TextEditingController();
   TextEditingController signUpLastNameCtrl = TextEditingController();
@@ -22,12 +21,12 @@ class SignupController extends GetxController {
   TextEditingController signUpBirthday = TextEditingController();
   TextEditingController signUpAddressCtrl = TextEditingController();
   TextEditingController signUpCompanyCtrl = TextEditingController();
-  List<String> userRole = ['Project Manager','Project Supervisor'];
+  List<String> userRole = ['Project Manager', 'Project Supervisor'];
   RxString selectedRole = ''.obs;
 
   RxString selectedManagerRole = ''.obs;
+  RxString selectedCompany = ''.obs;
   var signUpLoading = false.obs;
-
 
   signUpMethod() async {
     signUpLoading.value = true;
@@ -47,23 +46,26 @@ class SignupController extends GetxController {
     };
 
     var response = await ApiClient.postData(
-      ApiConstants.signUpEndPoint, body,
+      ApiConstants.signUpEndPoint,
+      body,
       headers: headers,
     );
 
-    if(response.statusCode==200 || response.statusCode==201){
-      PrefsHelper.setString(AppConstants.verificationToken, response.body['data']['attributes']['verificationToken']);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      PrefsHelper.setString(AppConstants.verificationToken,
+          response.body['data']['attributes']['verificationToken']);
       print('Hera is your fcmToken : $fcmToken');
-      Get.toNamed(AppRoutes.verify_email_screen, parameters: {
-        "email": signUpEmailCtrl.text.trim(),
-        "screenType": "signupScreen",
-      },
+      Get.toNamed(
+        AppRoutes.verify_email_screen,
+        parameters: {
+          "email": signUpEmailCtrl.text.trim(),
+          "screenType": "signupScreen",
+        },
       );
       clearData();
       signUpLoading(false);
       update();
-    }
-    else{
+    } else {
       ApiChecker.checkApi(response);
       Get.snackbar('Error', response.body['message']);
       signUpLoading(false);
@@ -71,7 +73,7 @@ class SignupController extends GetxController {
     }
   }
 
-  clearData(){
+  clearData() {
     signUpFirstNameCtrl.clear();
     signUpLastNameCtrl.clear();
     signUpEmailCtrl.clear();
@@ -80,7 +82,35 @@ class SignupController extends GetxController {
     selectedRole.value = "";
   }
 
+  //=========================>> Get All Company  <<============================
 
+  RxList<GetAllCompanyModel> getAllCompanyModel = <GetAllCompanyModel>[].obs;
+  TextEditingController companyName = TextEditingController();
+  var companyLoading = false.obs;
+
+
+  getAllCompany() async {
+    companyLoading(true);
+
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+    };
+
+    var response = await ApiClient.postDatax(
+        "${ApiConstants.getAllCompanyEndPoint}?companyName=${companyName.text}",
+        headers: headers);
+
+    if (response.statusCode == 200) {
+      getAllCompanyModel.value = List.from(response.body['data']['attributes']
+          .map((x) => GetAllManagerModel.fromJson(x)));
+      companyLoading(false);
+      update();
+    } else {
+      ApiChecker.checkApi(response);
+      companyLoading(false);
+      update();
+    }
+  }
 
   //=========================>> Get All Manager  <<============================
 
@@ -89,13 +119,14 @@ class SignupController extends GetxController {
 
   getAllManager() async {
     loading(true);
-    var response = await ApiClient.getData("${ApiConstants.getAllManagerEndPoint}");
+    var response =
+        await ApiClient.getData("${ApiConstants.getAllManagerEndPoint}");
     if (response.statusCode == 200) {
-      getAllManagerModel.value = List.from(response.body['data']['attributes'].map((x) => GetAllManagerModel.fromJson(x)));
+      getAllManagerModel.value = List.from(response.body['data']['attributes']
+          .map((x) => GetAllManagerModel.fromJson(x)));
       loading(false);
       update();
-    }
-    else {
+    } else {
       ApiChecker.checkApi(response);
       loading(false);
       update();

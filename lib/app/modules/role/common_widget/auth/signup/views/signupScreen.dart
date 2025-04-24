@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:aim_construction_app/app/modules/role/common_widget/auth/signup/controllers/signup_controller.dart';
 import 'package:aim_construction_app/app/modules/role/common_widget/auth/signup/views/selectedConpany.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
+import 'package:aim_construction_app/common/helper/loggerUtils.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
@@ -42,14 +44,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isSupervisorSelected = false;
 
   final SignupController signupController = Get.put(SignupController());
-
+  Timer? _debounce;
 
 
   @override
   void initState() {
     super.initState();
     signupController.getAllManager();
+    signupController.getAllCompany();
+    signupController.companyName.addListener(_onTextChanged);
 
+  }
+
+  void _onTextChanged() {
+    // Cancel the previous timer if it exists
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+
+    // Set a new timer to delay the API call
+    _debounce = Timer(const Duration(milliseconds: 100), () {
+
+signupController.getAllCompany();
+
+      // // Call your API with the current text
+      // _callApi(signupController.companyName.text);
+    });
   }
 
 
@@ -107,7 +125,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
 
                 //=============Company Name ==================
-                CompanySearchDropdown(),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0.h),
+                  child: CustomTextField(
+                      controller: signupController.companyName,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Icon(Icons.work_history_outlined,color: AppColors.primaryColor,size: 25.sp,),
+                    ),
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Icon(Icons.search,color: AppColors.primaryColor,size: 25.sp),
+                    ),
+                  )
+                ),
+
+
 
 
                 //==================== Role Selection ====================
