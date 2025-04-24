@@ -11,6 +11,7 @@ import '../model/all_manager_model.dart';
 
 class SignupController extends GetxController {
 
+
   ///<=============================== Sign Up Method ===========================>
   TextEditingController signUpFirstNameCtrl = TextEditingController();
   TextEditingController signUpLastNameCtrl = TextEditingController();
