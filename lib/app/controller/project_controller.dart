@@ -106,7 +106,7 @@ class ProjectController extends GetxController {
     var url = ApiConstants.projectDetailsEndPoint;
 
     if (queryParams.isNotEmpty) {
-      url +='?${queryParams.join('&')}';
+      url +='?sortBy=-createdAt&${queryParams.join('&')}';
     }
 
 

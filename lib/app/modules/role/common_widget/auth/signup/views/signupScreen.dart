@@ -30,21 +30,15 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final List<Map<String, String>> companies = [
-    {'id': '1', 'name': 'Company 1'},
-    {'id': '2', 'name': 'Company 2'},
-    {'id': '3', 'name': 'Company 3'},
-  ];
-  List<Map<String, String>> filteredCompanies = [];
 
 
-  Uint8List? _image;
   File? selectedImage;
   bool isChecked = false;
   bool isSupervisorSelected = false;
 
   final SignupController signupController = Get.put(SignupController());
   Timer? _debounce;
+
 
 
   @override
@@ -57,15 +51,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onTextChanged() {
-    // Cancel the previous timer if it exists
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-
-    // Set a new timer to delay the API call
     _debounce = Timer(const Duration(milliseconds: 100), () {
 
-signupController.getAllCompany();
-
-      // // Call your API with the current text
+      signupController.getAllCompany();
       // _callApi(signupController.companyName.text);
     });
   }
@@ -126,21 +115,81 @@ signupController.getAllCompany();
 
                 //=============Company Name ==================
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0.h),
+                  padding: EdgeInsets.symmetric(vertical: 8.h),
                   child: CustomTextField(
-                      controller: signupController.companyName,
+                    hintText: 'Enter Company Name',
+                    controller: signupController.companyName,
                     prefixIcon: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Icon(Icons.work_history_outlined,color: AppColors.primaryColor,size: 25.sp,),
+                      padding: EdgeInsets.all(4.r),
+                      child: Icon(Icons.work_history_outlined,color: AppColors.primaryColor,size: 25.sp),
                     ),
                     suffixIcon: Padding(
-                      padding: const EdgeInsets.all(4.0),
+                      padding:  EdgeInsets.all(4.r),
                       child: Icon(Icons.search,color: AppColors.primaryColor,size: 25.sp),
                     ),
                   )
                 ),
 
+                Obx(() {
+                  var company = signupController.getAllCompanyModel.value;
 
+                  // Check if we are loading or if there's no company name available
+                  if (signupController.companyLoading.value) {
+                    // Show loading indicator while fetching data
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      child: Center(
+                        child: CircularProgressIndicator(), // Show loading indicator while fetching
+                      ),
+                    );
+                  }
+
+                  // If company is null or empty, show 'Company not found'
+                  if (company.name == null || company.name!.isEmpty) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      child: Center(
+                        child: Text(
+                          'Company not found',
+                          style: AppStyles.fontSize16(color: AppColors.redColor),
+                        ),
+                      ),
+                    );
+                  } else {
+                    // Show the dropdown with the company options
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: signupController.selectedCompany.value.isEmpty
+                              ? null
+                              : signupController.selectedCompany.value,
+                          hint: Text('Select Company'),
+                          icon: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.keyboard_arrow_down_rounded,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                          isExpanded: true,
+                          items: [
+                            DropdownMenuItem<String>(
+                              value: company.companyId,
+                              child: Text(
+                                company.name ?? 'Unknown',
+                                style: AppStyles.fontSize18(color: AppColors.blackColor),
+                              ),
+                            ),
+                          ],
+                          onChanged: (newCompany) {
+                            signupController.selectedCompany.value = newCompany ?? '';
+                          },
+                        ),
+                      ),
+                    );
+                  }
+                }),
 
 
                 //==================== Role Selection ====================

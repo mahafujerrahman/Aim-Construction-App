@@ -143,11 +143,12 @@ class _ManagerTaskDetailsScreenState extends State<ManagerTaskDetailsScreen> {
                             borderRadius: BorderRadius.circular(8.r),
                             child: Image.network(
                               fileUrl,
-                              width: 80,
-                              height: 80,
+                              width: 80.w,
+                              height: 80.h,
                               fit: BoxFit.cover,
                               color: Colors.transparent,
                               colorBlendMode: BlendMode.darken,
+                             // loadingBuilder: ,
                             ),
                           ),
                         ),
@@ -198,14 +199,10 @@ class _ManagerTaskDetailsScreenState extends State<ManagerTaskDetailsScreen> {
               SizedBox(height: 16),
 
               // Button at the bottom
-              /*   CustomButton(
+             /* CustomButton(
                 loading: projectTaskController.isLoading.value,
-                onTap: ()  {
-                 *//* String taskId = '${parameter['taskID']}';
-                   projectTaskController.getTaskDetailsByID(taskId);*//*
-                },
-                text: 'Save',
-
+                onTap: () {},
+                text: 'new button',
               ),*/
 
 

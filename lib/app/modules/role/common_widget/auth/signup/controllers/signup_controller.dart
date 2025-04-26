@@ -84,7 +84,7 @@ class SignupController extends GetxController {
 
   //=========================>> Get All Company  <<============================
 
-  RxList<GetAllCompanyModel> getAllCompanyModel = <GetAllCompanyModel>[].obs;
+  Rx<GetAllCompanyModel> getAllCompanyModel = GetAllCompanyModel().obs;
   TextEditingController companyName = TextEditingController();
   var companyLoading = false.obs;
 
@@ -101,8 +101,7 @@ class SignupController extends GetxController {
         headers: headers);
 
     if (response.statusCode == 200) {
-      getAllCompanyModel.value = List.from(response.body['data']['attributes']
-          .map((x) => GetAllManagerModel.fromJson(x)));
+      getAllCompanyModel.value = GetAllCompanyModel.fromJson(response.body['data']['attributes']);
       companyLoading(false);
       update();
     } else {
@@ -112,7 +111,7 @@ class SignupController extends GetxController {
     }
   }
 
-  //=========================>> Get All Manager  <<============================
+  //=========================>> Get Company <<============================
 
   RxList<GetAllManagerModel> getAllManagerModel = <GetAllManagerModel>[].obs;
   var loading = false.obs;
@@ -122,8 +121,7 @@ class SignupController extends GetxController {
     var response =
         await ApiClient.getData("${ApiConstants.getAllManagerEndPoint}");
     if (response.statusCode == 200) {
-      getAllManagerModel.value = List.from(response.body['data']['attributes']
-          .map((x) => GetAllManagerModel.fromJson(x)));
+      getAllManagerModel.value = List.from(response.body['data']['attributes'].map((x) => GetAllManagerModel.fromJson(x)));
       loading(false);
       update();
     } else {

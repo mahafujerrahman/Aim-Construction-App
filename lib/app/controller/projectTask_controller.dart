@@ -40,7 +40,7 @@ class ProjectTaskController extends GetxController {
     var url = ApiConstants.projectTaskDetailsEndPoint;
 
     if (queryParams.isNotEmpty) {
-      url +='?${queryParams.join('&')}';
+      url +='?sortBy=-createdAt&${queryParams.join('&')}';
     }
 
 

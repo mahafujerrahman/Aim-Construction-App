@@ -18,7 +18,7 @@ class NotificationController extends GetxController {
   getAllNotification() async {
 
     loading(true);
-    var response = await ApiClient.getData("${ApiConstants.notificationEndPoint}");
+    var response = await ApiClient.getData("${ApiConstants.notificationEndPoint}?sortBy=-createdAt&");
     if (response.statusCode == 200) {
       notificationDetailsModel.value = List.from(response.body['data']['attributes']['results'].map((x) => NotificationDetailsModel.fromJson(x)));
       loading(false);

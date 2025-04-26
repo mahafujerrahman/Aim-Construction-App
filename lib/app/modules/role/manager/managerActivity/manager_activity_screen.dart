@@ -42,19 +42,12 @@ class _ManagerActivityScreenState extends State<ManagerActivityScreen> {
         automaticallyImplyLeading: false,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.r),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-
-            SizedBox(height: 16),
-            // Search bar
-          /*  CustomTextField(
-              controller: notificationController.textEditingController,
-              hintText: "Search",
-            ),*/
-            SizedBox(height: 16),
+            SizedBox(height: 16.h),
             // Activity List
             Expanded(
               child: Obx(
@@ -86,66 +79,57 @@ class _ManagerActivityScreenState extends State<ManagerActivityScreen> {
                       itemBuilder: (context, index) {
                         final notificationDetails = notificationController.notificationDetailsModel.value[index];
 
-                        return GestureDetector(
-                          onTap: (){
-                            Get.toNamed(AppRoutes.managerProjectToolsScreen,
-                                parameters: {
-                                  "projectName": notificationDetails.linkId ?? '',
-                                }
-                            );
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            margin: EdgeInsets.symmetric(vertical: 8.h),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: AppColors.color323B4A),
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.1),
-                                  spreadRadius: 2,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${notificationDetails.title}',
-                                  style: AppStyles.fontSize16(fontWeight: FontWeight.w600, color: AppColors.color323B4A),
-                                ),
-                                SizedBox(height: 8.h),
+                        return Container(
+                          padding: EdgeInsets.all(8),
+                          margin: EdgeInsets.symmetric(vertical: 8.h),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: AppColors.color323B4A),
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.1),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${notificationDetails.title}',
+                                style: AppStyles.fontSize16(fontWeight: FontWeight.w600, color: AppColors.color323B4A),
+                              ),
+                              SizedBox(height: 8.h),
 
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(AppIcons.submittedIcon),
-                                    SizedBox(width: 4.w),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Submitted : ',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 14.sp,
-                                          ),
+                              Row(
+                                children: [
+                                  SvgPicture.asset(AppIcons.submittedIcon),
+                                  SizedBox(width: 4.w),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Submitted : ',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14.sp,
                                         ),
-                                        Text(
-                                          '${TimeFormatHelper.formatDateWithDay(DateTime.parse(notificationDetails.createdAt.toString()))}',
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 14,
-                                          ),
+                                      ),
+                                      Text(
+                                        '${TimeFormatHelper.formatDateWithDay(DateTime.parse(notificationDetails.createdAt.toString()))}',
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 14,
                                         ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         );
                       },

@@ -105,6 +105,9 @@ class _ProjectManagerImageScreenState extends State<ProjectManagerImageScreen> {
                                   child: CachedNetworkImage(
                                     imageUrl: imageUrl.toString(),
                                     fit: BoxFit.cover,
+                                    placeholder: (context, url) => Center(
+                                      child: CupertinoActivityIndicator(radius: 10.r, color: AppColors.primaryColor),
+                                    ),
                                     errorWidget: (context, url, error) => Icon(Icons.error),
                                   ),
                                 ),
