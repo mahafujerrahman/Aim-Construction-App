@@ -109,6 +109,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       ))
                 ],
               ),
+
               TextButton(
                   onPressed: () {
                     createCompany(context);
@@ -117,6 +118,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     text: 'Create your own company.',
                     decoration: TextDecoration.underline,
                     color: AppColors.primaryColor,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.w600,
                   )),
             ],
