@@ -116,12 +116,15 @@ class _ManagerDailyLogImageScreenState extends State<ManagerDailyLogImageScreen>
                             itemBuilder: (context, index) {
                               final imageUrl = group.attachments?[index].attachment;
                               return GestureDetector(
-                                onTap: () => _showImagePreview(imageUrl ?? ''),
+                               onTap: () => _showImagePreview(imageUrl ?? ''),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
                                   child: CachedNetworkImage(
                                     imageUrl: imageUrl ?? '',
                                     fit: BoxFit.cover,
+                                    placeholder: (context, url) => Center(
+                                      child: CupertinoActivityIndicator(radius: 10.r, color: AppColors.primaryColor),
+                                    ),
                                     errorWidget: (context, url, error) => Icon(Icons.error),
                                   ),
                                 ),
@@ -163,7 +166,7 @@ class _ManagerDailyLogImageScreenState extends State<ManagerDailyLogImageScreen>
                   fit: BoxFit.cover,
                 ),
                 SizedBox(height: 16.h),
-                Row(
+              /*  Row(
                   children: [
                     Expanded(
                       child: TextButton(
@@ -197,7 +200,7 @@ class _ManagerDailyLogImageScreenState extends State<ManagerDailyLogImageScreen>
                       ),
                     ),
                   ],
-                ),
+                ),*/
               ],
             ),
           ),

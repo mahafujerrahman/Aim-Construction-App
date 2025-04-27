@@ -5,6 +5,7 @@ import 'package:aim_construction_app/service/fileName.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
 import 'package:aim_construction_app/utils/style.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -65,7 +66,7 @@ class _ManagerTaskDetailsScreenState extends State<ManagerTaskDetailsScreen> {
         }
 
         return SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.r),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -141,15 +142,15 @@ class _ManagerTaskDetailsScreenState extends State<ManagerTaskDetailsScreen> {
                               border: Border.all(color: AppColors.primaryColor)),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.r),
-                            child: Image.network(
-                              fileUrl,
-                              width: 80.w,
-                              height: 80.h,
+                            child: CachedNetworkImage(
+                              imageUrl: fileUrl.toString(),
                               fit: BoxFit.cover,
-                              color: Colors.transparent,
-                              colorBlendMode: BlendMode.darken,
-                             // loadingBuilder: ,
+                              placeholder: (context, url) => Center(
+                                child: CupertinoActivityIndicator(radius: 10.r, color: AppColors.primaryColor),
+                              ),
+                              errorWidget: (context, url, error) => Icon(Icons.error),
                             ),
+
                           ),
                         ),
                       ),
@@ -195,16 +196,7 @@ class _ManagerTaskDetailsScreenState extends State<ManagerTaskDetailsScreen> {
                   return SizedBox.shrink();
                 },
               ),
-
-              SizedBox(height: 16),
-
-              // Button at the bottom
-             /* CustomButton(
-                loading: projectTaskController.isLoading.value,
-                onTap: () {},
-                text: 'new button',
-              ),*/
-
+              SizedBox(height: 16.h),
 
             ],
           ),
@@ -221,7 +213,7 @@ class _ManagerTaskDetailsScreenState extends State<ManagerTaskDetailsScreen> {
             borderRadius: BorderRadius.zero,
           ),
           child: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.h),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,

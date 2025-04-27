@@ -143,7 +143,6 @@ class ProjectTaskController extends GetxController {
       multipartAttachments.add(MultipartBody("attachments", File(imagePath)));
     }
 
-    // Add multiple files (PDF, DOCX, XLSX) to multipartList
     for (String filePath in file) {
       multipartAttachments.add(MultipartBody("attachments", File(filePath)));
     }
@@ -169,7 +168,7 @@ class ProjectTaskController extends GetxController {
       isLoading(false);
       update();
       clearTaskData();
-      Get.toNamed(AppRoutes.managerHomeScreen);
+      Get.toNamed(AppRoutes.taskViewScreen);
     }
     if (response.statusCode == 400) {
       isLoading(false);
@@ -188,7 +187,7 @@ class ProjectTaskController extends GetxController {
     taskTitelCTRl.clear();
     taskDescriptionCTRl.clear();
     assignToSupervisor.value = '';
-    selectedDate;
+    selectedDate = null;
     clearImage();
     clearFile();
   }

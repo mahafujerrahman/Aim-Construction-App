@@ -99,12 +99,16 @@ class SignInController extends GetxController {
     // Handle response
     if (response.statusCode == 200 || response.statusCode == 201) {
       Get.snackbar('Successfully',response.body['message']);
+      print('Response Message: ${response.body['message']}');
       Get.toNamed(AppRoutes.SIGNUP);
       companyName.clear();
       companyLoading(false);
       update();
     }
-
+    else if (response.statusCode == 400) {
+     Get.snackbar('Error', response.body['message']);
+      companyLoading(false);
+    }
     else {
       ApiChecker.checkApi(response);
       Get.snackbar('Error!',response.body['message']);

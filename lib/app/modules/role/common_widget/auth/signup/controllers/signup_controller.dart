@@ -25,10 +25,10 @@ class SignupController extends GetxController {
   RxString selectedRole = ''.obs;
 
   RxString selectedManagerRole = ''.obs;
-  RxString selectedCompany = ''.obs;
+
   var signUpLoading = false.obs;
 
-  signUpMethod() async {
+  signUpMethod(String companyID) async {
     signUpLoading.value = true;
     var fcmToken = await PrefsHelper.getString(AppConstants.fcmToken);
     Map<String, dynamic> body = {
@@ -37,6 +37,7 @@ class SignupController extends GetxController {
       "password": signUpPassCtrl.text.trim(),
       "email": signUpEmailCtrl.text.trim(),
       "role": selectedRole.value,
+      "companyId": companyID,
       "superVisorsManagerId": selectedManagerRole.value,
       "fcmToken": fcmToken,
     };
@@ -65,7 +66,9 @@ class SignupController extends GetxController {
       clearData();
       signUpLoading(false);
       update();
-    } else {
+    }
+
+    else {
       ApiChecker.checkApi(response);
       Get.snackbar('Error', response.body['message']);
       signUpLoading(false);
@@ -84,10 +87,10 @@ class SignupController extends GetxController {
 
   //=========================>> Get All Company  <<============================
 
-  Rx<GetAllCompanyModel> getAllCompanyModel = GetAllCompanyModel().obs;
+  RxList<GetAllCompanyModel> getAllCompanyModel = <GetAllCompanyModel>[].obs;
   TextEditingController companyName = TextEditingController();
   var companyLoading = false.obs;
-
+  RxString selectedCompany = ''.obs;
 
   getAllCompany() async {
     companyLoading(true);
@@ -101,7 +104,7 @@ class SignupController extends GetxController {
         headers: headers);
 
     if (response.statusCode == 200) {
-      getAllCompanyModel.value = GetAllCompanyModel.fromJson(response.body['data']['attributes']);
+      getAllCompanyModel.value = List.from(response.body['data']['attributes'].map((x) => GetAllCompanyModel.fromJson(x)));
       companyLoading(false);
       update();
     } else {
@@ -111,15 +114,15 @@ class SignupController extends GetxController {
     }
   }
 
-  //=========================>> Get Company <<============================
+  //=========================>> Get All Company Manager <<============================
 
   RxList<GetAllManagerModel> getAllManagerModel = <GetAllManagerModel>[].obs;
   var loading = false.obs;
 
-  getAllManager() async {
+  getAllCompanyManager(String companyId) async {
     loading(true);
-    var response =
-        await ApiClient.getData("${ApiConstants.getAllManagerEndPoint}");
+
+    var response = await ApiClient.getData("${ApiConstants.getAllCompanyManagerEndPoint}?companyId=$companyId");
     if (response.statusCode == 200) {
       getAllManagerModel.value = List.from(response.body['data']['attributes'].map((x) => GetAllManagerModel.fromJson(x)));
       loading(false);

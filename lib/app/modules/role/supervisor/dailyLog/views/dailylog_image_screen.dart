@@ -123,6 +123,9 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
                                   child: CachedNetworkImage(
                                     imageUrl: imageUrl ?? '',
                                     fit: BoxFit.cover,
+                                    placeholder: (context, url) => Center(
+                                      child: CupertinoActivityIndicator(radius: 10.r, color: AppColors.primaryColor),
+                                    ),
                                     errorWidget: (context, url, error) => Icon(Icons.error),
                                   ),
                                 ),
@@ -276,7 +279,7 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
                   fit: BoxFit.cover,
                 ),
                 SizedBox(height: 16.h),
-                Row(
+                /*Row(
                   children: [
                     Expanded(
                       child: TextButton(
@@ -310,7 +313,7 @@ class _DailyLogImageScreenState extends State<DailyLogImageScreen> {
                       ),
                     ),
                   ],
-                ),
+                ),*/
               ],
             ),
           ),
