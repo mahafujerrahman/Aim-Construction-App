@@ -115,7 +115,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     createCompany(context);
                   },
                   child: CustomText(
-                    text: 'Create your own company.',
+                    text: 'As a manager Create your own company.',
                     decoration: TextDecoration.underline,
                     color: AppColors.primaryColor,
                     fontSize: 20.sp,
