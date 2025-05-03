@@ -63,8 +63,9 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
                 child: Text('Assign To', style: AppStyles.fontSize20(fontWeight: FontWeight.w600, color: AppColors.color323B4A)),
               ),
               _buildAssignToDropdown(),
-              SizedBox(height: 8.h),
 
+              Text('Task Title', style: AppStyles.fontSize16(color: AppColors.color323B4A)),
+              SizedBox(height: 8.h),
               // Task Title Input Field
               CustomTextField(
                 controller: projectTaskController.taskTitelCTRl,
@@ -163,13 +164,19 @@ class _ManagerTaskCreateState extends State<ManagerTaskCreate> {
       children: [
         InkWell(
           onTap: _pickDueDate,
-          child: SvgPicture.asset(AppIcons.calender, height: 20.h),
+          child: SvgPicture.asset(AppIcons.calender, height: 25.h),
         ),
         SizedBox(width: 8.w),
-        Text(projectTaskController.selectedDate == null
-              ? 'Select Date'
-              : DateFormat('EEEE, dd MMMM, yyyy').format(projectTaskController.selectedDate!),
-          style: AppStyles.fontSize16(color: AppColors.color323B4A),
+        InkWell(
+          onTap: _pickDueDate,
+          child: Padding(
+            padding:  EdgeInsets.all(8.r),
+            child: Text(projectTaskController.selectedDate == null
+                  ? 'Select Date'
+                  : DateFormat('EEEE, dd MMMM, yyyy').format(projectTaskController.selectedDate!),
+              style: AppStyles.fontSize16(color: AppColors.color323B4A),
+            ),
+          ),
         ),
       ],
     );

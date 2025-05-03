@@ -23,7 +23,8 @@ static const String baseUrl = "https://api.carrentpro.com/api/v1";
   static const String forgotPasswordEndPoint = "/auth/forgot-password";
   static const String setNewPasswordEndPoint = "/auth/reset-password";
 
-  static const String getAllManagerEndPoint = "/user/getAllManager";
+  static const String getAllCompanyManagerEndPoint = "/user/getAllManagerByCompanyId";
+  static const String getAllCompanyEndPoint = "/company/getByName";
   static const String verifyCodeEndPoint = "/auth/verify-email";
   static const String resendOTPEndPoint = "/auth/resend-otp";
   static const String changePasswordEndPoint = "/auth/change-password";
@@ -32,6 +33,7 @@ static const String baseUrl = "https://api.carrentpro.com/api/v1";
   static const String getAllSupervisorByManagerEndPoint = "/user/superVisors";
   static const String projectCreateEndPoint = "/project/create";
   static const String projectTaskCreateEndPoint = "/task/create";
+  static const String companyCreateEndPoint = "/company/create";
   static const String projectDetailsEndPoint = "/project/paginate";
   static const String projectTaskDetailsEndPoint = "/task/paginate";
   static const String notificationEndPoint = "/activity/";
@@ -44,7 +46,7 @@ static const String baseUrl = "https://api.carrentpro.com/api/v1";
   static const String noteDetailsEndPoint = "/note";
   static const String daliyLogImageOrDocumentUploadEndPoint = "/note/uploadImagesOrDocuments";
   static const String updateProfileEndPoint = "/user/update-profile";
-  static const String noteStatusChnangeEndPoint = "/note/changeStatus";
+  static const String noteStatusChnangeEndPoint = "/note/changeStatusOfANote";
   static const String taskStatusChnangeEndPoint = "/task/changeStatus";
   static const String getTaskDetailsByIDEndPoint = "/task";
 

@@ -17,26 +17,7 @@ class ManagerNoteAcceptScreen extends StatefulWidget {
 }
 
 class _ManagerNoteAcceptScreenState extends State<ManagerNoteAcceptScreen> {
-  List<Map<String, dynamic>> groupedFiles = [
-    {
-      'images': [
-        'assets/image/workImage.jpg',
-        'assets/image/work1.jpg',
-      ],
-    },
-  ];
 
-  List<Map<String, dynamic>> documentFiles = [
-    {
-      'files': [
-        'building_structure_2025.pdf',
-        'building_structure_2025.xlsx',
-        'building_structure_2025.pdf',
-        'building_structure_2025.pdf',
-        'building_structure_2025.xlsx',
-      ]
-    },
-  ];
 
   final ProjectNoteController projectNoteController = Get.put(ProjectNoteController());
   var parameter = Get.parameters;
@@ -97,6 +78,7 @@ class _ManagerNoteAcceptScreenState extends State<ManagerNoteAcceptScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text('Project Status: ${displayData.isAccepted?.toUpperCase()}', style: TextStyle(fontWeight: FontWeight.bold)),
                     Text('Project name: ${displayData.projectId?.projectName}', style: TextStyle(fontWeight: FontWeight.bold)),
                     Text('Address: ${displayData.projectId?.streetAddress}, ${displayData.projectId?.city} - ${displayData.projectId?.zipCode} ${displayData.projectId?.country}', style: TextStyle(fontWeight: FontWeight.bold)),
                     Text('Date: ${TimeFormatHelper.formatDateWithDay((DateTime.parse(displayData.createdAt.toString())))}'),
@@ -106,11 +88,23 @@ class _ManagerNoteAcceptScreenState extends State<ManagerNoteAcceptScreen> {
               SizedBox(height: 8.h),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Title: ${displayData.title}', style: AppStyles.fontSize20(fontWeight: FontWeight.w600)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Title: ', style: AppStyles.fontSize20(fontWeight: FontWeight.w600)),
+                    Text('${displayData.title}', style: AppStyles.fontSize16()),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Description: ${displayData.description}', style: AppStyles.fontSize20(fontWeight: FontWeight.w600)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Description: ', style: AppStyles.fontSize20(fontWeight: FontWeight.w600)),
+                    Text('${displayData.description}', style: AppStyles.fontSize16()),
+                  ],
+                ),
               ),
             GridView.builder(
               shrinkWrap: true,
@@ -193,18 +187,85 @@ class _ManagerNoteAcceptScreenState extends State<ManagerNoteAcceptScreen> {
               SizedBox(height: 16),
             
               // Button at the bottom
-              CustomButton(
-                loading: projectNoteController.loading.value,
-                onTap: () async {
-                  await projectNoteController.noteStatusChnage('${parameter['noteId']}');
-                  String noteId = '${parameter['noteId']}';
-                  await projectNoteController.getNoteDetailsByID(noteId);
+              Row(
+                children: [
+                  // Show both buttons if status is 'pending'
+                  if (displayData.isAccepted == 'pending') ...[
+                    Expanded(
+                      child: CustomButton(
+                        loading: projectNoteController.acceptLoading.value,
+                        onTap: () async {
+                          await projectNoteController.noteStatusChnage(
+                            noteID: '${parameter['noteId']}',
+                            actionStatus: 'accepted',
+                          );
+                          String noteId = '${parameter['noteId']}';
+                          await projectNoteController.getNoteDetailsByID(noteId);
+                          setState(() {});
+                        },
+                        text: 'Accept',
+                        color: AppColors.greenColor,
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
+                    Expanded(
+                      child: CustomButton(
+                        loading: projectNoteController.deniedLoading.value,
+                        onTap: () async {
+                          await projectNoteController.noteStatusDenied(
+                            noteID: '${parameter['noteId']}',
+                            actionStatus: 'denied',
+                          );
+                          String noteId = '${parameter['noteId']}';
+                          await projectNoteController.getNoteDetailsByID(noteId);
+                          setState(() {});
+                        },
+                        text: 'Denied',
+                        color: AppColors.redColor,
+                      ),
+                    ),
+                  ]
+                  // Show only Denied button if status is 'accepted'
+                  else if (displayData.isAccepted == 'accepted') ...[
+                    Expanded(
+                      child: CustomButton(
+                        loading: projectNoteController.deniedLoading.value,
+                        onTap: () async {
+                          await projectNoteController.noteStatusDenied(
+                            noteID: '${parameter['noteId']}',
+                            actionStatus: 'denied',
+                          );
+                          String noteId = '${parameter['noteId']}';
+                          await projectNoteController.getNoteDetailsByID(noteId);
+                          setState(() {});
+                        },
+                        text: 'Denied',
+                        color: AppColors.redColor,
+                      ),
+                    ),
+                  ]
+                  // Show only Accept button if status is 'denied'
+                  else if (displayData.isAccepted == 'denied') ...[
+                      Expanded(
+                        child: CustomButton(
+                          loading: projectNoteController.acceptLoading.value,
+                          onTap: () async {
+                            await projectNoteController.noteStatusChnage(
+                              noteID: '${parameter['noteId']}',
+                              actionStatus: 'accepted',
+                            );
+                            String noteId = '${parameter['noteId']}';
+                            await projectNoteController.getNoteDetailsByID(noteId);
+                            setState(() {});
+                          },
+                          text: 'Accept',
+                          color: AppColors.greenColor,
+                        ),
+                      ),
+                    ],
+                ],
+              )
 
-                  setState(() {});
-                },
-                text: displayData.isAccepted == 'pending' ? 'Accept' : 'Accepted',
-                color: displayData.isAccepted == 'pending' ? AppColors.primaryColor : AppColors.greenColor,
-              ),
 
 
             ],

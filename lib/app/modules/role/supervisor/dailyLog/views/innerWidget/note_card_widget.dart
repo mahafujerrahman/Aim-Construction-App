@@ -28,23 +28,24 @@ class NoteCard extends StatelessWidget {
         statusColor = AppColors.pendingStatusColor;
       } else if (status!.toLowerCase() == 'accepted') {
         statusColor = AppColors.greenColor;
+      } else if (status!.toLowerCase() == 'denied') {
+        statusColor = AppColors.redColor;
       } else {
         statusColor = Colors.grey;
       }
     }
 
     return Container(
-      height: 120.h,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: AppColors.color5F6774),
-          color: Colors.white),
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: AppColors.color5F6774),
+        color: Colors.white,
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.r),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // Title and optional Status
             Row(
@@ -53,10 +54,11 @@ class NoteCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     title,
-                    style: AppStyles.fontSize16(color: AppColors.color323B4A),
+                    maxLines: 2,
+                    style: AppStyles.fontSize16(color: AppColors.color323B4A,fontWeight: FontWeight.bold),
                   ),
                 ),
-                if (status != null) // Show only if status is provided
+                if (status != null)
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
@@ -70,23 +72,23 @@ class NoteCard extends StatelessWidget {
                   ),
               ],
             ),
-            // Description
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      description,
-                      style: AppStyles.fontSize14(color: AppColors.color323B4A),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 5,
-                    ),
+            SizedBox(height: 4.h), // Small space between title and description
+
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    description,
+                    style: AppStyles.fontSize14(color: AppColors.color323B4A),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2
                   ),
-                  Icon(Icons.arrow_forward_ios, size: 18.sp, color: Colors.orange),
-                ],
-              ),
+                ),
+              ],
             ),
+
             // Footer with icons
             SizedBox(height: 8.h),
             Row(
@@ -114,3 +116,4 @@ class NoteCard extends StatelessWidget {
     );
   }
 }
+

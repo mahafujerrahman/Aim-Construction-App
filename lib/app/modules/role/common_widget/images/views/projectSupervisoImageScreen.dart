@@ -108,6 +108,9 @@ class _ProjectSupervisorImageScreenState extends State<ProjectSupervisorImageScr
                                   child: CachedNetworkImage(
                                     imageUrl: imageUrl.toString(),
                                     fit: BoxFit.cover,
+                                    placeholder: (context, url) => Center(
+                                      child: CupertinoActivityIndicator(radius: 10.r, color: AppColors.primaryColor),
+                                    ),
                                     errorWidget: (context, url, error) => Icon(Icons.error),
                                   ),
                                 ),
@@ -139,7 +142,7 @@ class _ProjectSupervisorImageScreenState extends State<ProjectSupervisorImageScr
             borderRadius: BorderRadius.zero,
           ),
           child: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.r),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -151,7 +154,7 @@ class _ProjectSupervisorImageScreenState extends State<ProjectSupervisorImageScr
                   fit: BoxFit.cover,
                 ),
                 SizedBox(height: 16.h),
-                Row(
+               /* Row(
                   children: [
                     Expanded(
                       child: TextButton(
@@ -178,11 +181,11 @@ class _ProjectSupervisorImageScreenState extends State<ProjectSupervisorImageScr
                         style: TextButton.styleFrom(
                           foregroundColor: AppColors.redColor,
                         ),
-                        child: SvgPicture.asset(AppIcons.deletedIcon,color: Colors.white),
+                        child: SvgPicture.asset(AppIcons.deletedIcon,color: Colors.black),
                       ),
                     )
                   ],
-                ),
+                ),*/
               ],
             ),
           ),

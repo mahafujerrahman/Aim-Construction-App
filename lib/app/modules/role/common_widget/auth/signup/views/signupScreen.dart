@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:aim_construction_app/app/modules/role/common_widget/auth/signup/controllers/signup_controller.dart';
 import 'package:aim_construction_app/app/modules/role/common_widget/auth/signup/views/selectedConpany.dart';
 import 'package:aim_construction_app/app/routes/app_pages.dart';
 import 'package:aim_construction_app/common/custom_text/custom_text.dart';
+import 'package:aim_construction_app/common/helper/loggerUtils.dart';
 import 'package:aim_construction_app/common/widgets/custom_button.dart';
 import 'package:aim_construction_app/common/widgets/custom_text_field.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
@@ -28,28 +30,31 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final List<Map<String, String>> companies = [
-    {'id': '1', 'name': 'Company 1'},
-    {'id': '2', 'name': 'Company 2'},
-    {'id': '3', 'name': 'Company 3'},
-  ];
-  List<Map<String, String>> filteredCompanies = [];
 
 
-  Uint8List? _image;
   File? selectedImage;
   bool isChecked = false;
   bool isSupervisorSelected = false;
 
   final SignupController signupController = Get.put(SignupController());
+  Timer? _debounce;
 
-
+String companyID = '';
 
   @override
   void initState() {
     super.initState();
-    signupController.getAllManager();
+    signupController.getAllCompany();
+    signupController.companyName.addListener(_onTextChanged);
+  }
 
+  void _onTextChanged() {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 100), () {
+
+      signupController.getAllCompany();
+      // _callApi(signupController.companyName.text);
+    });
   }
 
 
@@ -106,8 +111,93 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       controller: signupController.signUpEmailCtrl),
                 ),
 
+
                 //=============Company Name ==================
-                CompanySearchDropdown(),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.h),
+                  child: CustomTextField(
+                    hintText: 'Enter Company Name',
+                    controller: signupController.companyName,
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.all(4.r),
+                      child: Icon(Icons.work_history_outlined, color: AppColors.primaryColor, size: 25.sp),
+                    ),
+                    suffixIcon: Padding(
+                      padding: EdgeInsets.all(4.r),
+                      child: Icon(Icons.search, color: AppColors.primaryColor, size: 25.sp),
+                    ),
+                  ),
+                ),
+
+                Obx(() {
+                  var companies = signupController.getAllCompanyModel.value; // List of companies
+
+                  // Check if we are loading or if there's no company data available
+                  if (signupController.companyLoading.value) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+
+                  if (companies == null) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      child: Text(
+                        'Company not found',
+                        style: AppStyles.fontSize16(color: AppColors.redColor),
+                      ),
+                    );
+                  } else {
+                    var filteredCompanies = companies.where((company) {
+                      return company.name?.toLowerCase().contains(signupController.companyName.text.toLowerCase()) ?? false &&
+                          company.name != signupController.selectedCompany.value;
+                    }).toList();
+
+                    if (signupController.selectedCompany.value.isNotEmpty &&
+                        signupController.companyName.text.isEmpty) {
+
+                      signupController.selectedCompany.value = '';
+                    }
+
+                    if (signupController.selectedCompany.value.isNotEmpty) {
+                      return SizedBox();
+                    }
+
+                    // Show the filtered list of companies
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 4.h),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: filteredCompanies.length,
+                        itemBuilder: (context, index) {
+                          var company = filteredCompanies[index];
+                          return ListTile(
+                            title: Text(
+                              company.name ?? 'Unknown',
+                              style: AppStyles.fontSize16(color: AppColors.blackColor),
+                            ),
+                            onTap: () {
+                              signupController.companyName.text = company.name ?? '';
+                              signupController.selectedCompany.value = company.companyId ?? '';
+                              print('own co Iddd ----${signupController.selectedCompany.value}');
+                              setState(() {
+                                companyID = signupController.selectedCompany.value;
+                              });
+                              print('PAge company ID ----${companyID}');
+                              signupController.getAllCompanyManager(companyID);
+                              FocusScope.of(context).unfocus();
+                            },
+                          );
+                        },
+                      ),
+                    );
+                  }
+                }),
+
 
 
                 //==================== Role Selection ====================
@@ -192,10 +282,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: DropdownButtonHideUnderline(
                         child: Row(
                           children: [
-                            SvgPicture.asset(AppIcons.emailIcon, color: AppColors.primaryColor),
+                            SvgPicture.asset(AppIcons.profileIcon, color: AppColors.primaryColor),
                             SizedBox(width: 8.w),
                             Expanded(
                               child: Obx(() {
+                                // Check if the manager list is still loading
+                                if (signupController.loading.value) {
+                                  return Center(child: CircularProgressIndicator());
+                                }
+
+                                // Check if there are managers available
+                                if (signupController.getAllManagerModel.isEmpty) {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 8.h),
+                                    child: Text(
+                                      'No Managers Available',
+                                      style: AppStyles.fontSize16(color: AppColors.redColor),
+                                    ),
+                                  );
+                                }
+
                                 return DropdownButton<String>(
                                   value: signupController.selectedManagerRole.isEmpty
                                       ? null
@@ -217,9 +323,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   isExpanded: true,
                                   items: signupController.getAllManagerModel.map((manager) {
                                     return DropdownMenuItem<String>(
-                                      value: manager.userId,
+                                      value: manager.userId?.userId,
                                       child: Text(
-                                        '${manager.fname} ${manager.lname}',
+                                        '${manager.userId?.fname} ${manager.userId?.lname}',
                                         style: AppStyles.fontSize18(color: AppColors.blackColor),
                                       ),
                                     );
@@ -230,6 +336,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 );
                               }),
                             ),
+
                           ],
                         ),
                       ),
@@ -281,7 +388,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     loading: signupController.signUpLoading.value,
                     onTap: () {
                       if (isChecked) {
-                        signupController.signUpMethod();
+                        signupController.signUpMethod(companyID);
                       } else {
                         Get.snackbar(
                           "Error in Checkbox",

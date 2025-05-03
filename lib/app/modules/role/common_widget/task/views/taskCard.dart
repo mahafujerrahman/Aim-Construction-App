@@ -28,7 +28,6 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
-      height: 110.h,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
@@ -38,7 +37,7 @@ class TaskCard extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(4.r),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Left side content
@@ -47,12 +46,13 @@ class TaskCard extends StatelessWidget {
                 padding: EdgeInsets.all(8.r),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+
                   children: [
                     Text(
                       noteTitel,
-                      style: AppStyles.fontSize14(color: AppColors.color323B4A,fontWeight: FontWeight.w600),
+                      style: AppStyles.fontSize14(color: AppColors.color323B4A, fontWeight: FontWeight.w600),
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
+                      maxLines: 2,
                     ),
                     SizedBox(height: 8.h),
                     Text(
@@ -61,33 +61,36 @@ class TaskCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
                     ),
+                    SizedBox(height: 8.h),
                     Row(
                       children: [
-                        SvgPicture.asset(AppIcons.attachmentIcon, height: 14.h,width: 14.w),
+                        SvgPicture.asset(AppIcons.attachmentIcon, height: 14.h, width: 14.w),
                         SizedBox(width: 4.w),
-                        Text('$doumentCount',style: AppStyles.fontSize14(color: AppColors.color323B4A)),
+                        Text('$doumentCount', style: AppStyles.fontSize14(color: AppColors.color323B4A)),
                         SizedBox(width: 12.w),
-                        SvgPicture.asset(AppIcons.imageIcon, height: 14.h,width: 14.w,color: AppColors.color323B4A),
+                        SvgPicture.asset(AppIcons.imageIcon, height: 14.h, width: 14.w, color: AppColors.color323B4A),
                         SizedBox(width: 4.w),
-                        Text('$imageCount',style: AppStyles.fontSize14(color: AppColors.color323B4A)),
+                        Text('$imageCount', style: AppStyles.fontSize14(color: AppColors.color323B4A)),
                         SizedBox(width: 12.w),
-                        SvgPicture.asset(AppIcons.profileIcon, height: 14.h,width: 14.w),
+                        SvgPicture.asset(AppIcons.profileIcon, height: 14.h, width: 14.w),
                         SizedBox(width: 4.w),
-                        Text(authorName,style: AppStyles.fontSize14(color: AppColors.color323B4A)),
+                        Text(authorName, style: AppStyles.fontSize14(color: AppColors.color323B4A)),
                         SizedBox(width: 12.w),
-                        SvgPicture.asset(AppIcons.calender, height: 14.h,width: 14.w),
+                        SvgPicture.asset(AppIcons.calender, height: 14.h, width: 14.w),
                         SizedBox(width: 4.w),
-                        Text(date,style: AppStyles.fontSize14(color: AppColors.color323B4A)),
+                        Text(date, style: AppStyles.fontSize14(color: AppColors.color323B4A)),
                       ],
                     ),
                   ],
                 ),
               ),
             ),
-            // Right side arrow
-            IconButton(
-              icon: Icon(Icons.arrow_forward_ios,color: AppColors.primaryColor,size: 15),
-              onPressed: onTap,
+
+            Center(
+              child: IconButton(
+                icon: Icon(Icons.arrow_forward_ios, color: AppColors.primaryColor, size: 15),
+                onPressed: onTap,
+              ),
             ),
           ],
         ),
@@ -95,3 +98,5 @@ class TaskCard extends StatelessWidget {
     );
   }
 }
+
+

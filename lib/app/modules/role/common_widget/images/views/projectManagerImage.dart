@@ -105,6 +105,9 @@ class _ProjectManagerImageScreenState extends State<ProjectManagerImageScreen> {
                                   child: CachedNetworkImage(
                                     imageUrl: imageUrl.toString(),
                                     fit: BoxFit.cover,
+                                    placeholder: (context, url) => Center(
+                                      child: CupertinoActivityIndicator(radius: 10.r, color: AppColors.primaryColor),
+                                    ),
                                     errorWidget: (context, url, error) => Icon(Icons.error),
                                   ),
                                 ),
@@ -148,7 +151,7 @@ class _ProjectManagerImageScreenState extends State<ProjectManagerImageScreen> {
                   fit: BoxFit.cover,
                 ),
                 SizedBox(height: 16.h),
-                Row(
+             /*   Row(
                   children: [
                     Expanded(
                       child: TextButton(
@@ -175,11 +178,11 @@ class _ProjectManagerImageScreenState extends State<ProjectManagerImageScreen> {
                         style: TextButton.styleFrom(
                           foregroundColor: AppColors.redColor,
                         ),
-                        child: SvgPicture.asset(AppIcons.deletedIcon,color: Colors.white),
+                        child: SvgPicture.asset(AppIcons.deletedIcon,color: Colors.black),
                       ),
                     )
                   ],
-                ),
+                ),*/
               ],
             ),
           ),

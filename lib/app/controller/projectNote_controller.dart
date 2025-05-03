@@ -182,19 +182,44 @@ class ProjectNoteController extends GetxController {
   }
 
   //============================= Note Status Change ======================
-  RxBool loading=false.obs;
-  noteStatusChnage(String noteID) async {
-  loading.value = true;
-    var response = await ApiClient.getData("${ApiConstants.noteStatusChnangeEndPoint}/$noteID",);
+
+  RxBool acceptLoading=false.obs;
+
+  noteStatusChnage({required String? noteID,required String? actionStatus}) async {
+    acceptLoading.value = true;
+
+
+    var response = await ApiClient.getData("${ApiConstants.noteStatusChnangeEndPoint}/$noteID?status=$actionStatus",);
     if (response.statusCode == 200) {
       Get.snackbar('Successfully', response.body['message']);
-      loading.value=false;
+      acceptLoading.value=false;
+
 
 
       update();
 
     }else {
-      isLoading.value=false;
+      acceptLoading.value=false;
+
+      ApiChecker.checkApi(response);
+      update();
+
+    }
+  }
+//=======For Denied
+  RxBool deniedLoading=false.obs;
+  noteStatusDenied({required String? noteID,required String? actionStatus}) async {
+    deniedLoading.value = true;
+    var response = await ApiClient.getData("${ApiConstants.noteStatusChnangeEndPoint}/$noteID?status=$actionStatus",);
+    if (response.statusCode == 200) {
+      Get.snackbar('Successfully', response.body['message']);
+      deniedLoading.value=false;
+
+      update();
+
+    }else {
+
+      deniedLoading.value=false;
       ApiChecker.checkApi(response);
       update();
 

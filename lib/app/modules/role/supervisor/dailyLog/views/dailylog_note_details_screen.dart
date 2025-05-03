@@ -4,6 +4,7 @@ import 'package:aim_construction_app/service/fileName.dart';
 import 'package:aim_construction_app/utils/app_colors.dart';
 import 'package:aim_construction_app/utils/app_icons.dart';
 import 'package:aim_construction_app/utils/style.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -112,13 +113,13 @@ class _DailyNoteDetailsScreenState extends State<DailyNoteDetailsScreen> {
                             border: Border.all(color: AppColors.primaryColor)),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.r),
-                            child: Image.network(
-                              fileUrl,
-                              width: 80,
-                              height: 80,
+                            child: CachedNetworkImage(
+                              imageUrl: fileUrl.toString(),
                               fit: BoxFit.cover,
-                              color: Colors.transparent,
-                              colorBlendMode: BlendMode.darken,
+                              placeholder: (context, url) => Center(
+                                child: CupertinoActivityIndicator(radius: 10.r, color: AppColors.primaryColor),
+                              ),
+                              errorWidget: (context, url, error) => Icon(Icons.error),
                             ),
                           ),
                         ),
